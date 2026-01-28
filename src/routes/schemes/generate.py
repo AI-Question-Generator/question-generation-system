@@ -1,9 +1,10 @@
 from pydantic import BaseModel
 from typing import List, Literal
 from models.db_schemas.question import Question
+from models.enums.QuestionEnum import QuestionTypeEnum
 
 class QuestionTypeRequest(BaseModel):
-    type: Literal["mcq", "tf", "short_answer"]
+    type: QuestionTypeEnum
     count: int
 
 class LessonQuestionRequest(BaseModel):
