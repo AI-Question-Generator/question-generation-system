@@ -1,6 +1,6 @@
 from enum import Enum
 
-class QuestionEnum(Enum):
+class QuestionTypeEnum(Enum):
     TRUE_FALSE = 'tf'
     MULTIPLE_CHOICE = 'mcq'
     SHORT_ANSWER = 'short_answer'
