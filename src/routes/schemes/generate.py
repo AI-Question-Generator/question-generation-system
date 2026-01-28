@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import List, Literal
-from models.BaseQuestionModel import BaseQuestionModel
+from models.db_schemas.question import Question
 
 class QuestionTypeRequest(BaseModel):
     type: Literal["mcq", "tf", "short_answer"]
@@ -15,7 +15,7 @@ class QuestionsRequest(BaseModel):
 
 class LessonQuestionResponse(BaseModel):
     lesson_id: str
-    questions: List[BaseQuestionModel]
+    questions: List[Question]
 
 class QuestionsResponse(BaseModel):
     content: List[LessonQuestionResponse]
