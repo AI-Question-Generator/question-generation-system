@@ -6,5 +6,5 @@ class ResponseSignal(Enum):
   FILE_UPLOADED_SUCCESSFULLY = "file uploaded successfully"
   FILE_UPLOAD_FAILED = "file upload failed"
   
-  CHUNKING_COMPLETED = "chunking completed"
+  CHUNKING_COMPLETED = "chunking completed successfully"
   CHUNKING_FAILED = "chunking failed"
