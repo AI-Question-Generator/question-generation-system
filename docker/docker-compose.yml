@@ -8,9 +8,12 @@ services:
       - ./mongodb:/data/db
     networks:
       - backend
+    
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+
     restart: always
 
 networks:
   backend:
-    external: true
-    name: docker_backend
