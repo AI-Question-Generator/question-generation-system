@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import List
+from typing import List, Optional
 
 class Settings(BaseSettings):
   APP_NAME: str
@@ -18,11 +18,13 @@ class Settings(BaseSettings):
   OPENAI_API_KEY: str = None
   OPENAI_API_URL: str = None
   COHERE_API_KEY: str = None
+  GEMINI_API_KEY: str = None
 
   GENERATION_MODEL_ID: str = None
   EMBEDDING_MODEL_ID: str = None
   EMBEDDING_MODEL_SIZE: int = None
 
+  DEFAULT_INPUT_MAX_CHARACHTERS: int = None
   GENERATION_DEFAULT_MAX_TOKENS: int = None
   GENERATION_DEFAULT_TEMPERATURE: float = None
   
