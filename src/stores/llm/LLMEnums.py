@@ -4,7 +4,8 @@ class LLMEnums(Enum):
   
   OPENAI = "OPENAI"
   COHERE = "COHERE"
-  
+  GEMINI = "GEMINI"
+
   
 class OpenAIEnums(Enum):
   
@@ -20,7 +21,12 @@ class CoHereEnums(Enum):
   
   DOCUMENT = "search_document"
   QUERY = "search_query"
-  
+
+class GeminiEnums(Enum):
+  SYSTEM = "user"
+  USER = "user"
+  ASSISTANT = "model"
+
 class DocumentTypeEnum(Enum):
   DOCUMENT = "document"
   QUERY = "query"
