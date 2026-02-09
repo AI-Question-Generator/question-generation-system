@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routes import base_router, data_router
+from routes import base_router, data_router, nlp_router
 from helpers import get_setting, Settings
 from motor.motor_asyncio import AsyncIOMotorClient
 from stores.llm import LLMProviderFactory
@@ -42,4 +42,4 @@ async def shutdown_span():
 
 app.include_router(base_router)
 app.include_router(data_router)
-
+app.include_router(nlp_router)
