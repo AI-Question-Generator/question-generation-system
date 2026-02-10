@@ -18,7 +18,7 @@ class AssetModel(BaseDataModel):
   async def init_collection(self):
     all_collections = await self.db_client.list_collection_names() 
     
-    if DataBaseEnum.COLLECTION_PROJECT_NAME.value not in all_collections:
+    if DataBaseEnum.COLLECTION_ASSET_NAME.value not in all_collections:
     
       self.collection = await self.db_client.create_collection(DataBaseEnum.COLLECTION_ASSET_NAME.value)
       # create indexes
