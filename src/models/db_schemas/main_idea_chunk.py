@@ -6,8 +6,8 @@ from datetime import datetime, timezone
 
 class MainIdeaChunk(BaseModel):
   id: Optional[ObjectId] = Field(None, alias="_id")
-  idea_chunk_project_id = ObjectId
-  main_idea_id = ObjectId
+  idea_chunk_project_id: ObjectId
+  main_idea_id: ObjectId
   chunk_id: ObjectId
   score: float = Field(..., ge=0, le=1)
   retriever: Optional[str] = Field(None, gt=0)
