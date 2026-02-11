@@ -1,13 +1,17 @@
 from .BaseDataModel import BaseDataModel
-from .db_schemas import DataChunk
+from .db_schemas import DataChunk, MainIdea
 from .enums import DataBaseEnum
 from bson.objectid import ObjectId
 from pymongo import InsertOne
+from typing import Optional, List, Union
+import logging
+
 
 class ChunkModel(BaseDataModel):
   def __init__(self, db_client: object):
     super().__init__(db_client=db_client)
     self.collection=self.db_client[DataBaseEnum.COLLECTION_CHUNK_NAME.value]
+    self.logger = logging.getLogger(__name__)
     
   @classmethod
   async def create_instance(cls, db_client: object):
@@ -44,6 +48,17 @@ class ChunkModel(BaseDataModel):
     
     return DataChunk(**record)
   
+  async def get_many_chunks_by_id(self, chunk_ids: List[Union[str, ObjectId]]):
+    # Validate chunk_ids are ObjectIds
+    for idx, chunk_id in enumerate(chunk_ids):
+      if isinstance(chunk_id, str):
+        chunk_ids[idx] = ObjectId(chunk_id)
+    
+    # Get results
+    result = await self.db_client.find({"_id": {"$in": chunk_ids}})
+    chunks = [ChunkModel(**res) for res in result]
+    self.logger.info(f"Retrieved {len(chunks)} chunks by id")
+    return chunks
   
   async def inserts_many_chunks(self, chunks: list, batch_size: int = 100):
     
