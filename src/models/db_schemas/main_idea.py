@@ -5,11 +5,12 @@ from datetime import datetime, timezone
 
 class MainIdea(BaseModel):
   id: Optional[ObjectId] = Field(None, alias="_id")
-  idea_project_id: ObjectId
-  idea_name: str = Field(..., min_length=1)
-  idea_summary: str = Field(..., min_length=1)
-  idea_rank: Optional[int] = Field(None, gt=0)
-  idea_metadata: Optional[dict] = Field(None)
+  main_idea_project_id: ObjectId
+  main_idea_name: str = Field(..., min_length=1)
+  main_idea_summary: str = Field(..., min_length=1)
+  main_idea_rank: Optional[int] = Field(None, gt=0)
+  main_idea_metadata: Optional[dict] = Field(None)
+  main_idea_chunk_ids: Optional[list[ObjectId]] = Field(None)
   pushed_at: datetime = Field(datetime.now(timezone.utc))
   
   model_config = ConfigDict(arbitrary_types_allowed= True)
@@ -18,16 +19,16 @@ class MainIdea(BaseModel):
   def get_indexes(cls):
     return [
       {
-        "key": [("idea_project_id", 1)],
-        "name": "idea_project_id_index_1",
+        "key": [("main_idea_project_id", 1)],
+        "name": "main_idea_project_id_index_1",
         "unique": False
       },
       {
         "key": [
-          ("idea_project_id", 1),
-          ("idea_rank", 1)
+          ("main_idea_project_id", 1),
+          ("main_idea_rank", 1)
           ],
-        "name": "idea_project_id_rank_index_1",
+        "name": "main_idea_project_id_rank_index_1",
         "unique": True
       }
     ]
