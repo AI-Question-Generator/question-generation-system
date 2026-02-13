@@ -25,6 +25,8 @@ class CoHereProvider(LLMInterface):
       api_key = self.api_key,
     )
     
+    self.enums = CoHereEnums
+    
     self.logger = logging.getLogger(__name__)
 
   def set_generation_model(self, model_id: str):
@@ -61,7 +63,8 @@ class CoHereProvider(LLMInterface):
       self.logger.error("ُError While Generation Text Using CoHere") 
       return None
     
-    return response.text 
+    # return response.text 
+    return response.message.content[0].text
   
   def embed_text(self, text: str, document_type: str = None):
     if not self.client:
@@ -95,3 +98,4 @@ class CoHereProvider(LLMInterface):
       "role":role,
       "text":prompt
     }
+    
