@@ -21,3 +21,6 @@ class ResponseSignal(Enum):
   
   VECTOR_DB_SEARCH_ERROR = "Vector DB Search Error"
   VECTOR_DB_SEARCH_SUCCESS = "Vector DB Search Succeed"
+  
+  RAG_ANSWER_ERROR = "RAG Answer Error"
+  RAG_ANSWER_SUCCESS = "RAG Answer Succeed"
