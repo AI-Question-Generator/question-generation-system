@@ -99,10 +99,14 @@ class NLPController(BaseController):
                                                             text=query,
                                                             limit=limit)
     
+
+    
     if not retrieved_documents or len(retrieved_documents) == 0:
       return answer, full_prompt, chat_history
     
     system_prompt = self.template_parser.get("rag", "system_prompt")
+    
+        
     
     # print(system_prompt)
     

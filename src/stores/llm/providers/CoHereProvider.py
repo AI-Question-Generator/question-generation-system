@@ -21,7 +21,7 @@ class CoHereProvider(LLMInterface):
     self.embedding_model_id = None
     self.embedding_size = None
     
-    self.client = cohere.ClientV2(
+    self.client = cohere.Client(
       api_key = self.api_key,
     )
     
@@ -50,21 +50,20 @@ class CoHereProvider(LLMInterface):
     temperature = temperature if temperature else self.default_generation_temperature
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
       
-      
     response = self.client.chat(
-      model=self.generation_model_id,
-      messages=chat_history,
-      # message=prompt,
-      temperature=temperature,
-      max_tokens=max_output_tokens
-    )
+            model = self.generation_model_id,
+            chat_history = chat_history,
+            message = prompt,
+            temperature = temperature,
+            max_tokens = max_output_tokens
+        )
     
     if not response or not response.text:
       self.logger.error("ُError While Generation Text Using CoHere") 
       return None
     
-    # return response.text 
-    return response.message.content[0].text
+    return response.text 
+    # return response.message.content[0].text
   
   def embed_text(self, text: str, document_type: str = None):
     if not self.client:
@@ -81,7 +80,7 @@ class CoHereProvider(LLMInterface):
     response = self.client.embed(
       texts=[text],
       model=self.embedding_model_id,
-      output_dimension=self.embedding_size,
+      # output_dimension=self.embedding_size,
       embedding_types=["float"],
       input_type=input_type
     )  
