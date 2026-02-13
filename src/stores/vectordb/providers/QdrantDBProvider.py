@@ -1,6 +1,7 @@
 from qdrant_client import models, QdrantClient
 from ..VectorDBInterface import VectorDBInterface
 from ..VectorDBEnums import DistanceMethodEnums
+from models.db_schemas import RetrievedDocument
 from typing import List
 import logging
 import uuid
@@ -67,10 +68,6 @@ class QdrantDBProvider(VectorDBInterface):
       return False  
     
     try:
-      
-      if record_id is None:
-        record_id = str(uuid.uuid4())
-
       _ = self.client.upsert(
                 collection_name=collection_name,
                 points=[
@@ -100,7 +97,6 @@ class QdrantDBProvider(VectorDBInterface):
     
     if record_ids is None:
       record_ids = list(range(0, len(texts)))
-
       
     for i in range(0, len(texts), batch_size):
       batch_end = i + batch_size
@@ -136,13 +132,28 @@ class QdrantDBProvider(VectorDBInterface):
 
   def search_by_vector(self,  collection_name: str, vector: list, limit: int = 5):
     
-    return self.client.query_points(
-      collection_name=collection_name,
-      query=vector,
-      limit=limit
+    print(self.client.get_collections())
+
+    
+    # return self.client.query_points(
+    #   collection_name=collection_name,
+    #   query=vector,
+    #   limit=limit
+    # )
+
+    results = self.client.query_points(
+        collection_name=collection_name,
+        query=vector,
+        limit=limit
     )
 
+    if not results or not results.points:
+        return None
 
-
-
-
+    return [
+        RetrievedDocument(
+            text=point.payload.get("text"),
+            score=point.score
+        )
+        for point in results.points
+    ]
