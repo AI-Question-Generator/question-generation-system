@@ -2,8 +2,8 @@ from fastapi import APIRouter, status, Request
 from fastapi.responses import JSONResponse
 from helpers import get_setting, Settings
 from models import ResponseSignal
-from routes.schemes.question import Question, MCQ, TrueOrFalse, ShortAnswer
-from .schemes.generate import GenerationRequest, GenerationResponse, ProjectQuestionResponse
+from routes.schemes.question import BaseQuestion, MCQ, TrueOrFalse, ShortAnswer
+from routes.schemes.generate import GenerationRequest, GenerationResponse, ProjectQuestionResponse
 
 question_router = APIRouter(
   prefix="/api/v1/question",
