@@ -1,22 +1,26 @@
 from pydantic import BaseModel
-from typing import List, Literal
-from models.db_schemas.question import Question
+from typing import List, Literal, Union
+from routes.schemes.question import BaseQuestion, MCQ, TrueOrFalse, ShortAnswer
 from models.enums.QuestionEnum import QuestionTypeEnum
 
-class QuestionTypeRequest(BaseModel):
-    type: QuestionTypeEnum
-    count: int
 
-class LessonQuestionRequest(BaseModel):
-    lesson_id: str
-    questions: List[QuestionTypeRequest]
+class QuestionTypeRequest(BaseModel):
+  type: QuestionTypeEnum
+  count: int
+
+class ProjectQuestionRequest(BaseModel):
+  project_id: str
+  questions: List[QuestionTypeRequest]
 
 class QuestionsRequest(BaseModel):
-    question_requests: List[LessonQuestionRequest]
+  question_requests: List[ProjectQuestionRequest]
 
-class LessonQuestionResponse(BaseModel):
-    lesson_id: str
-    questions: List[Question]
+class ProjectQuestionResponse(BaseModel):
+  project_id: str
+  questions: List[type[BaseQuestion]]
 
-class QuestionsResponse(BaseModel):
-    content: List[LessonQuestionResponse]
+class GenerationRequest(BaseModel):
+  content: List[ProjectQuestionRequest]
+  
+class GenerationResponse(BaseModel):
+  content: List[ProjectQuestionResponse]
