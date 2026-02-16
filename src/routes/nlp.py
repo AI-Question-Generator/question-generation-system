@@ -5,11 +5,13 @@ from models import ResponseSignal
 from .schemes import PushRequest, SearchRequest
 from models.ProjectModel import ProjectModel
 from models.ChunkModel import ChunkModel
+from models.MainIdeaModel import MainIdeaModel
+from models.db_schemas import DataChunk
 from models import ResponseSignal
 from controllers import NLPController
 from models.enums.ResponseEnums import ResponseSignal
 from stores.llm.LLMEnums import DocumentTypeEnum
-
+import json
 
 import logging
 
@@ -20,6 +22,7 @@ nlp_router = APIRouter(
   prefix="/api/v1/nlp",
   tags=["api_v1","nlp"]
 )
+
 
 @nlp_router.post("/index/push/{project_id}")
 async def index_project(request: Request, project_id: str, push_request: PushRequest):
@@ -145,11 +148,11 @@ async def get_project_index_info(request: Request, project_id:str ,search_reques
   return JSONResponse(
     content = {
       "signal": ResponseSignal.VECTOR_DB_SEARCH_SUCCESS.value,
-      "results": results
+      "results": [res.dict() for res in results]
     }
   )
   
-  
+
 
 @nlp_router.post("/index/answer/{project_id}")
 async def answer_rag(request: Request, project_id:str ,search_request: SearchRequest):
