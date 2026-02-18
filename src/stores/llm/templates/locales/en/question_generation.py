@@ -12,7 +12,6 @@ mcq_prompt = PromptTemplate(
     "Based on the following main idea and its relevant passages, create $num_questions multiple-choice questions that require deep understanding, critical thinking, and detailed analysis. The questions should go beyond mere factual recall, involving higher-order thinking skills like analysis, synthesis, and evaluation.",
     'Do not use the phrases "main idea" or "passages" in the question statement. Instead, directly address the content or concepts described.',
     "Provide four answer choices for each question:",
-    "- The choices should start with A., B., C., and D.",
     "- One correct answer.",
     "- Three plausible distractors that are contextually appropriate, relevant to the content, and reflect common misunderstandings or errors without introducing contradictory or irrelevant information.",
     "Note: The questions should be focused on one concept and not very long, DO NOT ask multiple questions in one.",
