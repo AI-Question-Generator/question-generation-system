@@ -1,4 +1,5 @@
 import os
+import importlib
 
 class TemplateParser:
   
@@ -6,8 +7,6 @@ class TemplateParser:
     
     self.current_path = os.path.dirname(os.path.abspath(__file__))
     self.default_language = default_language
-    
-    self.language = None
     
     self.set_language(language)
     
@@ -22,21 +21,26 @@ class TemplateParser:
     else:
       self.language = self.default_language
       
-  def get(self, group: str, key: str, vars: dict={}):
+  def get(self, group: str, key: str,  domain: str= '', vars: dict={}):
         if not group or not key:
             return None
         
-        group_path = os.path.join(self.current_path, "locales", self.language, f"{group}.py" )
+        group_path = os.path.join(self.current_path, "locales", self.language, domain, f"{group}.py" )
         targeted_language = self.language
         if not os.path.exists(group_path):
-            group_path = os.path.join(self.current_path, "locales", self.default_language, f"{group}.py" )
+            group_path = os.path.join(self.current_path, "locales", self.default_language, domain, f"{group}.py" )
             targeted_language = self.default_language
 
         if not os.path.exists(group_path):
             return None
         
         # import group module
-        module = __import__(f"stores.llm.templates.locales.{targeted_language}.{group}", fromlist=[group])
+        import_path = (
+            f"stores.llm.templates.locales.{targeted_language}.{domain}.{group}"
+            if domain else
+            f"stores.llm.templates.locales.{targeted_language}.{group}"
+        )
+        module = importlib.import_module(import_path)
 
         if not module:
             return None
