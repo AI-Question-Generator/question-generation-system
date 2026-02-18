@@ -1,11 +1,8 @@
 import os
 from enum import Enum
 
-_LOCALES_PATH = os.path.normpath(os.path.join(
-    os.path.dirname(__file__),
-    "..", "..",
-    "stores", "llm", "templates", "locales"
-))
+_LOCALES_PATH = os.path.dirname(__file__)
+print(_LOCALES_PATH)
 
 def _get_supported_languages():
     return {

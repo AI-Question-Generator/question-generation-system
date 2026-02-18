@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field, validator, model_validator
 from bson.objectid import ObjectId
 from typing import Optional
-from models.enums.LocalesEnum import SupportedLanguage, get_supported_domains
+from stores.llm.templates.locales.LocalesRegistry import SupportedLanguage, get_supported_domains
 import os
 
 class Project(BaseModel):
