@@ -1,11 +1,14 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, validator, model_validator
 from bson.objectid import ObjectId
 from typing import Optional
+from models.enums.LocalesEnum import SupportedLanguage, get_supported_domains
+import os
 
 class Project(BaseModel):
   id: Optional[ObjectId] = Field(None, alias="_id")
   project_id: str = Field(..., min_length=1)
-  
+  language: SupportedLanguage = Field(...)
+  domain: str = Field(...)
   
   
   ## custom validators
@@ -15,6 +18,15 @@ class Project(BaseModel):
       raise ValueError("project_id must be alphanumeric")
     return value
   
+  @model_validator(mode='after')
+  def validate_domain(self):
+    supported_domains = get_supported_domains(self.language)
+    if self.domain not in supported_domains:
+      raise ValueError(
+          f"domain '{self.domain}' is not supported for language '{self.language}'. "
+          f"Supported domains: {supported_domains}"
+        )
+    return self
   
   
   class Config:
