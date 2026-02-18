@@ -1,4 +1,4 @@
-from typing import List, Union
+from typing import List, Union, Optional
 from bson import ObjectId
 from .BaseDataModel import BaseDataModel
 from .enums import DataBaseEnum
@@ -138,7 +138,7 @@ class MainIdeaChunkModel(BaseDataModel):
         self,
         main_idea_id: Union[str, ObjectId],
         chunk_id: Union[str, ObjectId]
-    ) -> MainIdeaChunk:
+    ) -> Optional[MainIdeaChunk]:
         """
         Retrieve a specific association between a main idea and a chunk.
         
