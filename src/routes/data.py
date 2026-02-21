@@ -30,7 +30,7 @@ async def upload(request: Request,project_id: str, file: UploadFile,
                 settings : Settings = Depends(get_setting)):
   
   
-  project_model = await ProjectModel.create_instance(db_client=request.app.db_client)
+  project_model = await ProjectModel.create_instance(db_client=request.app.state.db_client)
   
   
   project = await project_model.get_project_or_create_one(project_id=project_id)
@@ -73,7 +73,7 @@ async def upload(request: Request,project_id: str, file: UploadFile,
           }
     )
   
-  asset_model = await AssetModel.create_instance(db_client=request.app.db_client)    
+  asset_model = await AssetModel.create_instance(db_client=request.app.state.db_client)    
   asset_resource = Asset( asset_project_id=project.id,
                           asset_type=AssetTypeEnum.FILE.value,
                           asset_name=file_id,
@@ -100,14 +100,14 @@ async def process_endpoint(request: Request,project_id: str, process_request: Pr
   
   
   
-  project_model = await ProjectModel.create_instance(db_client=request.app.db_client)
+  project_model = await ProjectModel.create_instance(db_client=request.app.state.db_client)
   project = await project_model.get_project_or_create_one(project_id=project_id)
   
   process_controller = ProcessController(project_id=project_id)
   
   project_files_ids = {}
   
-  asset_model = await AssetModel.create_instance(db_client=request.app.db_client) 
+  asset_model = await AssetModel.create_instance(db_client=request.app.state.db_client) 
   
   if process_request.file_id: 
   
@@ -146,7 +146,7 @@ async def process_endpoint(request: Request,project_id: str, process_request: Pr
   no_records = 0 
   no_files = 0
   
-  chunk_model = await ChunkModel.create_instance(db_client=request.app.db_client)
+  chunk_model = await ChunkModel.create_instance(db_client=request.app.state.db_client)
   
   if do_reset == 1:
     _ = await chunk_model.delete_chunks_by_project_id(project_id=project.id)

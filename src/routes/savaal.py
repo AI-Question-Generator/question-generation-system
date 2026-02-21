@@ -70,12 +70,12 @@ async def extract_main_ideas(
         
         # Initialize pipeline
         pipeline = SavaalPipeline(
-            db_client=request.app.db_client,
-            vectordb_client=request.app.vectordb_client,
+            db_client=request.app.state.db_client,
+            vectordb_client=request.app.state.vectordb_client,
             project_id=project_id,
-            llm_provider=request.app.generation_client,
-            embedding_provider=request.app.embedding_client,
-            template_parser=request.app.template_parser
+            llm_provider=request.app.state.generation_client,
+            embedding_provider=request.app.state.embedding_client,
+            template_parser=request.app.state.template_parser
         )
         
         # Run extraction
@@ -169,12 +169,12 @@ async def generate_questions(
         
         # Initialize pipeline
         pipeline = SavaalPipeline(
-            db_client=request.app.db_client,
-            vectordb_client=request.app.vectordb_client,
+            db_client=request.app.state.db_client,
+            vectordb_client=request.app.state.vectordb_client,
             project_id=project_id,
-            llm_provider=request.app.generation_client,
-            embedding_provider=request.app.embedding_client,
-            template_parser=request.app.template_parser
+            llm_provider=request.app.state.generation_client,
+            embedding_provider=request.app.state.embedding_client,
+            template_parser=request.app.state.template_parser
         )
         
         # Run question generation
@@ -259,7 +259,7 @@ async def get_main_ideas(
             )
         
         # Retrieve ideas from database
-        main_idea_model = await MainIdeaModel.create_instance(request.app.db_client)
+        main_idea_model = await MainIdeaModel.create_instance(request.app.state.db_client)
         ideas = await main_idea_model.get_project_main_ideas(
             project_id=project_oid,
             top=limit if limit > 0 else 0
