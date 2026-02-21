@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 from routes import base_router, data_router, nlp_router
 from helpers import get_setting, Settings
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -9,10 +10,8 @@ from stores.vectordb.VectorDBEnums import VectorDBEnums
 from stores.llm.templates.template_parser import TemplateParser
 
 
-app = FastAPI()
-
-@app.on_event("startup")
-async def startup_span():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
   
   settings = get_setting()
 
@@ -39,11 +38,13 @@ async def startup_span():
   app.template_parser = TemplateParser( language=settings.PRIMARY_LANG,
                                         default_language=settings.DEFAULT_LANG)
   
+  yield
   
-@app.on_event("shutdown")
-async def shutdown_span():
   app.mongodb_conn.close()
   app.vectordb_client.disconnect()
+
+
+app = FastAPI(lifespan=lifespan)
 
 app.include_router(base_router)
 app.include_router(data_router)
