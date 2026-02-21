@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator, model_validator
+from pydantic import BaseModel, Field, field_validator, model_validator, ConfigDict
 from bson.objectid import ObjectId
 from typing import Optional
 from stores.llm.templates.locales.LocalesRegistry import SupportedLanguage, get_supported_domains
@@ -10,9 +10,10 @@ class Project(BaseModel):
   language: SupportedLanguage = Field(...)
   domain: str = Field(...)
   
+  model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={ObjectId: str})
   
   ## custom validators
-  @validator("project_id")
+  @field_validator("project_id")
   def validate_project_id(cls, value):
     if not value.isalnum():
       raise ValueError("project_id must be alphanumeric")
@@ -28,12 +29,6 @@ class Project(BaseModel):
         )
     return self
   
-  
-  class Config:
-    arbitrary_types_allowed = True
-    json_encoders = {
-      ObjectId: str
-    }
     
   @classmethod
   def get_indexes(cls):

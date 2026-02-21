@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, ConfigDict
 from bson.objectid import ObjectId
 from typing import Optional
 
@@ -10,14 +10,8 @@ class DataChunk(BaseModel):
   chunk_project_id: ObjectId
   chunk_asset_id : ObjectId
   
+  model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={ObjectId: str})
   
-  
-  
-  class Config:
-    arbitrary_types_allowed = True
-    json_encoders = {
-      ObjectId: str
-    }
     
   @classmethod
   def get_indexes(cls):

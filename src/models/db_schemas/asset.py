@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, ConfigDict
 from bson.objectid import ObjectId
 from typing import Optional
 from datetime import datetime
@@ -12,13 +12,7 @@ class Asset(BaseModel):
   asset_config: dict = Field(default=None)
   asset_pushed_at : datetime = Field(default=datetime.utcnow)
   
-  
-  class Config:
-    arbitrary_types_allowed = True
-    # json_encoders = {
-    #   ObjectId: str
-    # }
-    
+  model_config = ConfigDict(arbitrary_types_allowed=True)
 
   @classmethod
   def get_indexes(cls):
