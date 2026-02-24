@@ -7,6 +7,8 @@ from .ProjectController import ProjectController
 
 
 class DataController(BaseController):
+  '''Controller for handling data-related operations, including file validation and unique file path generation.'''
+  
   def __init__(self):
     super().__init__()
     self.size_scale=1024*1024

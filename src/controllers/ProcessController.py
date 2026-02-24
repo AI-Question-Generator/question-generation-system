@@ -9,6 +9,8 @@ import os
 
 
 class ProcessController(BaseController):
+  '''Controller for processing files, including loading content and splitting it into chunks.'''
+  
   def __init__(self, project_id: str):
     super().__init__()
     self.project_id=project_id

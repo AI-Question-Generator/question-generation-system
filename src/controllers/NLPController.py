@@ -8,6 +8,7 @@ import time
 
 
 class NLPController(BaseController):
+  '''Controller for handling NLP-related operations, including vector database management and RAG question answering.'''
   
   def __init__(self, vectordb_client, generation_client, embedding_client,template_parser):
     
