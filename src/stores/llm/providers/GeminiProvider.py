@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional, Literal, Union, List
-from ..LLMInterface import LLMInterface
+from ..LLMInterface import LLMInterface, AsyncLLMInterface
 from ..LLMEnums import GeminiEnums
 from google import genai
 from google.genai import types
@@ -149,6 +149,123 @@ class GeminiProvider(LLMInterface):
       return None
 
     response = self.client.models.embed_content(
+      model=self.embedding_model_id, contents=text
+    )
+
+    if (
+      not response
+      or not response.embeddings
+      or len(response.embeddings) == 0
+      or not response.embeddings[0]
+    ):
+      self.logger.error("Error while embedding text with Gemini")
+      return None
+
+    return [embd.values for embd in response.embeddings]
+
+class AsyncGeminiProvider(GeminiProvider, AsyncLLMInterface):
+  
+  async def generate_text(
+    self,
+    prompt: str,
+    chat_history: list = [],
+    max_output_tokens: Optional[int] = None,
+    temperature: Optional[float] = None,
+  ) -> Optional[str]:
+    if not self.client:
+      self.logger.error("Gemini client was not set")
+      return None
+
+    if not self.generation_model_id:
+      self.logger.error("Generation model for Gemini was not set")
+      return None
+
+    max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
+    temperature = temperature if temperature else self.default_generation_temperature
+
+    chat_history.append(self.construct_prompt(prompt=prompt, role=self.enums.USER.value))
+
+    response = await self.client.aio.models.generate_content(
+      model=self.generation_model_id,
+      contents=chat_history,
+      config=types.GenerateContentConfig(
+        temperature=temperature,
+        max_output_tokens=max_output_tokens,
+      ),
+    )
+
+    if (
+      not response
+      or not response.candidates
+      or not response.candidates[0].content
+      or not response.candidates[0].content.parts
+      or not response.candidates[0].content.parts[0].text
+    ):
+      self.logger.error("Error while generating text with Gemini")
+      return None
+    
+    return response.candidates[0].content.parts[0].text
+  
+  async def generate_structured_text(
+    self,
+    prompt: str,
+    response_model: type[BaseModel],
+    chat_history: list = [],
+    max_output_tokens: Optional[int] = None,
+    temperature: Optional[float] = None,
+  ):
+    if not self.client:
+      self.logger.error("Gemini client was not set")
+      return None
+
+    if not self.generation_model_id:
+      self.logger.error("Generation model for Gemini was not set")
+      return None
+
+    if not response_model:
+      self.logger.error("No response model provided")
+      return None
+    
+    max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
+    temperature = temperature if temperature else self.default_generation_temperature
+
+    chat_history.append(self.construct_prompt(prompt=prompt, role=self.enums.USER.value))
+
+    response = await self.client.aio.models.generate_content(
+      model=self.generation_model_id,
+      contents=chat_history,
+      config=types.GenerateContentConfig(
+        temperature=temperature,
+        max_output_tokens=max_output_tokens,
+        response_json_schema=response_model.model_json_schema()
+      ),
+    )
+
+    if (
+      not response
+      or not response.candidates
+      or not response.candidates[0].content
+      or not response.candidates[0].content.parts
+      or not response.candidates[0].content.parts[0].text
+    ):
+      self.logger.error("Error while generating structured text with Gemini")
+      return None
+    
+    return response.candidates[0].content.parts[0].text
+
+  async def embed_text(self, text: Union[str, List[str]], document_type: str = None):
+    if not self.client:
+      self.logger.error("Gemini client was not set")
+      return None
+
+    if isinstance(text, str):
+      text = [text]
+        
+    if not self.embedding_model_id:
+      self.logger.error("Embedding model for Gemini was not set")
+      return None
+
+    response = await self.client.aio.models.embed_content(
       model=self.embedding_model_id, contents=text
     )
 

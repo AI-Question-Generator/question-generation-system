@@ -1,9 +1,9 @@
 from typing import Optional
 
 from pydantic import BaseModel
-from ..LLMInterface import LLMInterface
+from ..LLMInterface import LLMInterface, AsyncLLMInterface
 from ..LLMEnums import OpenAIEnums
-from openai import OpenAI
+from openai import OpenAI, AsyncOpenAI
 
 import logging
 
@@ -131,3 +131,110 @@ class OpenAIProvider(LLMInterface):
       "role":role,
       "content":prompt
     }
+
+class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
+  def __init__(self, api_key: str, api_url: Optional[str] = None,
+                    default_input_max_characters: int = 1000,
+                    default_generation_max_output_tokens: int = 1000,
+                    default_generation_temperature: float = .5):
+    self.api_key = api_key
+    self.api_url = api_url
+    
+    self.default_input_max_characters = default_input_max_characters
+    self.default_generation_max_output_tokens = default_generation_max_output_tokens
+    self.default_generation_temperature = default_generation_temperature
+    
+    self.generation_model_id = None
+    
+    self.embedding_model_id = None
+    self.embedding_size = None
+    
+    self.client = AsyncOpenAI(
+      api_key = self.api_key,
+      base_url = self.api_url
+    )
+    
+    self.enums = OpenAIEnums
+    
+    self.logger = logging.getLogger(__name__)
+  
+  async def generate_text(self, prompt: str, chat_history: list =[], max_output_tokens: Optional[int] = None,
+                          temperature: Optional[float] = None):
+    if not self.client:
+      self.logger.error("OpenAI Client was not set")
+      return None
+  
+    if not self.generation_model_id:
+      self.logger.error("Generation Model was not set")
+      return None
+    
+    temperature = temperature if temperature else self.default_generation_temperature
+    max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
+      
+    chat_history.append(
+      self.construct_prompt(prompt=prompt,role=OpenAIEnums.USER.value)
+    )
+      
+    response = await self.client.chat.completions.create(
+                          model=self.generation_model_id,
+                          messages=chat_history,
+                          max_tokens=max_output_tokens,
+                          temperature=temperature,
+                          )
+    
+    if not response or not response.choices or len(response.choices) == 0 or not response.choices[0].message:
+      self.logger.error("Error while Generating Structured Text with OpenAI")
+      return None
+  
+    return response.choices[0].message.content
+  
+  async def generate_structured_text(self, prompt: str, response_model: type[BaseModel], chat_history: list = [], max_output_tokens: Optional[int] = None, temperature: Optional[float] = None):
+    if not self.client:
+      self.logger.error("OpenAI Client was not set")
+      return None
+  
+    if not self.generation_model_id:
+      self.logger.error("Generation Model was not set")
+      return None
+    
+    temperature = temperature if temperature else self.default_generation_temperature
+    max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
+      
+    chat_history.append(
+      self.construct_prompt(prompt=prompt,role=OpenAIEnums.USER.value)
+    )
+      
+    response = await self.client.chat.completions.create(
+                          model=self.generation_model_id,
+                          messages=chat_history,
+                          max_tokens=max_output_tokens,
+                          temperature=temperature,
+                          response_format=response_model
+                          )
+    
+    if not response or not response.choices or len(response.choices) == 0 or not response.choices[0].message:
+      self.logger.error("Error while Generating Structured Text with OpenAI")
+      return None
+  
+    return response.choices[0].message.content
+  
+  async def embed_text(self, text: str, document_type: Optional[str] = None):
+
+    if not self.client:
+      self.logger.error("OpenAI Client was not set")
+      return None
+    
+    if not self.embedding_model_id:
+      self.logger.error("Embedding Model was not set")
+      return None
+      
+    response = await self.client.embeddings.create(
+                  input=text,
+                  model=self.embedding_model_id
+                  )
+    
+    if not response or not response.data or len(response.data) == 0 or not response.data[0].embedding :
+      self.logger.error("Error while Embedding Text with OpenAI")
+      return None
+    
+    return response.data[0].embedding
