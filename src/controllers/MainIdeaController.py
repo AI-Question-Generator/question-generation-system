@@ -26,7 +26,6 @@ class MainIdeaController(BaseController):
     generation_client: LLMInterface,
     embedding_client: LLMInterface,
     prompt_template_parser: PromptTemplateParserInterface,
-    project_id
     ):
     """
     Initialize MainIdeaController.
@@ -35,7 +34,6 @@ class MainIdeaController(BaseController):
     self.generation_client = generation_client
     self.embedding_client = embedding_client
     self.prompt_template_parser = prompt_template_parser
-    self.project_id = project_id
         
     
   async def extract_candidates_from_sections(self, sections: List[str]) -> List[rm.MainIdea]:
