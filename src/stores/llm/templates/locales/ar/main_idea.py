@@ -20,7 +20,7 @@ extract_prompt = PromptTemplate(
   user= Template("\n".join([
     "$context",
   ])),
-  response_model= List[MainIdea]
+  response_model= ListOf[MainIdea]
 )
 
 
