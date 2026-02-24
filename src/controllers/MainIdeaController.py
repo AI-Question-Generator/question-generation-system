@@ -1,4 +1,3 @@
-from asyncio import tasks
 from .BaseController import BaseController
 from models.db_schemas import MainIdea
 from typing import List, Dict, Tuple
@@ -7,7 +6,7 @@ from bson.objectid import ObjectId
 from datetime import datetime, timezone
 from stores.llm.templates.template_parser import PromptTemplateParserInterface
 import stores.llm.templates.response_models as rm
-from stores.llm.LLMInterface import LLMInterface
+from stores.llm.LLMInterface import AsyncLLMInterface
 from stores.vectordb.VectorDBInterface import VectorDBInterface
 import asyncio
 import logging
@@ -18,13 +17,12 @@ logger = logging.getLogger(__name__)
 class MainIdeaController(BaseController):
   '''Controller for extracting, combining, reducing, and ranking main ideas from text sections.'''
   
-  # TODO: consider supporting async calls to the generation & embedding client for better performance.
   # TODO: consider caching the extracted main ideas for each section to avoid redundant LLM calls when combining/reducing/ranking multiple times.
   
   def __init__(
     self,
-    generation_client: LLMInterface,
-    embedding_client: LLMInterface,
+    generation_client: AsyncLLMInterface,
+    embedding_client: AsyncLLMInterface,
     prompt_template_parser: PromptTemplateParserInterface,
     ):
     """
@@ -38,7 +36,7 @@ class MainIdeaController(BaseController):
     
   async def extract_candidates_from_sections(self, sections: List[str]) -> List[rm.MainIdea]:
       
-    results = []
+    tasks = []
     for section in sections:
       prompt = self.prompt_template_parser.get(
         "main_idea",
@@ -61,9 +59,11 @@ class MainIdeaController(BaseController):
         )
       ]
       
-      response = self.generation_client.generate_structured_text(prompt=prompt.user, chat_history=chat_history, response_model=prompt.response_model)
-      results.append(response)
-        
+      task = self.generation_client.generate_structured_text(prompt=prompt.user, chat_history=chat_history, response_model=prompt.response_model)
+      tasks.append(task)
+    
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+    
     main_ideas_list = []
     for res in results:
       if isinstance(res, BaseException):
@@ -108,7 +108,7 @@ class MainIdeaController(BaseController):
       )
     ]
     
-    response = self.generation_client.generate_structured_text(
+    response = await self.generation_client.generate_structured_text(
       prompt=prompt.user,
       chat_history=chat_history,
       response_model=prompt.response_model,
@@ -148,7 +148,7 @@ class MainIdeaController(BaseController):
       )
     ]
     
-    response = self.generation_client.generate_structured_text(
+    response = await self.generation_client.generate_structured_text(
       prompt=prompt.user,
       chat_history=chat_history,
       response_model=prompt.response_model,
@@ -184,7 +184,7 @@ class MainIdeaController(BaseController):
       )
     ]
     
-    response = self.generation_client.generate_structured_text(
+    response = await self.generation_client.generate_structured_text(
       prompt=prompt.user,
       chat_history=chat_history,
       response_model=prompt.response_model,
