@@ -2,7 +2,7 @@ from qdrant_client import models, QdrantClient
 from ..VectorDBInterface import VectorDBInterface
 from ..VectorDBEnums import DistanceMethodEnums
 from models.db_schemas import RetrievedDocument
-from typing import List
+from typing import List, Optional
 import logging
 import uuid
 
@@ -157,3 +157,17 @@ class QdrantDBProvider(VectorDBInterface):
         )
         for point in results.points
     ]
+  
+  def search_chunks_metadata_by_vector(self, collection_name: str, vector: list, top_k: int = 5, metric: Optional[str] = None) -> List[str]:
+    
+    results = self.client.query_points(
+        collection_name=collection_name,
+        query=vector,
+        limit=top_k,
+        # TODO: Add support for different similarity metrics
+    )
+
+    if not results or not results.points:
+        return None
+
+    return [str(point.payload.get("metadata")) for point in results.points]

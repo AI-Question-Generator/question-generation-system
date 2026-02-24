@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import List, Optional
 class VectorDBInterface(ABC):
   
   @abstractmethod
@@ -34,16 +34,20 @@ class VectorDBInterface(ABC):
 
   @abstractmethod 
   def insert_one(self,  collection_name: str, text: str, vector: list,
-                        metadata: dict = None,
-                        record_id: str = None):
+                        metadata: Optional[dict] = None,
+                        record_id: Optional[str] = None):
     pass
 
   @abstractmethod 
   def insert_many(self, collection_name: str, texts: list, vectors: list,
-                        metadata: list = None,
-                        record_ids: list = None, batch_size: int = 50):
+                        metadata: Optional[list] = None,
+                        record_ids: Optional[list] = None, batch_size: int = 50):
     pass
 
   @abstractmethod 
   def search_by_vector(self,  collection_name: str, vector: list, limit: int = 5):
+    pass
+  
+  @abstractmethod
+  def search_chunks_metadata_by_vector(self, collection_name: str, vector: list, top_k: int = 5, metric: Optional[str] = None) -> List[str]:
     pass
