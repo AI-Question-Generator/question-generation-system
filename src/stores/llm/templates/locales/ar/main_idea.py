@@ -1,7 +1,6 @@
 from string import Template
 from stores.llm.templates.locales.PromptTemplate import PromptTemplate
-from routes.schemes.savaal import MainIdea
-from typing import List
+from stores.llm.templates.response_models import ListOf, Ranking, MainIdea
 
 #### MAIN IDEA EXTRACTION, CONSOLIDATION, AND RANKING PROMPTS ####
 
@@ -37,7 +36,7 @@ combine_prompt = PromptTemplate(
   user=Template("\n".join([
     "$context",
   ])),
-  response_model=List[MainIdea]
+  response_model=ListOf[MainIdea]
 )
 
 
@@ -56,7 +55,7 @@ reduce_prompt = PromptTemplate(
   user=Template("\n".join([
     "$context",
   ])),
-  response_model=List[MainIdea]
+  response_model=ListOf[MainIdea]
 )
 
 
@@ -80,5 +79,5 @@ rank_prompt = PromptTemplate(
     "قدّم إجابتك كمصفوفة JSON من أرقام الترتيب بنفس ترتيب الأفكار المُدخلة.",
     "أعد مصفوفة JSON فقط دون أي نص إضافي.",
   ])),
-  response_model= List[int]
+  response_model= ListOf[int]
 )

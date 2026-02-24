@@ -1,7 +1,6 @@
 from string import Template
 from stores.llm.templates.locales.PromptTemplate import PromptTemplate
-from routes.schemes.savaal import MainIdea
-from typing import List
+from stores.llm.templates.response_models import ListOf, Ranking, MainIdea
 
 #### MAIN IDEA EXTRACTION, CONSOLIDATION, AND RANKING PROMPTS ####
 
@@ -21,7 +20,7 @@ extract_prompt = PromptTemplate(
   user= Template("\n".join([
     "$context",
   ])),
-  response_model= List[MainIdea]
+  response_model= ListOf[MainIdea]
 )
 
 
@@ -37,7 +36,7 @@ combine_prompt = PromptTemplate(
   user=Template("\n".join([
     "$context",
   ])),
-  response_model=List[MainIdea]
+  response_model=ListOf[MainIdea]
 )
 
 
@@ -56,7 +55,7 @@ reduce_prompt = PromptTemplate(
   user=Template("\n".join([
     "$context",
   ])),
-  response_model=List[MainIdea]
+  response_model=ListOf[MainIdea]
 )
 
 
@@ -80,5 +79,5 @@ rank_prompt = PromptTemplate(
     "Provide your response as a JSON array of rank numbers in the same order as the input ideas.",
     "Return ONLY the JSON array, no other text.",
   ])),
-  response_model= List[int]
+  response_model= ListOf[int]
 )

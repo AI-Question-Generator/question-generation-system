@@ -1,7 +1,7 @@
 from string import Template
 from stores.llm.templates.locales.PromptTemplate import PromptTemplate
-from routes.schemes.question import MCQ, ShortAnswer, TrueOrFalse
-from typing import List
+from stores.llm.templates.response_models import ListOf
+from stores.llm.templates.response_models.questions import MCQ, ShortAnswer, TrueOrFalse
 
 #### QUESTION GENERATION PROMPT ####
 
@@ -23,7 +23,7 @@ mcq_prompt = PromptTemplate(
     "Passages:",
     "$passages",
   ])),
-  response_model=List[MCQ]
+  response_model=ListOf[MCQ]
 )
 
 # True/False Question Generation
@@ -46,7 +46,7 @@ tf_prompt = PromptTemplate(
     "Passages:",
     "$passages",
   ])),
-  response_model=List[TrueOrFalse]
+  response_model=ListOf[TrueOrFalse]
 )
 
 # Short Answer Question Generation
@@ -69,5 +69,5 @@ short_answer_prompt = PromptTemplate(
     "Passages:",
     "$passages",
   ])),
-  response_model=List[ShortAnswer]
+  response_model=ListOf[ShortAnswer]
 )
