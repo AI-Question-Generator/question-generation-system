@@ -1,3 +1,6 @@
+from typing import Optional
+
+from pydantic import BaseModel
 from abc import ABC, abstractmethod
 
 class LLMInterface(ABC):
@@ -12,16 +15,18 @@ class LLMInterface(ABC):
     pass
   
   @abstractmethod
-  def generate_text(self, prompt: str, chat_history: list =[], max_output_tokens: int = None,
-                          temperature: float = None):
+  def generate_text(self, prompt: str, chat_history: list =[], max_output_tokens: Optional[int] = None, temperature: Optional[float] = None) -> Optional[str]:
     pass
 
+  @abstractmethod
+  def generate_structured_text(self, prompt: str, chat_history: list = [], response_model: type[BaseModel] = ..., max_output_tokens: Optional[int] = None, temperature: Optional[float] = None) -> Optional[str]:
+    pass
   
   @abstractmethod
-  def embed_text(self, text: str, document_type: str = None):
+  def embed_text(self, text: str, document_type: Optional[str] = None) -> list:
     pass
   
   
   @abstractmethod
-  def construct_prompt(self, prompt: str, role: str):
+  def construct_prompt(self, prompt: str, role: str) -> dict:
     pass
