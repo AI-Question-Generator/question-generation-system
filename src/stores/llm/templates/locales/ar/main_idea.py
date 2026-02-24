@@ -1,6 +1,6 @@
 from string import Template
 from stores.llm.templates.locales.PromptTemplate import PromptTemplate
-from stores.llm.templates.response_models import ListOf, Ranking, MainIdea
+from stores.llm.templates.response_models import ListOf, MainIdea
 
 #### MAIN IDEA EXTRACTION, CONSOLIDATION, AND RANKING PROMPTS ####
 
