@@ -30,3 +30,17 @@ class LLMInterface(ABC):
   @abstractmethod
   def construct_prompt(self, prompt: str, role: str) -> dict:
     pass
+  
+class AsyncLLMInterface(LLMInterface):
+  
+  @abstractmethod
+  async def generate_text(self, prompt: str, chat_history: list =[], max_output_tokens: Optional[int] = None, temperature: Optional[float] = None) -> Optional[str]:
+    pass
+
+  @abstractmethod
+  async def generate_structured_text(self, prompt: str, response_model: type[BaseModel], chat_history: list = [], max_output_tokens: Optional[int] = None, temperature: Optional[float] = None) -> Optional[str]:
+    pass
+  
+  @abstractmethod
+  async def embed_text(self, text: str, document_type: Optional[str] = None) -> Optional[list]:
+    pass
