@@ -1,8 +1,8 @@
 from string import Template
 from pydantic import BaseModel
-from typing import Any
+from typing import Any, Union
 
 class PromptTemplate(BaseModel):
-  system: Template
-  user: Template
+  system: Union[Template, str]
+  user: Union[Template, str]
   response_model: Any

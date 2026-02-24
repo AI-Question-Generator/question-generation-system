@@ -1,49 +1,111 @@
+from abc import ABC, abstractmethod
+from typing import Optional
+from .locales.PromptTemplate import PromptTemplate
 import os
 import importlib
 
-class TemplateParser:
-  
-  def __init__(self, language: str = None, default_language="en"):
-    
+
+class TemplateParserInterface(ABC):
+
+  @abstractmethod
+  def get(self, group: str, key: str, vars: dict = {}) -> Optional[str]: ...
+
+
+class LanguageResolverInterface(ABC):
+
+  @abstractmethod
+  def resolve(self, language: Optional[str]) -> str: ...
+
+
+class PromptTemplateParserInterface:
+
+  @abstractmethod
+  def get(self, group: str, key: str, vars: dict = {}) -> Optional[PromptTemplate]: ...
+
+
+class FileSystemLanguageResolver(LanguageResolverInterface):
+
+  def __init__(self, base_path: str, default_language: str = "en"):
+    self.base_path = base_path
+    self.default_language = default_language
+
+  def resolve(self, language: Optional[str]) -> str:
+    if not language:
+        return self.default_language
+    language_path = os.path.join(self.base_path, "locales", language)
+    return language if os.path.exists(language_path) else self.default_language
+
+
+class TemplateParser(TemplateParserInterface):
+
+  def __init__(
+    self,
+    language: Optional[str] = None,
+    default_language: str = "en",
+    language_resolver: Optional[LanguageResolverInterface] = None,
+  ):
     self.current_path = os.path.dirname(os.path.abspath(__file__))
     self.default_language = default_language
-    
-    self.set_language(language)
-    
-  def set_language(self, language: str):
-    
-    if not language:
-      self.language = self.default_language
-    
-    language_path = os.path.join(self.current_path, "locales", language)
-    if os.path.exists(language_path):
-      self.language = language
-    else:
-      self.language = self.default_language
-      
-  def get(self, group: str, key: str,  domain: str= '', vars: dict={}):
-        if not group or not key:
-            return None
-        
-        group_path = os.path.join(self.current_path, "locales", self.language, domain, f"{group}.py" )
-        targeted_language = self.language
-        if not os.path.exists(group_path):
-            group_path = os.path.join(self.current_path, "locales", self.default_language, domain, f"{group}.py" )
-            targeted_language = self.default_language
+    self.language_resolver = language_resolver or FileSystemLanguageResolver(self.current_path, default_language)
+    self.language = self.language_resolver.resolve(language)
 
-        if not os.path.exists(group_path):
-            return None
-        
-        # import group module
-        import_path = (
-            f"stores.llm.templates.locales.{targeted_language}.{domain}.{group}"
-            if domain else
-            f"stores.llm.templates.locales.{targeted_language}.{group}"
-        )
-        module = importlib.import_module(import_path)
+  def get(self, group: str, key: str, vars: dict = {}) -> Optional[str]:
+    if not group or not key:
+      return None
 
-        if not module:
-            return None
-        
-        key_attribute = getattr(module, key)
-        return key_attribute.substitute(vars)
+    targeted_language = self.language
+    group_path = os.path.join(self.current_path, "locales", targeted_language, f"{group}.py")
+    if not os.path.exists(group_path):
+      targeted_language = self.default_language
+      group_path = os.path.join(self.current_path, "locales", targeted_language, f"{group}.py")
+
+    if not os.path.exists(group_path):
+      return None
+
+    module = importlib.import_module(f"stores.llm.templates.locales.{targeted_language}.{group}")
+    key_attribute = getattr(module, key, None)
+    return key_attribute.substitute(vars) if key_attribute else None
+
+  
+class PromptTemplateParser(PromptTemplateParserInterface):
+
+  def __init__(
+    self,
+    domain: str,
+    language: str,
+    default_language: str = "en",
+    language_resolver: Optional[LanguageResolverInterface] = None,
+  ):
+    self.current_path = os.path.dirname(os.path.abspath(__file__))
+    self.domain = domain
+    self.default_language = default_language
+    self.language_resolver = language_resolver or FileSystemLanguageResolver(self.current_path, default_language)
+    self.language = self.language_resolver.resolve(language)
+
+  def get(self, group: str, key: str, vars: dict = {}) -> Optional[PromptTemplate]:
+    if not group or not key:
+      return None
+
+    targeted_language = self.language
+    group_path = os.path.join(self.current_path, "locales", targeted_language, self.domain, f"{group}.py")
+    if not os.path.exists(group_path):
+      targeted_language = self.default_language
+      group_path = os.path.join(self.current_path, "locales", targeted_language, self.domain, f"{group}.py")
+
+    if not os.path.exists(group_path):
+      return None
+
+    import_path = (
+      f"stores.llm.templates.locales.{targeted_language}.{self.domain}.{group}"
+      if self.domain else
+      f"stores.llm.templates.locales.{targeted_language}.{group}"
+    )
+    module = importlib.import_module(import_path)
+    key_attribute: Optional[PromptTemplate] = getattr(module, key, None)
+    
+    if key_attribute is None:
+      return None
+    
+    key_attribute.system = key_attribute.system.substitute(vars)
+    key_attribute.user = key_attribute.user.substitute(vars)
+    return key_attribute
