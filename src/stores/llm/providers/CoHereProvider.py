@@ -1,6 +1,9 @@
+from pydantic import BaseModel
+from typing import Optional
 from ..LLMInterface import LLMInterface
 from ..LLMEnums import CoHereEnums, DocumentTypeEnum
 import cohere
+from cohere.types.response_format import JsonObjectResponseFormat, ResponseFormat
 import logging
 
 class CoHereProvider(LLMInterface):
@@ -37,8 +40,8 @@ class CoHereProvider(LLMInterface):
     self.embedding_model_id = model_id
     self.embedding_size = embedding_size
     
-  def generate_text(self, prompt: str, chat_history: list =[], max_output_tokens: int = None,
-                          temperature: float = None):
+  def generate_text(self, prompt: str, chat_history: list =[], max_output_tokens: Optional[int] = None,
+                          temperature: Optional[float] = None):
     
     if not self.client:
       self.logger.error("Cohere Client was not set")
@@ -64,8 +67,48 @@ class CoHereProvider(LLMInterface):
     
     return response.text 
     # return response.message.content[0].text
-  
-  def embed_text(self, text: str, document_type: str = None):
+
+  def generate_structured_text(
+    self,
+    prompt: str,
+    response_model: type[BaseModel],
+    chat_history: list = [],
+    max_output_tokens: Optional[int] = None,
+    temperature: Optional[float] = None,
+  ) -> Optional[str]:
+    if not self.client:
+      self.logger.error("Cohere Client was not set")
+      return None
+
+    if not self.generation_model_id:
+      self.logger.error("Generation Model was not set")
+      return None
+
+    if not response_model:
+      self.logger.error("No response model provided")
+      return None
+
+    temperature = temperature if temperature else self.default_generation_temperature
+    max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
+
+    response = self.client.chat(
+      model=self.generation_model_id,
+      chat_history=chat_history,
+      message=prompt,
+      temperature=temperature,
+      max_tokens=max_output_tokens,
+      response_format=JsonObjectResponseFormat(
+        schema_=response_model.model_json_schema(),
+      ),
+    )
+
+    if not response or not response.text:
+      self.logger.error("Error while generating structured text using CoHere")
+      return None
+
+    return response.text
+
+  def embed_text(self, text: str, document_type: Optional[str] = None) -> Optional[list]:
     if not self.client:
       self.logger.error("CoHere Client was not set")
       return None

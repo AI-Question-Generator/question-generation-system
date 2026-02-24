@@ -1,3 +1,4 @@
+from pydantic import BaseModel
 from typing import Optional, Literal, Union, List
 from ..LLMInterface import LLMInterface
 from ..LLMEnums import GeminiEnums
@@ -50,7 +51,7 @@ class GeminiProvider(LLMInterface):
     chat_history: list = [],
     max_output_tokens: Optional[int] = None,
     temperature: Optional[float] = None,
-  ):
+  ) -> Optional[str]:
     if not self.client:
       self.logger.error("Gemini client was not set")
       return None
@@ -81,6 +82,53 @@ class GeminiProvider(LLMInterface):
       or not response.candidates[0].content.parts[0].text
     ):
       self.logger.error("Error while generating text with Gemini")
+      return None
+    
+    return response.candidates[0].content.parts[0].text
+  
+  def generate_structured_text(
+    self,
+    prompt: str,
+    response_model: type[BaseModel],
+    chat_history: list = [],
+    max_output_tokens: Optional[int] = None,
+    temperature: Optional[float] = None,
+  ):
+    if not self.client:
+      self.logger.error("Gemini client was not set")
+      return None
+
+    if not self.generation_model_id:
+      self.logger.error("Generation model for Gemini was not set")
+      return None
+
+    if not response_model:
+      self.logger.error("No response model provided")
+      return None
+    
+    max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
+    temperature = temperature if temperature else self.default_generation_temperature
+
+    chat_history.append(self.construct_prompt(prompt=prompt, role=self.enums.USER.value))
+
+    response = self.client.models.generate_content(
+      model=self.generation_model_id,
+      contents=chat_history,
+      config=types.GenerateContentConfig(
+        temperature=temperature,
+        max_output_tokens=max_output_tokens,
+        response_json_schema=response_model.model_json_schema()
+      ),
+    )
+
+    if (
+      not response
+      or not response.candidates
+      or not response.candidates[0].content
+      or not response.candidates[0].content.parts
+      or not response.candidates[0].content.parts[0].text
+    ):
+      self.logger.error("Error while generating structured text with Gemini")
       return None
     
     return response.candidates[0].content.parts[0].text
