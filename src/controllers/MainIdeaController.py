@@ -32,10 +32,17 @@ class MainIdeaController(BaseController):
     self.generation_client = generation_client
     self.embedding_client = embedding_client
     self.prompt_template_parser = prompt_template_parser
+    self._extraction_cache = {}  # Cache for extracted ideas
         
     
   async def extract_candidates_from_sections(self, sections: List[str]) -> List[rm.MainIdea]:
-      
+
+    # Check cache first
+    section_key = tuple(sections)
+    if section_key in self._extraction_cache:
+      logger.info("Using cached extraction results")
+      return self._extraction_cache[section_key]
+    
     tasks = []
     for section in sections:
       prompt = self.prompt_template_parser.get(
@@ -59,7 +66,11 @@ class MainIdeaController(BaseController):
         )
       ]
       
-      task = self.generation_client.generate_structured_text(prompt=prompt.user, chat_history=chat_history, response_model=prompt.response_model)
+      task = self.generation_client.generate_structured_text(
+        prompt=prompt.user, 
+        chat_history=chat_history, 
+        response_model=prompt.response_model
+      )
       tasks.append(task)
     
     results = await asyncio.gather(*tasks, return_exceptions=True)
@@ -72,9 +83,10 @@ class MainIdeaController(BaseController):
       
       res = prompt.response_model.model_validate_json(res)
       main_ideas_list += list(res)
-      
+    
+    # Cache the results
+    self._extraction_cache[section_key] = main_ideas_list
     return main_ideas_list
-
   
   async def combine_candidates(self, candidates: List[rm.MainIdea]) -> List[rm.MainIdea]:
     
