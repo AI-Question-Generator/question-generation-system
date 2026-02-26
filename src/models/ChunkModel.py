@@ -94,3 +94,17 @@ class ChunkModel(BaseDataModel):
     ]
     
     return chunks
+  
+  
+  
+  async def get_chunks_by_asset_id(self, asset_id: ObjectId) -> List[DataChunk]:
+    records = await self.collection.find({
+      "chunk_asset_id": asset_id
+    }).sort("chunk_order", 1).to_list(length=None)
+    
+    chunks = [
+      DataChunk(**rec)
+      for rec in records
+    ]
+    
+    return chunks
