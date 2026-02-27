@@ -1,6 +1,7 @@
 from .BaseDataModel import BaseDataModel
 from .db_schemas import Project
 from .enums import DataBaseEnum
+from stores.llm.templates.locales.LocalesRegistry import SupportedLanguage, get_supported_domains
 
 class ProjectModel(BaseDataModel):
   def __init__(self, db_client: object):
@@ -39,11 +40,22 @@ class ProjectModel(BaseDataModel):
   async def get_project_or_create_one(self, project_id: str):
     record = await self.collection.find_one({"project_id":project_id})
     
+    # print("### supported language or domain,", SupportedLanguage.get_supported_languages())
+    
     # create new project if not found
     if record is None:
-      project = Project(project_id=project_id)
+      project = Project(project_id=project_id,
+                        language="en",
+                        domain="english")
       project = await self.create_project(project=project)
       return project
+    
+    # need to be general for future updates
+    if "language" not in record:
+        record["language"] = "en"
+    if "domain" not in record:
+        record["domain"] = "english"
+        
     
     return Project(**record)
   
