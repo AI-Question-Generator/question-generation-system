@@ -7,6 +7,10 @@ from bson.objectid import ObjectId
 from datetime import datetime, timezone
 from models import MainIdeaModel
 from models.db_schemas import MainIdea
+from models.ChunkModel import ChunkModel
+from typing import Optional
+# from stores.llm.templates.locales import en, ar
+from stores.llm.templates.locales.en import question_generation
 import logging
 
 logger = logging.getLogger(__name__)
@@ -109,5 +113,124 @@ class SavaalPipeline(BasePipeline):
       "combined_candidates_count": len(combined_candidates),
       "final_count": len(reduced_candidates)
     }
+    
+
+
   ## generation part
-  
+  async def run_question_generation(self,
+                                    main_idea_ids: Optional[List[str]] = None,
+                                    question_types: Optional[List[str]] = None,
+                                    questions_per_idea: int = 2) -> Dict:
+      """Generate questions from main ideas."""
+      main_idea_model = await MainIdeaModel.create_instance(self.db_client)
+          
+      if main_idea_ids:
+          ideas = [
+              await main_idea_model.get_main_idea_record(idea_id)
+              for idea_id in main_idea_ids
+          ]
+      else:
+          ideas = await main_idea_model.get_project_main_ideas(project_id=self.project_id)
+      
+      if not ideas:
+          return {
+              "status": "failed",
+              "ideas_processed": 0,
+              "questions_generated": 0,
+              "questions_by_type": {},
+          }
+      
+      all_questions = {}
+      total_questions = 0
+      
+      for idea in ideas:
+          chunk_ids = idea.main_idea_chunk_ids or []
+          if not chunk_ids:
+              continue
+          
+          chunk_model = await ChunkModel.create_instance(self.db_client)
+          chunks = await chunk_model.get_many_chunks_by_id(chunk_ids[:5])
+          
+          if not chunks:
+              continue
+          
+          passages = "\n".join([chunk.chunk_text for chunk in chunks])
+          
+          idea_questions = {}
+          
+          q_types = question_types
+          
+          if q_types is None:
+            q_types = ["mcq", "tf", "short_answer"]
+          
+          for q_type in q_types:
+              questions = await self._generate_questions(
+                  idea=idea,
+                  passages=passages,
+                  num_questions=questions_per_idea,
+                  question_type=q_type
+              )
+              idea_questions[q_type] = questions
+              total_questions += len(questions)
+          
+          all_questions[str(idea.id)] = idea_questions
+      
+      questions_by_type = {"mcq": 0, "tf": 0, "short_answer": 0}
+      for idea_questions in all_questions.values():
+          for q_type, questions in idea_questions.items():
+              if q_type in questions_by_type:
+                  questions_by_type[q_type] += len(questions)
+      
+      return {
+          "status": "success",
+          "ideas_processed": len(all_questions),
+          "questions_generated": total_questions,
+          "questions_by_type": questions_by_type,
+          "message": f"Generated {total_questions} questions from {len(all_questions)} ideas"
+      }
+          
+
+
+  async def _generate_questions(self,
+                                idea,
+                                passages: str,
+                                num_questions: int,
+                                question_type: str) -> List:
+
+      """Generate questions of a specific type."""
+
+      prompt_map = {
+          "mcq": question_generation.mcq_prompt,
+          "tf": question_generation.tf_prompt,
+          "short_answer": question_generation.short_answer_prompt,
+      }
+      
+      prompt_template = prompt_map.get(question_type)
+      if not prompt_template:
+          return []
+      
+      try:
+          system = prompt_template.system.substitute(num_questions=num_questions)
+          user = prompt_template.user.substitute(
+              main_idea=idea.main_idea_summary,
+              passages=passages
+          )
+          
+          chat_history = [
+              self.llm_client.construct_prompt(
+                  prompt=system,
+                  role=self.llm_client.enums.SYSTEM.value,
+              )
+          ]
+          
+          response = await self.llm_client.generate_structured_text(
+              prompt=user,
+              chat_history=chat_history,
+              response_model=prompt_template.response_model,
+          )
+          
+          return list(prompt_template.response_model.model_validate_json(response)) if response else []
+          
+      except Exception as e:
+          logger.error(f"Error generating {question_type} questions: {str(e)}")
+          return []
