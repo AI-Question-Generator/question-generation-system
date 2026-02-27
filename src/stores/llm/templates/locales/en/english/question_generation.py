@@ -1,6 +1,6 @@
 from string import Template
 from stores.llm.templates.locales.PromptTemplate import PromptTemplate
-from routes.schemes.question import MCQ, ShortAnswer, TrueOrFalse
+# from routes.schemes.question import MCQ, ShortAnswer, TrueOrFalse
 from typing import List
 from .. import question_generation
 
