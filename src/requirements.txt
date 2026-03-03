@@ -9,9 +9,11 @@ langchain==1.2.9
 langchain-text-splitters==1.1.0
 PyMuPDF==1.24.3
 pymongo==4.16.0
-openai==2.16.0
+openai==2.24.0
 cohere==5.20.6
 qdrant-client==1.16.0
 google-genai==1.62.0
 python-multipart==0.0.22
 langchain-community==0.4.1
+json-repair==0.58.3
+jsonschema==4.26.0
