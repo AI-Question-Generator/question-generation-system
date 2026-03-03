@@ -1,6 +1,5 @@
 from string import Template
 from stores.llm.templates.locales.PromptTemplate import PromptTemplate
-from routes.schemes.savaal import MainIdea
 from typing import List
 from .. import main_idea
 

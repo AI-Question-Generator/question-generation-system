@@ -1,6 +1,6 @@
 from string import Template
 from stores.llm.templates.locales.PromptTemplate import PromptTemplate
-from stores.llm.templates.response_models import ListOf, Ranking, MainIdea
+from stores.llm.templates.response_models import ListOf, MainIdea
 
 #### MAIN IDEA EXTRACTION, CONSOLIDATION, AND RANKING PROMPTS ####
 
@@ -16,11 +16,20 @@ extract_prompt = PromptTemplate(
     "- Any examples or applications mentioned.",
     "",
     "Use clear, bullet-point summaries, organized by topic.",
+    "Format:",
+    "- Concept title:",
+    " - Definition/Explanation",
+    " - Related Concepts",
+    " - Examples/Applications",
+    "- Concept title:",
+    " - Definition/Explanation",
+    " - Related Concepts",
+    " - Examples/Applications",
+    "...",
   ])),
   user= Template("\n".join([
     "$context",
   ])),
-  response_model= ListOf[MainIdea]
 )
 
 
@@ -51,6 +60,8 @@ reduce_prompt = PromptTemplate(
   "- Provide a full-sentence summary for each concept that explains its significance, its relationship to other concepts, and any relevant examples or applications.",
   "- Ensure that the summaries are clear, self-contained, and detailed enough to aid in understanding without requiring additional context.",
   "- If necessary, combine related concepts into a single summary. Some of the concept maps have broader headings that can be used to guide this process.",
+  "",
+  "You are limited to $limit main ideas",
   ])),
   user=Template("\n".join([
     "$context",
