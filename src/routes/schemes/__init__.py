@@ -1,2 +1,2 @@
 from .nlp import PushRequest, SearchRequest
-from .savaal import MainIdeaExtractionRequest,MainIdeaExtractionResponse,MainIdeaResponse,MainIdeasListResponse, QuestionGenerationRequest, QuestionGenerationResponse
+from .savaal import MainIdeaExtractionRequest,MainIdeaExtractionResponse,MainIdeaResponse,MainIdeasListResponse, QuestionGenerationRequest, QuestionGenerationResponse, AssociateChunksRequest, AssociateChunksResponse

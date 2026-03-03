@@ -1,6 +1,5 @@
 from fastapi import FastAPI, APIRouter, Depends, UploadFile, status, Request
 from fastapi.responses import JSONResponse
-from helpers import get_settings, Settings
 from models import ResponseSignal
 from .schemes import PushRequest, SearchRequest
 from models.ProjectModel import ProjectModel
