@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from routes import base_router, data_router, nlp_router, savaal_router
-from helpers import get_setting, Settings
+from helpers import get_settings, Settings
 from pymongo import AsyncMongoClient
 from stores.llm import LLMProviderFactory
 from stores.llm.LLMEnums import LLMEnums
@@ -13,7 +13,7 @@ from stores.llm.templates.template_parser import TemplateParser
 @asynccontextmanager
 async def lifespan(app: FastAPI):
   
-  settings = get_setting()
+  settings = get_settings()
 
   app.state.mongodb_conn = AsyncMongoClient(settings.MONGODB_URL)
   app.state.db_client = app.state.mongodb_conn[settings.MONGODB_DATABASE]
@@ -40,7 +40,7 @@ async def lifespan(app: FastAPI):
   
   yield
   
-  app.state.mongodb_conn.close()
+  await app.state.mongodb_conn.close()
   app.state.vectordb_client.disconnect()
 
 

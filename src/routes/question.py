@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status, Request
 from fastapi.responses import JSONResponse
-from helpers import get_setting, Settings
+from helpers import get_settings, Settings
 from models import ResponseSignal
 from routes.schemes.question import BaseQuestion, MCQ, TrueOrFalse, ShortAnswer
 from routes.schemes.generate import GenerationRequest, GenerationResponse, ProjectQuestionResponse

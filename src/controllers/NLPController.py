@@ -1,7 +1,7 @@
 from .BaseController import BaseController
 from models.db_schemas import Project, DataChunk
 from stores.llm.LLMEnums import DocumentTypeEnum
-from helpers.config import get_setting, Settings
+from helpers.config import get_settings, Settings
 from typing import List
 import json
 import time
@@ -106,11 +106,7 @@ class NLPController(BaseController):
       return answer, full_prompt, chat_history
     
     system_prompt = self.template_parser.get("rag", "system_prompt")
-    
         
-    
-    # print(system_prompt)
-    
     documents_prompts = "\n".join([
       self.template_parser.get( "rag",
                                 "document_prompt",{
