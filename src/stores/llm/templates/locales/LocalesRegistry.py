@@ -2,7 +2,6 @@ import os
 from enum import Enum
 
 _LOCALES_PATH = os.path.dirname(__file__)
-print(_LOCALES_PATH)
 
 def _get_supported_languages():
     return {
@@ -19,8 +18,5 @@ def get_supported_domains(language: str) -> list[str]:
         if os.path.isdir(os.path.join(lang_path, name))
     ]
 
-# class SupportedLanguage(str, Enum):
-#     locals().update(_get_supported_languages())
-    
-_langs = _get_supported_languages()
-SupportedLanguage = Enum('SupportedLanguage', _langs)
+class SupportedLanguage(str, Enum):
+    locals().update(_get_supported_languages())
