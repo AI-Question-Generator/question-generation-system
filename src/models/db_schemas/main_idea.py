@@ -10,7 +10,6 @@ class MainIdea(BaseModel):
   main_idea_summary: str = Field(..., min_length=1)
   main_idea_rank: Optional[int] = Field(None, gt=0)
   main_idea_metadata: Optional[dict] = Field(None)
-  main_idea_chunk_ids: Optional[list[ObjectId]] = Field(None)
   created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
   
   model_config = ConfigDict(arbitrary_types_allowed= True)
@@ -29,6 +28,6 @@ class MainIdea(BaseModel):
           ("main_idea_rank", 1)
           ],
         "name": "main_idea_project_id_rank_index_1",
-        "unique": True
+        "unique": False
       }
     ]
