@@ -132,15 +132,6 @@ class QdrantDBProvider(VectorDBInterface):
 
   def search_by_vector(self,  collection_name: str, vector: list, limit: int = 5):
     
-    print(self.client.get_collections())
-
-    
-    # return self.client.query_points(
-    #   collection_name=collection_name,
-    #   query=vector,
-    #   limit=limit
-    # )
-
     results = self.client.query_points(
         collection_name=collection_name,
         query=vector,
@@ -158,8 +149,11 @@ class QdrantDBProvider(VectorDBInterface):
         for point in results.points
     ]
   
-  def search_chunks_metadata_by_vector(self, collection_name: str, vector: list, top_k: int = 5, metric: Optional[str] = None) -> List[str]:
-    
+  def search_chunks_metadata_by_vector(self, collection_name: str, vector: list, top_k: int = 5, metric: Optional[str] = None) -> Optional[List[dict]]:
+    if not self.client:
+      self.logger.error("Qdrant client is not connected")
+      return None
+
     results = self.client.query_points(
         collection_name=collection_name,
         query=vector,
@@ -170,4 +164,11 @@ class QdrantDBProvider(VectorDBInterface):
     if not results or not results.points:
         return None
 
-    return [str(point.payload.get("metadata")) for point in results.points]
+    return [
+        {
+            "chunk_id": str(point.id),
+            "score": point.score,
+            "metadata": point.payload.get("metadata")
+        }
+        for point in results.points
+    ]

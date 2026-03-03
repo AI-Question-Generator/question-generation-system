@@ -49,5 +49,5 @@ class VectorDBInterface(ABC):
     pass
   
   @abstractmethod
-  def search_chunks_metadata_by_vector(self, collection_name: str, vector: list, top_k: int = 5, metric: Optional[str] = None) -> List[str]:
+  def search_chunks_metadata_by_vector(self, collection_name: str, vector: list, top_k: int = 5, metric: Optional[str] = None) -> Optional[List[dict]]:
     pass
