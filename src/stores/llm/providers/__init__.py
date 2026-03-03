@@ -1,3 +1,3 @@
-from .CoHereProvider import CoHereProvider
-from .OpenAIProvider import OpenAIProvider
-from .GeminiProvider import GeminiProvider
+from .CoHereProvider import CoHereProvider, AsyncCoHereProvider
+from .OpenAIProvider import OpenAIProvider, AsyncOpenAIProvider
+from .GeminiProvider import GeminiProvider, AsyncGeminiProvider
