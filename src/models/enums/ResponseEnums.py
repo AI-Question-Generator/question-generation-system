@@ -25,8 +25,6 @@ class ResponseSignal(Enum):
   RAG_ANSWER_ERROR = "RAG Answer Error"
   RAG_ANSWER_SUCCESS = "RAG Answer Succeed"
   
-  GET_CHUNKS_BY_ASSET_ID_ERROR = "Get Chunks By ASSET ID Error"
-  
   # SAVAAL Pipeline signals
   MAIN_IDEA_EXTRACTION_STARTED = "Main idea extraction started"
   MAIN_IDEA_EXTRACTION_SUCCESS = "Main idea extraction completed successfully"
