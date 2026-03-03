@@ -1,14 +1,21 @@
-from fastapi import APIRouter, Depends, status, Request
+from fastapi import APIRouter, Depends, status, Request, Query
 from fastapi.responses import JSONResponse
-from helpers import get_setting, Settings
+from helpers import get_settings, Settings
 from pipelines.SavaalPipeline import SavaalPipeline
-from controllers import MainIdeaController
-from models import ResponseSignal, MainIdeaModel, ChunkModel
-from models.db_schemas import MainIdea
+from controllers import MainIdeaController, ProcessController, NLPController
+from models import ResponseSignal
+from models.MainIdeaModel import MainIdeaModel
+from models.ProjectModel import ProjectModel
+from models.AssetModel import AssetModel
+from models.db_schemas import MainIdea, MainIdeaChunk
+from models.MainIdeaChunkModel import MainIdeaChunkModel
+from models.enums import AssetTypeEnum
+from stores.llm.templates.template_parser import PromptTemplateParser
+from langchain_core.documents.base import Document
+from typing import List
 from bson.objectid import ObjectId
-from .schemes import MainIdeaExtractionRequest, MainIdeaExtractionResponse, MainIdeaResponse, MainIdeasListResponse, QuestionGenerationRequest, QuestionGenerationResponse
+from .schemes import MainIdeaExtractionRequest, MainIdeaExtractionResponse, MainIdeasListResponse, QuestionGenerationRequest, QuestionGenerationResponse, AssociateChunksRequest, AssociateChunksResponse
 import logging
-from datetime import datetime, timezone
 
 
 logger = logging.getLogger(__name__)
@@ -21,212 +28,310 @@ savaal_router = APIRouter(
 )
 
 @savaal_router.post(
-    "/extract/{project_id}",
-    response_model=MainIdeaExtractionResponse,
-    status_code=status.HTTP_200_OK
+  "/extract/{project_id}",
+  response_model=MainIdeaExtractionResponse,
+  status_code=status.HTTP_200_OK
 )
 async def extract_main_ideas(
-    request: Request,
-    project_id: str,
-    extraction_request: MainIdeaExtractionRequest,
-    settings: Settings = Depends(get_setting)
+  request: Request,
+  project_id: str,
+  extraction_request: MainIdeaExtractionRequest,
+  settings: Settings = Depends(get_settings)
 ):
-    """
-    Start main idea extraction pipeline for a document.
-    
-    Pipeline Steps:
-    1. Get chunks from database by file_id
-    2. Group chunks into sections (each chunk is a section)
-    3. Extract candidate ideas from each section in parallel
-    4. Consolidates and deduplicates ideas
-    5. Ranks ideas by importance
-    6. Associates relevant chunks with each idea via vector search
-    7. Saves everything to database
-    """
-    try:
-        logger.info(f"Main idea extraction requested: project={project_id}, file={extraction_request.file_id}")
-        
-        # Validate project ID
-        try:
-            project_oid = ObjectId(project_id)
-        except Exception:
-            return JSONResponse(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                content={
-                  "signal": ResponseSignal.PROJECT_NOT_FOUND.value,
-                }
-            )
-        
-        # Get chunks from database by file_id
-        chunk_model = await ChunkModel.create_instance(request.app.state.db_client)
-        chunks = await chunk_model.get_chunks_by_asset_id(asset_id=ObjectId(extraction_request.file_id))
+  """
+  Start main idea extraction pipeline for a document.
+  
+  Pipeline Steps:
+  1. Get chunks from database by asset_name
+  2. Group chunks into sections (each chunk is a section)
+  3. Extract candidate ideas from each section in parallel
+  4. Consolidates and deduplicates ideas
+  5. Ranks ideas by importance
+  6. Saves everything to database
+  """
+  logger.info(f"Main idea extraction requested: project={project_id}, file={extraction_request.asset_name}")
 
-        if not chunks:
-            return JSONResponse(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                content={
-                    "signal": ResponseSignal.GET_CHUNKS_BY_ASSET_ID_ERROR.value,
-                }
-            )
-        
-        # Group chunks into sections (each chunk is a section)
-        sections = [chunk.chunk_text for chunk in chunks]
-        
-        # Run extraction pipeline (extract → combine → reduce → rank)
-        
-        # Initialize pipeline
-        pipeline = SavaalPipeline(
-            db_client=request.app.state.db_client,
-            vectordb_client=request.app.state.vectordb_client,
-            llm_client=request.app.state.generation_client,
-            embedding_client=request.app.state.embedding_client,
-            template_parser=request.app.state.template_parser,
-            project_id=project_id)
-        
-        
-        # Run extraction pipeline
-        result = await pipeline.run_main_idea_extraction(sections=sections)
-        
-        # Associate chunks to each ideas
-        main_ideas = result["main_ideas"]
-        ranked_ideas = result["ranked_ideas"]
-        
-        idea_chunk_mapping = await pipeline.associate_chunks_to_ideas(
-            main_ideas=main_ideas,
-            ranked_ideas=ranked_ideas,
-            top_k_chunks=extraction_request.top_k_chunks
-        )
-        
-        # Save to database
-        main_idea_model = await MainIdeaModel.create_instance(request.app.state.db_client)
-        saved_count = await pipeline.save_main_ideas(
-            main_ideas=main_ideas,
-            ranked_ideas=ranked_ideas,
-            idea_chunk_mapping=idea_chunk_mapping,
-            main_idea_model=main_idea_model
-        )
-        
-        
-        response = {
-            "signal": ResponseSignal.MAIN_IDEA_EXTRACTION_SUCCESS.value,
-            "sections_count": len(sections),
-            "candidates_count": result.get("extracted_candidates_count", 0),
-            "consolidated_count": result.get("combined_candidates_count", 0),
-            "main_ideas_count": result.get("final_count", 0),
-            "chunk_associations_count": sum(len(v) for v in idea_chunk_mapping.values()),
-        }
-        
-        return JSONResponse(
-            status_code=status.HTTP_200_OK,
-            content=response
-        )
-        
-    except Exception as e:
-        logger.error(f"Error in main idea extraction: {str(e)}")
-        return JSONResponse(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={
-                "signal": ResponseSignal.MAIN_IDEA_EXTRACTION_FAILED.value,
-                "sections_count": 0,
-                "candidates_count": 0,
-                "consolidated_count": 0,
-                "main_ideas_count": 0,
-                "chunk_associations_count": 0
-            }
-        )
+  # Get project
+  project_model = await ProjectModel.create_instance(db_client=request.app.state.db_client)
+  project = await project_model.get_project_or_create_one(project_id=project_id)
+  
+  # Get project assets
+  asset_model = await AssetModel.create_instance(db_client=request.app.state.db_client)
+  if extraction_request.asset_name:
+    assets = [await asset_model.get_asset_record(
+      asset_project_id=project.id,
+      asset_name=extraction_request.asset_name
+    )]
+  else:
+    assets = await asset_model.get_all_project_assets(
+      asset_project_id=project.id,
+      asset_type=AssetTypeEnum.FILE.value
+    )
+  
+  if not assets or assets == [None]:
+    return JSONResponse(
+      status_code=status.HTTP_400_BAD_REQUEST,
+      content = {
+        "signal" : ResponseSignal.NO_FILES_IDS.value,
+      }
+    )
+  
+  # Split assets into sections
+  process_controller = ProcessController(project_id=project_id)
+  texts: List[Document] = []
+  for asset in assets:
+    file_content = process_controller.get_file_content(file_id=asset.asset_name)
+    if file_content is None:
+      logger.warning(f"File content is None for asset: {asset.asset_name}")
+      continue
+    
+    texts.extend(
+      process_controller.process_file_content(
+        file_content=file_content,
+        file_id=None,
+        chunk_size=extraction_request.section_size
+      )
+    )
+  
+  sections = [doc.page_content for doc in texts]
+  
+  # Run extraction pipeline (extract → combine → reduce → rank)
+  prompt_template_parser = PromptTemplateParser(
+    domain=project.domain,
+    language=project.language.value,
+  )
+  
+  main_idea_controller = MainIdeaController(
+    generation_client=request.app.state.generation_client,
+    embedding_client=request.app.state.embedding_client,
+    prompt_template_parser=prompt_template_parser
+  )
+  
+  # Run extraction precedure
+  logger.info(f"Extracting candidate ideas from {len(sections)} sections")
+  candidates = await main_idea_controller.extract_candidates_from_sections(sections=sections)
+
+  # Run combining procedure
+  logger.info(f"Combining and deduplicating {len(candidates)} candidate ideas")
+  candidates = await main_idea_controller.combine_candidates(candidates=candidates)
+  
+  if extraction_request.limit is not None:
+    # Run reducing procedure
+    logger.info(f"Reducing {len(candidates)} combined ideas to top {extraction_request.limit}")
+    candidates = await main_idea_controller.reduce_candidates(
+      candidates=candidates,
+      limit=extraction_request.limit
+    )
+  
+  # Save to database
+  logger.info(f"Saving {len(candidates)} main ideas to database for project {project_id}")
+  main_idea_model = await MainIdeaModel.create_instance(request.app.state.db_client)
+  
+  main_idea_records = []
+  for cand in candidates:
+    main_idea_obj = MainIdea(
+      main_idea_project_id=project.id,
+      main_idea_name=cand.name[:100],
+      main_idea_summary=cand.summary,
+    )
+    main_idea_records.append(main_idea_obj)
+  
+  if main_idea_records:
+    saved_count = await main_idea_model.insert_many_main_ideas(main_ideas=main_idea_records)
+    logger.info(f"Successfully saved {saved_count} main ideas")
+  else:
+    logger.warning("No main idea records to save")
+    return JSONResponse(
+      status_code=status.HTTP_400_BAD_REQUEST,
+      content={
+      "signal": ResponseSignal.MAIN_IDEA_EXTRACTION_SUCCESS.value,
+      "sections_count": len(sections),
+      "main_ideas_count": len(candidates),
+      }
+    )
+  
+  
+  return JSONResponse(
+    status_code=status.HTTP_200_OK,
+    content={
+      "signal": ResponseSignal.MAIN_IDEA_EXTRACTION_SUCCESS.value,
+      "sections_count": len(sections),
+      "main_ideas_count": len(candidates),
+    }
+  )
+
+
+
+@savaal_router.post(
+  "/associate/{project_id}",
+  response_model=AssociateChunksResponse,
+  status_code=status.HTTP_200_OK
+)
+async def associate_chunks_to_ideas(
+  request: Request,
+  project_id: str,
+  association_request: AssociateChunksRequest,
+  settings: Settings = Depends(get_settings)
+):
+  """
+  Associate vector-DB chunks to each main idea via semantic search.
+
+  For every main idea (or the subset given in main_idea_ids), the summary
+  is embedded and the top-k nearest chunks are retrieved from the project
+  collection, then persisted as MainIdeaChunk records.
+  """
+  logger.info(f"Chunk association requested: project={project_id}, top_k={association_request.top_k}")
+
+  # Get project
+  project_model = await ProjectModel.create_instance(db_client=request.app.state.db_client)
+  project = await project_model.get_project_or_create_one(project_id=project_id)
+
+  # Retrieve main ideas
+  main_idea_model = await MainIdeaModel.create_instance(request.app.state.db_client)
+
+  if association_request.main_idea_ids:
+    ideas = [
+      await main_idea_model.get_main_idea_record(idea_id)
+      for idea_id in association_request.main_idea_ids
+    ]
+    ideas = [idea for idea in ideas if idea is not None]
+  else:
+    ideas = await main_idea_model.get_project_main_ideas(project_id=ObjectId(project_id))
+
+  if not ideas:
+    return JSONResponse(
+      status_code=status.HTTP_400_BAD_REQUEST,
+      content={
+        "signal": ResponseSignal.MAIN_IDEA_RETRIEVAL_FAILED.value,
+        "ideas_processed": 0,
+        "total_associations": 0,
+      }
+    )
+
+  # Build NLP controller for vector search
+  nlp_controller = NLPController(
+    vectordb_client=request.app.state.vectordb_client,
+    generation_client=request.app.state.generation_client,
+    embedding_client=request.app.state.embedding_client,
+    template_parser=request.app.state.template_parser,
+  )
+
+  # Get embedding model name
+  embedding_model = getattr(request.app.state.embedding_client, "embedding_model_id", "unknown")
+
+  # Prepare MainIdeaChunk model
+  main_idea_chunk_model = await MainIdeaChunkModel.create_instance(request.app.state.db_client)
+
+  all_associations = []
+
+  for idea in ideas:
+    search_results = nlp_controller.search_chunks_with_scores(
+      project=project,
+      text=idea.main_idea_summary,
+      top_k=association_request.top_k
+    )
+
+    if not search_results:
+      logger.warning(f"No search results for idea: {idea.id} - '{idea.main_idea_summary[:30]}...'")
+      continue
+
+    # Create MainIdeaChunk records
+    for rank, res in enumerate(search_results, start=1):
+      association = MainIdeaChunk(
+        main_idea_id=idea.id,
+        chunk_id=ObjectId(res["chunk_id"]),
+        similarity_score=res["score"],
+        retrieval_rank=rank,
+        embedding_model=embedding_model,
+      )
+      all_associations.append(association)
+
+  # Bulk insert all associations
+  if all_associations:
+    await main_idea_chunk_model.insert_many_associations(associations=all_associations)
+
+  total_associations = len(all_associations)
+  logger.info(f"Chunk association complete: {total_associations} associations across {len(ideas)} ideas")
+
+  return JSONResponse(
+    status_code=status.HTTP_200_OK,
+    content={
+      "signal": ResponseSignal.MAIN_IDEA_EXTRACTION_SUCCESS.value,
+      "ideas_processed": len(ideas),
+      "total_associations": total_associations,
+    }
+  )
+
 
 @savaal_router.get(
-    "/main-ideas/{project_id}",
-    response_model=MainIdeasListResponse,
-    status_code=status.HTTP_200_OK
+  "/main-ideas/{project_id}",
+  response_model=MainIdeasListResponse,
+  status_code=status.HTTP_200_OK
 )
 async def get_main_ideas(
-    request: Request,
-    project_id: str,
-    limit: int = 0,
-    settings: Settings = Depends(get_setting)
+  request: Request,
+  project_id: str,
+  limit: int = Query(0, description="Maximum number of ideas to return (0 = no limit)"),
+  settings: Settings = Depends(get_settings)
 ):
-    """
-    Get all main ideas for a project.
-    
-    Retrieves ranked main ideas along with their associated chunk counts.
-    
-    Args:
-        project_id: MongoDB ObjectId of the project
-        limit: Maximum number of ideas to return (0 = no limit)
-        
-    Returns:
-        List of main ideas with metadata
-    """
-    try:
-        logger.info(f"Retrieving main ideas: project={project_id}, limit={limit}")
-        
-        # Validate project ID
-        try:
-            project_oid = ObjectId(project_id)
-        except Exception:
-            return JSONResponse(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                content={
-                    "signal": ResponseSignal.PROJECT_NOT_FOUND.value,
-                    "project_id": project_id,
-                    "main_ideas_count": 0,
-                    "main_ideas": [],
-                }
-            )
-        
-        # Retrieve ideas from database
-        main_idea_model = await MainIdeaModel.create_instance(request.app.state.db_client)
-        ideas = await main_idea_model.get_project_main_ideas(
-            project_id=project_oid,
-            top=limit if limit > 0 else 0
-        )
-        
-        # Convert to response format
-        ideas_response = [
-            MainIdeaResponse(
-                id=str(idea.id),
-                title=idea.main_idea_name,
-                summary=idea.main_idea_summary,
-                rank=idea.main_idea_rank,
-                chunk_count=len(idea.main_idea_chunk_ids) if idea.main_idea_chunk_ids else 0
-            )
-            for idea in ideas
-        ]
-        
-        # Sort by rank if available
-        ideas_response.sort(key=lambda x: x.rank if x.rank else 999)
-        
-        return JSONResponse(
-            status_code=status.HTTP_200_OK,
-            content={
-                "signal": ResponseSignal.MAIN_IDEA_RETRIEVAL_SUCCESS.value,
-                "project_id": project_id,
-                "main_ideas_count": len(ideas_response),
-                "main_ideas": [
-                    {
-                        "id": idea.id,
-                        "title": idea.title,
-                        "summary": idea.summary,
-                        "rank": idea.rank,
-                        "chunk_count": idea.chunk_count
-                    }
-                    for idea in ideas_response
-                ]
-            }
-        )
-        
-    except Exception as e:
-        logger.error(f"Error retrieving main ideas: {str(e)}")
-        return JSONResponse(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={
-                "signal": ResponseSignal.MAIN_IDEA_RETRIEVAL_FAILED.value,
-                "project_id": project_id,
-                "main_ideas_count": 0,
-                "main_ideas": [],
-            }
-        )
+  """
+  Get all main ideas for a project.
+
+  Retrieves main ideas along with their associated chunk counts.
+
+  Args:
+      project_id: MongoDB ObjectId of the project
+      limit: Maximum number of ideas to return (0 = no limit)
+
+  Returns:
+      List of main ideas with metadata
+  """
+  logger.info(f"Retrieving main ideas: project={project_id}, limit={limit}")
+
+  # Get project
+  project_model = await ProjectModel.create_instance(db_client=request.app.state.db_client)
+  project = await project_model.get_project_or_create_one(project_id=project_id)
+
+  # Retrieve ideas from database
+  main_idea_model = await MainIdeaModel.create_instance(request.app.state.db_client)
+  ideas = await main_idea_model.get_project_main_ideas(
+    project_id=project.id,
+    top=limit if limit > 0 else 0
+  )
+
+  if not ideas:
+    return JSONResponse(
+      status_code=status.HTTP_400_BAD_REQUEST,
+      content={
+        "signal": ResponseSignal.NO_MAIN_IDEAS_FOUND.value,
+        "project_id": project_id,
+        "main_ideas": [],
+      }
+    )
+
+  # Convert to response format
+  ideas_response = [
+    {
+      "id": str(idea.id),
+      "title": idea.main_idea_name,
+      "summary": idea.main_idea_summary,
+      "rank": idea.main_idea_rank,
+      "chunk_count": len(idea.main_idea_chunk_ids) if idea.main_idea_chunk_ids else 0
+    }
+    for idea in ideas
+  ]
+
+  # Sort by rank if available
+  ideas_response.sort(key=lambda x: x["rank"] if x["rank"] else 999)
+
+  return JSONResponse(
+    status_code=status.HTTP_200_OK,
+    content={
+      "signal": ResponseSignal.MAIN_IDEA_RETRIEVAL_SUCCESS.value,
+      "project_id": project_id,
+      "main_ideas": ideas_response,
+    }
+  )
 
 
 @savaal_router.post(
@@ -238,7 +343,7 @@ async def generate_questions(
     request: Request,
     project_id: str,
     generation_request: QuestionGenerationRequest,
-    settings: Settings = Depends(get_setting)
+    settings: Settings = Depends(get_settings)
 ):
     """
     Generate questions from main ideas.
@@ -265,7 +370,6 @@ async def generate_questions(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 content={
                     "status": "failed",
-                    "message": f"Invalid project ID: {project_id}",
                     "ideas_processed": 0,
                     "questions_generated": 0,
                     "questions_by_type": {}
@@ -295,8 +399,6 @@ async def generate_questions(
             "ideas_processed": result["ideas_processed"],
             "questions_generated": result["questions_generated"],
             "questions_by_type": result["questions_by_type"],
-            "message": f"Question generation {'completed' if result['status'] == 'success' else 'failed'}: "
-                      f"generated {result['questions_generated']} questions"
         }
         
         if result["errors"]:
@@ -315,7 +417,6 @@ async def generate_questions(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             content={
                 "status": "failed",
-                "message": f"Error during question generation: {str(e)}",
                 "ideas_processed": 0,
                 "questions_generated": 0,
                 "questions_by_type": {}
