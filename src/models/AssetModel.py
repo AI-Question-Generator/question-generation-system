@@ -3,6 +3,7 @@ from .db_schemas import Asset
 from .enums import DataBaseEnum
 from bson.objectid import ObjectId
 from pymongo import InsertOne
+from typing import Optional, List
 
 class AssetModel(BaseDataModel):
   def __init__(self, db_client: object):
@@ -31,13 +32,13 @@ class AssetModel(BaseDataModel):
           unique=index["unique"]
         )
         
-  async def create_asset(self, asset: Asset):
+  async def create_asset(self, asset: Asset) -> Asset:
     
     result = await self.collection.insert_one(asset.dict(by_alias=True, exclude_unset=True))
     asset.id = result.inserted_id
     return asset
   
-  async def get_all_project_assets(self, asset_project_id: str, asset_type: str):
+  async def get_all_project_assets(self, asset_project_id: str, asset_type: str) -> List[Asset]:
     
     result =  self.collection.find({
       "asset_project_id" : ObjectId(asset_project_id) if isinstance(asset_project_id, str) else asset_project_id,
@@ -49,7 +50,7 @@ class AssetModel(BaseDataModel):
       for res in result]
     return result
     
-  async def get_asset_record(self, asset_project_id: str, asset_name: str):
+  async def get_asset_record(self, asset_project_id: str, asset_name: str) -> Optional[Asset]:
     
     record = await self.collection.find_one({
       "asset_project_id" : ObjectId(asset_project_id) if isinstance(asset_project_id, str) else asset_project_id,

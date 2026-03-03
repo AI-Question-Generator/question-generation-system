@@ -45,7 +45,7 @@ class ProcessController(BaseController):
   def process_file_content(self, file_content: list,
                           file_id: str,
                           chunk_size: int = 100,
-                          overlap_size: int = 30):
+                          overlap_size: int = 30) -> List[Document]:
     # text_splitter = RecursiveCharacterTextSplitter(
     #   chunk_size=chunk_size,
     #   chunk_overlap=overlap_size,
@@ -75,7 +75,7 @@ class ProcessController(BaseController):
     
     return chunks
     
-  def process_simpler_splitter(self, texts: List[str], metadatas: List[dict], chunk_size: int, splitter_tag: str = '\n'):
+  def process_simpler_splitter(self, texts: List[str], metadatas: List[dict], chunk_size: int, splitter_tag: str = '\n') -> List[Document]:
     full_text = " ".join(texts)
     
     # Split by splitter_tag
