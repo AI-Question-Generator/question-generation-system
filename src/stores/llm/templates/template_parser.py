@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
+
+from pydantic import BaseModel
 from .locales.PromptTemplate import PromptTemplate
 import os
 import importlib
@@ -20,7 +22,7 @@ class LanguageResolverInterface(ABC):
 class PromptTemplateParserInterface:
 
   @abstractmethod
-  def get(self, group: str, key: str, vars: dict = {}) -> Optional[PromptTemplate]: ...
+  def get(self, group: str, key: str, vars: dict = {}) -> Optional[tuple[str, str, type[BaseModel]]]: ...
 
 
 class FileSystemLanguageResolver(LanguageResolverInterface):
@@ -82,7 +84,7 @@ class PromptTemplateParser(PromptTemplateParserInterface):
     self.language_resolver = language_resolver or FileSystemLanguageResolver(self.current_path, default_language)
     self.language = self.language_resolver.resolve(language)
 
-  def get(self, group: str, key: str, vars: dict = {}) -> Optional[PromptTemplate]:
+  def get(self, group: str, key: str, vars: dict = {}) -> Optional[tuple[str, str, type[BaseModel]]]:
     if not group or not key:
       return None
 
@@ -106,6 +108,6 @@ class PromptTemplateParser(PromptTemplateParserInterface):
     if key_attribute is None:
       return None
     
-    key_attribute.system = key_attribute.system.substitute(vars)
-    key_attribute.user = key_attribute.user.substitute(vars)
-    return key_attribute
+    system_message = key_attribute.system.substitute(vars)
+    user_message = key_attribute.user.substitute(vars)
+    return system_message, user_message, key_attribute.response_model
