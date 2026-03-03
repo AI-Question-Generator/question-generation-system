@@ -1,3 +1,5 @@
+from typing import Optional
+
 from .BaseDataModel import BaseDataModel
 from .db_schemas import Project
 from .enums import DataBaseEnum
@@ -37,25 +39,16 @@ class ProjectModel(BaseDataModel):
   
   
     
-  async def get_project_or_create_one(self, project_id: str):
+  async def get_project_or_create_one(self, project_id: str, language: Optional[SupportedLanguage] = None, domain: str = "") -> Project:
     record = await self.collection.find_one({"project_id":project_id})
-    
-    # print("### supported language or domain,", SupportedLanguage.get_supported_languages())
-    
+        
     # create new project if not found
     if record is None:
       project = Project(project_id=project_id,
-                        language="en",
-                        domain="english")
+                        language=language,
+                        domain=domain)
       project = await self.create_project(project=project)
       return project
-    
-    # need to be general for future updates
-    if "language" not in record:
-        record["language"] = "en"
-    if "domain" not in record:
-        record["domain"] = "english"
-        
     
     return Project(**record)
   
