@@ -67,7 +67,8 @@ class OpenAIProvider(LLMInterface):
                           model=self.generation_model_id,
                           messages=chat_history,
                           max_tokens=max_output_tokens,
-                          temperature=temperature
+                          temperature=temperature,
+                          extra_body={"chat_template_kwargs": {"enable_thinking": False}}
                           )
     
     if not response or not response.choices or len(response.choices) == 0 or not response.choices[0].message:
@@ -91,19 +92,26 @@ class OpenAIProvider(LLMInterface):
     chat_history.append(
       self.construct_prompt(prompt=prompt,role=OpenAIEnums.USER.value)
     )
-      
+    
     response = self.client.chat.completions.create(
                           model=self.generation_model_id,
                           messages=chat_history,
                           max_tokens=max_output_tokens,
                           temperature=temperature,
-                          response_format=response_model
+                          response_format={
+                            "type": "json_schema",
+                            "json_schema": {
+                              "name": "structured_response",
+                              "schema": response_model.model_json_schema(),
+                            },
+                          },
+                          extra_body={"chat_template_kwargs": {"enable_thinking": False}}
                           )
     
     if not response or not response.choices or len(response.choices) == 0 or not response.choices[0].message:
       self.logger.error("Error while Generating Structured Text with OpenAI")
       return None
-  
+
     return response.choices[0].message.content
     
   def embed_text(self, text: str, document_type: Optional[str] = None):
@@ -115,7 +123,7 @@ class OpenAIProvider(LLMInterface):
     if not self.embedding_model_id:
       self.logger.error("Embedding Model was not set")
       return None
-      
+    
     response = self.client.embeddings.create(
                             input=text,
                             model=self.embedding_model_id)
@@ -209,7 +217,13 @@ class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
                           messages=chat_history,
                           max_tokens=max_output_tokens,
                           temperature=temperature,
-                          response_format=response_model
+                          response_format={
+                            "type": "json_schema",
+                            "json_schema": {
+                              "name": "structured_response",
+                              "schema": response_model.model_json_schema(),
+                            },
+                          }
                           )
     
     if not response or not response.choices or len(response.choices) == 0 or not response.choices[0].message:
