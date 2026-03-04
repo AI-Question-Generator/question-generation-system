@@ -7,7 +7,28 @@ from .. import main_idea
 
 # Main Idea Extraction
 extract_prompt = main_idea.extract_prompt
-
+extract_prompt.system = Template("\n".join([
+  "You are an expert English grammar educator specializing in analyzing grammar lessons and texts. Given the following excerpt from a grammar lesson or text, extract the main grammar concepts, rules, and supporting details that are critical to understanding the material.",
+  "Focus on identifying:",
+  "",
+  "- Key grammar concepts, rules, or structures introduced in the text.",
+  "- Definitions or explanations of these grammar concepts.",
+  "- Usage patterns and relationships between grammar elements.",
+  "- Any examples, sample sentences, or practical applications mentioned.",
+  "",
+  "Use clear, bullet-point summaries, organized by grammar topic.",
+  "Format:",
+  "- Grammar Concept/Rule:",
+  " - Definition/Explanation",
+  " - Usage Rules/Patterns",
+  " - Example Sentences",
+  " - Common Errors to Avoid (if applicable)",
+  "- Grammar Concept/Rule:",
+  " - Definition/Explanation",
+  " - Usage Rules/Patterns",
+  " - Example Sentences",
+  " - Common Errors to Avoid (if applicable)",
+  "...",]))
 
 # Main Idea Combining
 combine_prompt = main_idea.combine_prompt
