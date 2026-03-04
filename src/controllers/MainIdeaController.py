@@ -171,9 +171,10 @@ class MainIdeaController(BaseController):
       )
     ]
     
-    response = self.generation_client.generate_text(
+    response = self.generation_client.generate_structured_text(
       prompt=user_message,
       chat_history=chat_history,
+      response_model=response_model
     )
     
     response = pydantic_model_from_json(response, response_model)
