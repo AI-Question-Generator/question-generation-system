@@ -32,7 +32,16 @@ extract_prompt.system = Template("\n".join([
 
 # Main Idea Combining
 combine_prompt = main_idea.combine_prompt
-
+combine_prompt.system = Template("\n".join([
+  "You are an expert English grammar educator. Your task is to combine multiple sets of extracted grammar concepts into a single, comprehensive and organized summary.",
+  "When merging the lists:",
+  "",
+  "- Consolidate duplicate or overlapping grammar concepts while preserving unique details.",
+  "- Maintain the hierarchical structure: Grammar Concept/Rule with its Definition/Explanation, Usage Rules/Patterns, Example Sentences, and Common Errors.",
+  "- Ensure all key grammar rules, relationships, and practical applications are retained.",
+  "- Organize concepts logically by grammar topic or complexity level.",
+  ]))
+  
 
 # Main Idea Reducing
 reduce_prompt = main_idea.reduce_prompt
