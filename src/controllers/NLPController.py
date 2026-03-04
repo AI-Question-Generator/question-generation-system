@@ -46,7 +46,7 @@ class NLPController(BaseController):
     
     # manage items
     texts = [ c.chunk_text for c in chunks]
-    metadata = [ c.chunk_metadata for c in chunks]
+    metadata = [ c.chunk_metadata | {'db_id': str(c.id)} for c in chunks]
     
 
     vectors = []
