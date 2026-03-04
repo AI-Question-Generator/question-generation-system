@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, status, Request, Query
 from fastapi.responses import JSONResponse
 from helpers import get_settings, Settings
-from pipelines.SavaalPipeline import SavaalPipeline
 from controllers import MainIdeaController, ProcessController, NLPController
 from models import ResponseSignal
 from models.MainIdeaModel import MainIdeaModel
