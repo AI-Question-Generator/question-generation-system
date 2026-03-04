@@ -5,7 +5,7 @@ from pydantic import BaseModel
 class MainIdeaExtractionRequest(BaseModel):
   """Request to start main idea extraction pipeline."""
   asset_name: Optional[str] = None
-  section_size: int = 4000
+  section_size: int = 2000
   limit: Optional[int] = None
   do_reset: int = 0
 
