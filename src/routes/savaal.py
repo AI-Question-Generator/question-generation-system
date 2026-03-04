@@ -195,7 +195,7 @@ async def associate_chunks_to_ideas(
     ]
     ideas = [idea for idea in ideas if idea is not None]
   else:
-    ideas = await main_idea_model.get_project_main_ideas(project_id=ObjectId(project_id))
+    ideas = await main_idea_model.get_project_main_ideas(project_id=project.id)
 
   if not ideas:
     return JSONResponse(
@@ -224,10 +224,10 @@ async def associate_chunks_to_ideas(
   all_associations = []
 
   for idea in ideas:
-    search_results = nlp_controller.search_chunks_with_scores(
+    search_results = nlp_controller.search_chunks_metadata(
       project=project,
       text=idea.main_idea_summary,
-      top_k=association_request.top_k
+      limit=association_request.top_k
     )
 
     if not search_results:
@@ -238,7 +238,7 @@ async def associate_chunks_to_ideas(
     for rank, res in enumerate(search_results, start=1):
       association = MainIdeaChunk(
         main_idea_id=idea.id,
-        chunk_id=ObjectId(res["chunk_id"]),
+        chunk_id=ObjectId(res["metadata"].get("db_id")),
         similarity_score=res["score"],
         retrieval_rank=rank,
         embedding_model=embedding_model,
