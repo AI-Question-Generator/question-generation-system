@@ -39,7 +39,7 @@ combine_prompt = PromptTemplate(
     "You are combining multiple concept maps into a single, comprehensive summary while retaining all key ideas and details. Below are several lists of main ideas and concepts extracted from a larger document.",
     "Your task is to:",
     "",
-    "1. Merge these lists into a single structured list, removing redundancies while keeping all unique and detailed information.",
+    "1. Removing redundancies while keeping all unique and detailed information.",
     "2. Ensure all main ideas, relationships, and examples are preserved and clearly organized.",
   ])),
   user=Template("\n".join([
