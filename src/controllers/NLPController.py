@@ -86,8 +86,25 @@ class NLPController(BaseController):
     results = self.vectordb_client.search_by_vector(  collection_name=collection_name,
                                                       vector=vector, limit=limit)
     
-    if not results:
+    return results
+  
+  
+  def search_chunks_metadata(self, project: Project, text: str, limit: int = 10):
+    
+    # get collection name
+    collection_name = self.create_collection_name(project_id=project.project_id)
+    
+    # embedding user query
+    vector = self.embedding_client.embed_text(text=text, document_type=DocumentTypeEnum.QUERY.value)
+    if not vector or len(vector) == 0:
       return False
+    
+    # semantic search step for metadata
+    
+    results = self.vectordb_client.search_chunks_metadata_by_vector(
+                                                      collection_name=collection_name,
+                                                      vector=vector, 
+                                                      limit=limit)
     
     return results
   
