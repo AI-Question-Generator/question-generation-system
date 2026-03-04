@@ -60,7 +60,7 @@ class NLPController(BaseController):
     
     # push into vector db
     
-    _ = self.vectordb_client.insert_many(
+    result = self.vectordb_client.insert_many(
       collection_name=collection_name,
       texts=texts,
       vectors=vectors,
@@ -68,7 +68,7 @@ class NLPController(BaseController):
       record_ids=chunks_ids
       )
     
-    return True
+    return result
   
   def search_vector_db_collection(self, project: Project, text: str, limit: int = 10):
     
