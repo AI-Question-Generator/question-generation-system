@@ -75,22 +75,6 @@ async def extract_main_ideas(
       }
     )
   
-  # Split assets into sections
-  process_controller = ProcessController(project_id=project_id)
-  texts: List[Document] = []
-  for asset in assets:
-    file_content = process_controller.get_file_content(file_id=asset.asset_name)
-    if file_content is None:
-      logger.warning(f"File content is None for asset: {asset.asset_name}")
-      continue
-    
-    texts.extend(
-      process_controller.process_file_content(
-        file_content=file_content,
-        file_id=None,
-        chunk_size=extraction_request.section_size
-      )
-    )
   
   sections = [doc.page_content for doc in texts]
   
@@ -136,6 +120,42 @@ async def extract_main_ideas(
     main_idea_records.append(main_idea_obj)
   
   if main_idea_records:
+    # Reset existing main ideas and associations if requested
+    if extraction_request.do_reset:
+      # TODO: optimize this by doing bulk deletions instead of per-record deletions
+      logger.info(f"Resetting main ideas for project {project_id}")
+      
+      # Get all main ideas for the project
+      project_ideas = await main_idea_model.get_project_main_ideas(project_id=project.id)
+      
+      # Delete all associations for each main idea
+      main_idea_chunk_model = await MainIdeaChunkModel.create_instance(request.app.state.db_client)
+      for idea in project_ideas:
+        await main_idea_chunk_model.delete_by_main_idea_id(main_idea_id=idea.id)
+        logger.info(f"Deleted associations for main idea {idea.id}")
+      
+      # Delete all main ideas for the project
+      deleted_count = await main_idea_model.delete_many_main_ideas_by_project_id(project_id=project.id)
+      logger.info(f"Deleted {deleted_count} main ideas for project {project_id}")
+    
+    # Split assets into sections
+    process_controller = ProcessController(project_id=project_id)
+    texts: List[Document] = []
+    for asset in assets:
+      file_content = process_controller.get_file_content(file_id=asset.asset_name)
+      if file_content is None:
+        logger.warning(f"File content is None for asset: {asset.asset_name}")
+        continue
+      
+      texts.extend(
+        process_controller.process_file_content(
+          file_content=file_content,
+          file_id=None,
+          chunk_size=extraction_request.section_size
+        )
+      )
+    
+    # Save new main ideas
     saved_count = await main_idea_model.insert_many_main_ideas(main_ideas=main_idea_records)
     logger.info(f"Successfully saved {saved_count} main ideas")
   else:
