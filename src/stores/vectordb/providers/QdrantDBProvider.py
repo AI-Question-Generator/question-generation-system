@@ -166,7 +166,6 @@ class QdrantDBProvider(VectorDBInterface):
 
     return [
         {
-            "chunk_id": str(point.id),
             "score": point.score,
             "metadata": point.payload.get("metadata")
         }
