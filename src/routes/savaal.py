@@ -75,7 +75,22 @@ async def extract_main_ideas(
       }
     )
   
-  
+  # Split assets into sections
+  process_controller = ProcessController(project_id=project_id)
+  texts: List[Document] = []
+  for asset in assets:
+    file_content = process_controller.get_file_content(file_id=asset.asset_name)
+    if file_content is None:
+      logger.warning(f"File content is None for asset: {asset.asset_name}")
+      continue
+    
+    texts.extend(
+      process_controller.process_file_content(
+        file_content=file_content,
+        file_id=None,
+        chunk_size=extraction_request.section_size
+      )
+    )
   sections = [doc.page_content for doc in texts]
   
   # Run extraction pipeline (extract → combine → reduce → rank)
@@ -138,23 +153,6 @@ async def extract_main_ideas(
       deleted_count = await main_idea_model.delete_many_main_ideas_by_project_id(project_id=project.id)
       logger.info(f"Deleted {deleted_count} main ideas for project {project_id}")
     
-    # Split assets into sections
-    process_controller = ProcessController(project_id=project_id)
-    texts: List[Document] = []
-    for asset in assets:
-      file_content = process_controller.get_file_content(file_id=asset.asset_name)
-      if file_content is None:
-        logger.warning(f"File content is None for asset: {asset.asset_name}")
-        continue
-      
-      texts.extend(
-        process_controller.process_file_content(
-          file_content=file_content,
-          file_id=None,
-          chunk_size=extraction_request.section_size
-        )
-      )
-    
     # Save new main ideas
     saved_count = await main_idea_model.insert_many_main_ideas(main_ideas=main_idea_records)
     logger.info(f"Successfully saved {saved_count} main ideas")
@@ -163,7 +161,7 @@ async def extract_main_ideas(
     return JSONResponse(
       status_code=status.HTTP_400_BAD_REQUEST,
       content={
-      "signal": ResponseSignal.MAIN_IDEA_EXTRACTION_SUCCESS.value,
+      "signal": ResponseSignal.MAIN_IDEA_EXTRACTION_FAILED.value,
       "sections_count": len(sections),
       "main_ideas_count": len(candidates),
       }
