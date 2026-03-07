@@ -10,6 +10,7 @@ class MainIdeaChunk(BaseModel):
     Stores metadata about why this chunk is related to the main idea.
     """
     id: Optional[ObjectId] = Field(None, alias="_id")
+    project_id: ObjectId
     main_idea_id: ObjectId
     chunk_id: ObjectId
     similarity_score: float = Field(..., ge=0.0, le=1.0)  # Vector similarity score
@@ -22,6 +23,11 @@ class MainIdeaChunk(BaseModel):
     @classmethod
     def get_indexes(cls):
         return [
+            {
+                "key": [("project_id", 1)],
+                "name": "main_idea_project_id_index_1",
+                "unique": False
+            },
             {
                 "key": [("main_idea_id", 1)],
                 "name": "main_idea_id_index_1",
