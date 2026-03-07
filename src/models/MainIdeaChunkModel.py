@@ -160,3 +160,29 @@ class MainIdeaChunkModel(BaseDataModel):
     })
     
     return MainIdeaChunk(**record) if record else None
+
+  async def get_associations_by_project_id(
+    self,
+    project_id: ObjectId,
+  ) -> Optional[List[MainIdeaChunk]]:
+    "Retrieve all main idea-chunk associations for a specific project. Useful for project-level analysis or cleanup."
+    
+    records = await self.collection.find({
+    "project_id": project_id
+    })
+    
+    return [MainIdeaChunk(**record) for record in records] if records else None
+  
+  async def delete_many_associations_by_project_id(
+    self,
+    project_id: ObjectId,
+  ) -> int:
+    "Delete all associations for a specific project. Useful when cleaning up deleted projects or resetting."
+    
+    result = self.collection.delete_many({
+      "project_id": project_id
+    })
+    
+    self.logger.info(f"Deleted {result.deleted_count} associations for project {project_id}")
+    
+    return result.deleted_count
