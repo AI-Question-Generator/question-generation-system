@@ -33,5 +33,8 @@ class ResponseSignal(Enum):
   MAIN_IDEA_RETRIEVAL_SUCCESS = "Main ideas retrieved successfully"
   MAIN_IDEA_RETRIEVAL_FAILED = "Main idea retrieval failed"
   
+  MAIN_IDEA_RANKING_SUCCESS = "Main ideas ranked successfully"
+  MAIN_IDEA_RANKING_FALIED = "Main idea ranking failed"
+  
   NO_MAIN_IDEAS_FOUND = "No main ideas found"
   
