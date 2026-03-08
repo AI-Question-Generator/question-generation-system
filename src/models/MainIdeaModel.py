@@ -42,7 +42,7 @@ class MainIdeaModel(BaseDataModel):
     main_idea.id = result.inserted_id
     return main_idea
 
-  async def get_project_main_ideas(self, project_id: Union[str, ObjectId], top: int = 0):
+  async def get_project_main_ideas(self, project_id: Union[str, ObjectId], top: int = 0) -> List[MainIdea]:
     '''Extracts main ideas related to a project'''
     
     query: dict = {
