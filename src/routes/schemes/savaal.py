@@ -15,6 +15,14 @@ class MainIdeaExtractionResponse(BaseModel):
   sections_count: int
   main_ideas_count: int
 
+class MainIdeaRankRequest(BaseModel):
+  """Rank main ideas based on importance"""
+  ...
+
+class MainIdeaRankResponse(BaseModel):
+  """Response from main ideas ranking"""
+  signal: str
+  ranked_count: int
 
 class QuestionGenerationRequest(BaseModel):
   """Request to generate questions from main ideas."""
