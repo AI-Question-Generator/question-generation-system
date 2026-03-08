@@ -179,7 +179,7 @@ class MainIdeaChunkModel(BaseDataModel):
   ) -> int:
     "Delete all associations for a specific project. Useful when cleaning up deleted projects or resetting."
     
-    result = self.collection.delete_many({
+    result = await self.collection.delete_many({
       "project_id": project_id
     })
     
