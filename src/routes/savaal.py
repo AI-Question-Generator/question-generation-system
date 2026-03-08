@@ -135,19 +135,16 @@ async def extract_main_ideas(
     main_idea_records.append(main_idea_obj)
   
   if main_idea_records:
+    
     # Reset existing main ideas and associations if requested
     if extraction_request.do_reset:
-      # TODO: optimize this by doing bulk deletions instead of per-record deletions
       logger.info(f"Resetting main ideas for project {project_id}")
-      
-      # Get all main ideas for the project
-      project_ideas = await main_idea_model.get_project_main_ideas(project_id=project.id)
       
       # Delete all associations for each main idea
       main_idea_chunk_model = await MainIdeaChunkModel.create_instance(request.app.state.db_client)
-      for idea in project_ideas:
-        await main_idea_chunk_model.delete_by_main_idea_id(main_idea_id=idea.id)
-        logger.info(f"Deleted associations for main idea {idea.id}")
+
+      deleted_count = await main_idea_chunk_model.delete_many_associations_by_project_id(project_id=project.id)
+      logger.info(f"Deleted {deleted_count} associations for project {project_id}")
       
       # Delete all main ideas for the project
       deleted_count = await main_idea_model.delete_many_main_ideas_by_project_id(project_id=project.id)
@@ -157,6 +154,7 @@ async def extract_main_ideas(
     saved_count = await main_idea_model.insert_many_main_ideas(main_ideas=main_idea_records)
     logger.info(f"Successfully saved {saved_count} main ideas")
   else:
+    
     logger.warning("No main idea records to save")
     return JSONResponse(
       status_code=status.HTTP_400_BAD_REQUEST,
@@ -256,6 +254,7 @@ async def associate_chunks_to_ideas(
     for rank, res in enumerate(search_results, start=1):
       association = MainIdeaChunk(
         main_idea_id=idea.id,
+        project_id=project.id,
         chunk_id=ObjectId(res["metadata"].get("db_id")),
         similarity_score=res["score"],
         retrieval_rank=rank,
