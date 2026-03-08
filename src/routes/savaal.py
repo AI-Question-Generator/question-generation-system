@@ -10,10 +10,21 @@ from models.db_schemas import MainIdea, MainIdeaChunk
 from models.MainIdeaChunkModel import MainIdeaChunkModel
 from models.enums import AssetTypeEnum
 from stores.llm.templates.template_parser import PromptTemplateParser
+import stores.llm.templates.response_models as rm
 from langchain_core.documents.base import Document
 from typing import List
 from bson.objectid import ObjectId
-from .schemes import MainIdeaExtractionRequest, MainIdeaExtractionResponse, MainIdeasListResponse, QuestionGenerationRequest, QuestionGenerationResponse, AssociateChunksRequest, AssociateChunksResponse
+from .schemes import (
+  MainIdeaExtractionRequest,
+  MainIdeaExtractionResponse,
+  MainIdeasListResponse,
+  MainIdeaRankRequest,
+  MainIdeaRankResponse,
+  QuestionGenerationRequest,
+  QuestionGenerationResponse,
+  AssociateChunksRequest,
+  AssociateChunksResponse
+  )
 import logging
 
 
@@ -100,8 +111,8 @@ async def extract_main_ideas(
   )
   
   main_idea_controller = MainIdeaController(
-    generation_provider=request.app.state.generation_client,
-    embedding_provider=request.app.state.embedding_client,
+    generation_client=request.app.state.generation_client,
+    embedding_client=request.app.state.embedding_client,
     prompt_template_parser=prompt_template_parser
   )
   
@@ -351,6 +362,73 @@ async def get_main_ideas(
       "signal": ResponseSignal.MAIN_IDEA_RETRIEVAL_SUCCESS.value,
       "project_id": project_id,
       "main_ideas": ideas_response,
+    }
+  )
+
+@savaal_router.post(
+  "/rank/{project_id}",
+  response_model=MainIdeaRankResponse,
+  status_code=status.HTTP_200_OK,
+)
+async def rank_main_ideas(
+  request: Request,
+  project_id: str,
+  ranking_request: MainIdeaRankRequest,
+  settings: Settings = Depends(get_settings)
+):
+  logger.info(f"ranking main ideas: project={project_id}")
+
+  # Get project
+  project_model = await ProjectModel.create_instance(db_client=request.app.state.db_client)
+  project = await project_model.get_project_or_create_one(project_id=project_id)
+
+  # Retrieve ideas from database
+  main_idea_model = await MainIdeaModel.create_instance(request.app.state.db_client)
+  ideas = await main_idea_model.get_project_main_ideas(
+    project_id=project.id,
+  )
+  
+  # Rank Ideas
+  prompt_template_parser = PromptTemplateParser(
+    domain=project.domain,
+    language=project.language.value,
+  )
+  main_idea_controller = MainIdeaController(
+    generation_client=request.app.state.generation_client,
+    embedding_client=request.app.state.embedding_client,
+    prompt_template_parser=prompt_template_parser,
+  )
+  ranks = await main_idea_controller.rank_main_ideas(ideas=[rm.MainIdea(name=idea.main_idea_name, summary=idea.main_idea_summary) for idea in ideas])
+
+  # Update ideas ranks
+  if len(ranks) != len(ideas):
+    print("here")
+    return JSONResponse(
+      status_code=status.HTTP_400_BAD_REQUEST,
+      content={
+        "signal": ResponseSignal.MAIN_IDEA_RANKING_FALIED.value,
+        "ranked_count": 0
+      }
+    )
+  
+  # Push into db
+  main_idea_model = await MainIdeaModel.create_instance(db_client=request.app.state.db_client)
+  ranked_count = await main_idea_model.update_many_ranks_by_id(main_idea_ids=[idea.id for idea in ideas], ranks = ranks)
+  
+  if ranked_count is None:
+    return JSONResponse(
+      status_code=status.HTTP_200_OK,
+      content={
+        "signal": ResponseSignal.MAIN_IDEA_RANKING_FALIED.value,
+        "ranked_count": 0
+      }
+    )
+  
+  return JSONResponse(
+    status_code=status.HTTP_200_OK,
+    content={
+      "signal": ResponseSignal.MAIN_IDEA_RANKING_SUCCESS.value,
+      "ranked_count": ranked_count
     }
   )
 
