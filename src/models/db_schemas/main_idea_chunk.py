@@ -44,6 +44,6 @@ class MainIdeaChunk(BaseModel):
                     ("retrieval_rank", 1)
                 ],
                 "name": "main_idea_id_rank_index_1",
-                "unique": False
+                "unique": True
             }
         ]
