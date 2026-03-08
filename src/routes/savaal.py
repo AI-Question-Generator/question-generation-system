@@ -237,8 +237,11 @@ async def associate_chunks_to_ideas(
   # Prepare MainIdeaChunk model
   main_idea_chunk_model = await MainIdeaChunkModel.create_instance(request.app.state.db_client)
 
-  all_associations = []
+  # Drop old associations
+  deleted_count = await main_idea_chunk_model.delete_many_associations_by_project_id(project_id=project.id)
+  logger.info(f"Deleted {deleted_count} associations for project id: {project.id}")
 
+  total_associations = 0
   for idea in ideas:
     search_results = nlp_controller.search_chunks_metadata(
       project=project,
@@ -251,6 +254,7 @@ async def associate_chunks_to_ideas(
       continue
 
     # Create MainIdeaChunk records
+    associations = []
     for rank, res in enumerate(search_results, start=1):
       association = MainIdeaChunk(
         main_idea_id=idea.id,
@@ -260,13 +264,14 @@ async def associate_chunks_to_ideas(
         retrieval_rank=rank,
         embedding_model=embedding_model,
       )
-      all_associations.append(association)
+      associations.append(association)
 
-  # Bulk insert all associations
-  if all_associations:
-    await main_idea_chunk_model.insert_many_associations(associations=all_associations)
+    # Bulk insert all associations
+    if associations:
+      await main_idea_chunk_model.insert_many_associations(associations=associations)
+      total_associations += len(associations)
+      logger.info(f"Pushed {len(associations)} associations")
 
-  total_associations = len(all_associations)
   logger.info(f"Chunk association complete: {total_associations} associations across {len(ideas)} ideas")
 
   return JSONResponse(
