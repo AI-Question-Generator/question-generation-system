@@ -100,8 +100,8 @@ async def extract_main_ideas(
   )
   
   main_idea_controller = MainIdeaController(
-    generation_client=request.app.state.generation_client,
-    embedding_client=request.app.state.embedding_client,
+    generation_provider=request.app.state.generation_client,
+    embedding_provider=request.app.state.embedding_client,
     prompt_template_parser=prompt_template_parser
   )
   

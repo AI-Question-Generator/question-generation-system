@@ -107,12 +107,12 @@ class MainIdeaModel(BaseDataModel):
           filter={
             '_id': ObjectId(main_idea_id) if isinstance(main_idea_id, str) else main_idea_id
             },
-            update={'main_idea_rank': rank}
+            update={'$set': {'main_idea_rank': rank}}
             )
         for main_idea_id, rank in zip(batch_main_idea_ids, batch_ranks)
       ]
       
-      await self.db_client.bulk_write(operations)
+      await self.collection.bulk_write(operations)
       self.logger.info(f"Successfully updated {len(batch_ranks)} ranks batch")
     
     self.logger.info(f"Successfully updated {len(ranks)} ranks")
