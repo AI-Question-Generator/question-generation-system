@@ -39,7 +39,7 @@ async def upload(
   ):
   
   if not language:
-    language = SupportedLanguage.EN
+    language = SupportedLanguage(settings.DEFAULT_LANG)
   
   project_model = await ProjectModel.create_instance(db_client=request.app.state.db_client)
   
