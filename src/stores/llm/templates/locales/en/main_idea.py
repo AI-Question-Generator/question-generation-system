@@ -89,6 +89,9 @@ rank_prompt = PromptTemplate(
     "",
     "Provide your response as a JSON array of rank numbers in the same order as the input ideas.",
     "Return ONLY the JSON array, no other text.",
+    "Example:",
+    "Input: Main Idea 1\n\nMain Idea 2\n\nMain Idea 3",
+    "Output: [2, 1, 3]",
   ])),
   response_model= ListOf[int]
 )
