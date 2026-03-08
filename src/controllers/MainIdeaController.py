@@ -149,9 +149,9 @@ class MainIdeaController(BaseController):
     if not ideas:
         return []
     
-    context = "\n".join([
-      idea.summary
-      for idea in ideas
+    context = "\n\n".join([
+      f"Main Idea {i}:\n" + idea.summary
+      for i, idea in enumerate(ideas, 1)
     ])
     
     system_message, user_message, response_model = self.prompt_template_parser.get(
