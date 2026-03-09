@@ -53,6 +53,22 @@ class MainIdeaModel(BaseDataModel):
     result = [MainIdea(**res) for res in result]
     return result
   
+  async def get_project_main_ideas_sample(self, project_id: Union[str, ObjectId], sample_size: int = 10) -> List[MainIdea]:
+    '''Extracts a random sample of main ideas related to a project'''
+    
+    query: dict = {
+      "main_idea_project_id": ObjectId(project_id) if isinstance(project_id, str) else project_id,
+    }
+    
+    pipeline = [
+      {"$match": query},
+      {"$sample": {"size": sample_size}}
+    ]
+    
+    result= await self.collection.aggregate(pipeline).to_list(length=None)
+    result = [MainIdea(**res) for res in result]
+    return result
+  
   async def get_main_idea_record(self, main_idea_id: Union[str, ObjectId]):
     if isinstance(main_idea_id, str):
       main_idea_id = ObjectId(main_idea_id)
