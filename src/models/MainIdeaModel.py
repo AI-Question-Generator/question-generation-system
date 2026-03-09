@@ -135,3 +135,9 @@ class MainIdeaModel(BaseDataModel):
     result = await self.collection.update_one({'_id': main_idea_id}, {'$set': {'main_idea_chunk_ids': chunk_ids}})
     
     return True
+  
+  async def count_main_ideas_by_project_id(self, project_id: Union[str, ObjectId]):
+    count = await self.collection.count_documents({
+      "main_idea_project_id": ObjectId(project_id) if isinstance(project_id, str) else project_id
+    })
+    return count
