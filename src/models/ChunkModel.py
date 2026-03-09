@@ -55,7 +55,7 @@ class ChunkModel(BaseDataModel):
         chunk_ids[idx] = ObjectId(chunk_id)
     
     # Get results
-    result = await self.db_client.find({"_id": {"$in": chunk_ids}})
+    result = await self.collection.find({"_id": {"$in": chunk_ids}}).to_list(length=None)
     chunks = [DataChunk(**res) for res in result]
     self.logger.info(f"Retrieved {len(chunks)} chunks by id")
     return chunks
