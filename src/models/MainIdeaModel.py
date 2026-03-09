@@ -65,7 +65,8 @@ class MainIdeaModel(BaseDataModel):
       {"$sample": {"size": sample_size}}
     ]
     
-    result= await self.collection.aggregate(pipeline).to_list(length=None)
+    result = await self.collection.aggregate(pipeline)
+    result = await result.to_list(length=None)
     result = [MainIdea(**res) for res in result]
     return result
   
