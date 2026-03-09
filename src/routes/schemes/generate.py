@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-from typing import List, Literal, Union
-from routes.schemes.question import BaseQuestion, MCQ, TrueOrFalse, ShortAnswer
+from typing import List
+from stores.llm.templates.response_models.questions import BaseQuestion, MCQ, TrueOrFalse, ShortAnswer
 from models.enums.QuestionEnum import QuestionTypeEnum
 
 
