@@ -23,7 +23,7 @@ mcq_prompt = PromptTemplate(
     "الفقرات:",
     "$passages",
   ])),
-  response_model=ListOf[MCQ]
+  response_model=MCQ
 )
 
 # True/False Question Generation
@@ -46,7 +46,7 @@ tf_prompt = PromptTemplate(
     "الفقرات:",
     "$passages",
   ])),
-  response_model=ListOf[TrueOrFalse]
+  response_model=TrueOrFalse
 )
 
 # Short Answer Question Generation
@@ -69,5 +69,5 @@ short_answer_prompt = PromptTemplate(
     "الفقرات:",
     "$passages",
   ])),
-  response_model=ListOf[ShortAnswer]
+  response_model=ShortAnswer
 )
