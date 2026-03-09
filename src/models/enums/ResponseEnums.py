@@ -38,3 +38,5 @@ class ResponseSignal(Enum):
   
   NO_MAIN_IDEAS_FOUND = "No main ideas found"
   
+  QUESTION_GENERATION_SUCCESS = "Question generation completed successfully"
+  QUESTION_GENERATION_FAILED = "Question generation failed"
