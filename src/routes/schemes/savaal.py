@@ -1,5 +1,7 @@
 from typing import List, Optional
 from pydantic import BaseModel
+from models.enums.QuestionEnum import QuestionTypeEnum
+from stores.llm.templates.response_models.questions import BaseQuestion
 
 # Request/Response Models
 class MainIdeaExtractionRequest(BaseModel):
@@ -11,7 +13,7 @@ class MainIdeaExtractionRequest(BaseModel):
 
 class MainIdeaExtractionResponse(BaseModel):
   """Response from main idea extraction."""
-  status: str
+  signal: str
   sections_count: int
   main_ideas_count: int
 
@@ -26,18 +28,15 @@ class MainIdeaRankResponse(BaseModel):
 
 class QuestionGenerationRequest(BaseModel):
   """Request to generate questions from main ideas."""
-  main_idea_ids: Optional[List[str]] = None  # None = all ideas
-  question_types: Optional[List[str]] = None  # ["mcq", "tf", "short_answer"]
-  questions_per_idea: int = 2
+  num_questions: int = 5
+  question_type: QuestionTypeEnum  # ["mcq", "tf", "short_answer"]
 
 
 class QuestionGenerationResponse(BaseModel):
   """Response from question generation."""
-  status: str
+  signal: str
   ideas_processed: int
-  questions_generated: int
-  questions_by_type: dict
-  message: str
+  questions_generated: List[type[BaseQuestion]]
 
 
 class MainIdeaResponse(BaseModel):
