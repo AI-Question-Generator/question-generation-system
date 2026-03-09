@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Depends, status, Request, Query
 from fastapi.responses import JSONResponse
 from helpers import get_settings, Settings
-from controllers import MainIdeaController, ProcessController, NLPController
+from controllers import MainIdeaController, ProcessController, NLPController, QuestionController
 from models import ResponseSignal
 from models.MainIdeaModel import MainIdeaModel
 from models.ProjectModel import ProjectModel
 from models.AssetModel import AssetModel
+from models.ChunkModel import ChunkModel
 from models.db_schemas import MainIdea, MainIdeaChunk
 from models.MainIdeaChunkModel import MainIdeaChunkModel
 from models.enums import AssetTypeEnum
@@ -312,7 +313,7 @@ async def get_main_ideas(
   Retrieves main ideas along with their associated chunk counts.
 
   Args:
-      project_id: MongoDB ObjectId of the project
+      project_id: String id of the project
       limit: Maximum number of ideas to return (0 = no limit)
 
   Returns:
@@ -348,7 +349,7 @@ async def get_main_ideas(
       "title": idea.main_idea_name,
       "summary": idea.main_idea_summary,
       "rank": idea.main_idea_rank,
-      "chunk_count": len(idea.main_idea_chunk_ids) if idea.main_idea_chunk_ids else 0
+      "chunk_count": len(ideas) if ideas else 0
     }
     for idea in ideas
   ]
@@ -439,85 +440,100 @@ async def rank_main_ideas(
     status_code=status.HTTP_200_OK
 )
 async def generate_questions(
-    request: Request,
-    project_id: str,
-    generation_request: QuestionGenerationRequest,
-    settings: Settings = Depends(get_settings)
+  request: Request,
+  project_id: str,
+  generation_request: QuestionGenerationRequest,
+  settings: Settings = Depends(get_settings)
 ):
-    """
-    Generate questions from main ideas.
+  """
+  Generate questions from main ideas.
+
+  This endpoint generates different types of questions (MCQ, T/F, Short Answer)
+  based on main ideas and their associated document chunks.
+
+  Args:
+      project_id: String id of the project
+      generation_request: Request parameters
+      
+  Returns:
+      Generation results with statistics
+  """
+  
+  logger.info(f"Question generation requested: project={project_id} type={generation_request.question_type}")
+  
+  # Build Models
+  project_model = await ProjectModel.create_instance(db_client=request.app.state.db_client)
+  main_idea_model = await MainIdeaModel.create_instance(db_client=request.app.state.db_client)
+  main_idea_chunk_model = await MainIdeaChunkModel.create_instance(db_client=request.app.state.db_client)
+  chunk_model = await ChunkModel.create_instance(db_client=request.app.state.db_client)
+  
+  project = await project_model.get_project_or_create_one(project_id=project_id)
+  main_ideas_count = await main_idea_model.count_main_ideas_by_project_id(project_id=project.id)
+
+  if main_ideas_count == 0:
+    logger.error(f"No main ideas found for project {project_id}")
+    return JSONResponse(
+      status_code=status.HTTP_400_BAD_REQUEST,
+      content={
+        "signal": ResponseSignal.QUESTION_GENERATION_FAILED.value,
+        "ideas_processed": 0,
+        "questions_generated": 0,
+        "questions_by_type": {},
+        "message": "No main ideas found for the project. Please run extraction first."
+      }
+    )
+  
+  if main_ideas_count > generation_request.num_questions:
+    main_ideas = await main_idea_model.get_project_main_ideas_sample(
+      project_id=project.id,
+      sample_size=generation_request.num_questions
+    )
+    questions_per_idea = [1] * generation_request.num_questions
+  else:
+    main_ideas = await main_idea_model.get_project_main_ideas(project_id=project.id)
+    questions_per_idea = [generation_request.num_questions // main_ideas_count] * main_ideas_count
+    for i in range(generation_request.num_questions % main_ideas_count):
+      questions_per_idea[i] += 1
     
-    This endpoint generates different types of questions (MCQ, T/F, Short Answer)
-    based on main ideas and their associated document chunks.
     
-    Args:
-        project_id: MongoDB ObjectId of the project
-        generation_request: Request parameters
-        
-    Returns:
-        Generation results with statistics
-    """
-    try:
-        logger.info(f"Question generation requested: project={project_id}, "
-                   f"types={generation_request.question_types}")
-        
-        # Validate project ID
-        try:
-            project_oid = ObjectId(project_id)
-        except Exception:
-            return JSONResponse(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                content={
-                    "status": "failed",
-                    "ideas_processed": 0,
-                    "questions_generated": 0,
-                    "questions_by_type": {}
-                }
-            )
-        
-        # Initialize pipeline
-        pipeline = SavaalPipeline(
-            db_client=request.app.state.db_client,
-            vectordb_client=request.app.state.vectordb_client,
-            project_id=project_id,
-            llm_provider=request.app.state.generation_client,
-            embedding_provider=request.app.state.embedding_client,
-            template_parser=request.app.state.template_parser
-        )
-        
-        # Run question generation
-        result = await pipeline.run_question_generation(
-            project_id=project_id,
-            main_idea_ids=generation_request.main_idea_ids,
-            question_types=generation_request.question_types,
-            questions_per_idea=generation_request.questions_per_idea
-        )
-        
-        response = {
-            "status": result["status"],
-            "ideas_processed": result["ideas_processed"],
-            "questions_generated": result["questions_generated"],
-            "questions_by_type": result["questions_by_type"],
-        }
-        
-        if result["errors"]:
-            response["errors"] = result["errors"]
-        
-        status_code = status.HTTP_200_OK if result["status"] == "success" else status.HTTP_400_BAD_REQUEST
-        
-        return JSONResponse(
-            status_code=status_code,
-            content=response
-        )
-        
-    except Exception as e:
-        logger.error(f"Error in question generation: {str(e)}")
-        return JSONResponse(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={
-                "status": "failed",
-                "ideas_processed": 0,
-                "questions_generated": 0,
-                "questions_by_type": {}
-            }
-        )
+  # Build controllers
+  prompt_template_parser = PromptTemplateParser(
+    domain=project.domain,
+    language=project.language.value,
+  )
+  
+  question_controller = QuestionController(
+    generation_client=request.app.state.generation_client,
+    prompt_template_parser=prompt_template_parser,
+  )
+  
+  # Run question generation
+  questions = []
+  for main_idea, q_count in zip(main_ideas, questions_per_idea):
+    assocs = await main_idea_chunk_model.get_chunks_for_idea(main_idea_id=main_idea.id)
+    chunks = await chunk_model.get_many_chunks_by_id(chunk_ids=[assoc.chunk_id for assoc in assocs])
+    questions += await question_controller.generate_questions(
+      main_idea_summary=main_idea.main_idea_summary,
+      passages=[chunk.chunk_text for chunk in chunks],
+      num_questions=q_count,
+      question_type=generation_request.question_type
+    )
+  
+  if not questions:
+    logger.error(f"Question generation failed for project {project_id}")
+    return JSONResponse(
+      status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+      content={
+        "signal": ResponseSignal.QUESTION_GENERATION_FAILED.value,
+        "ideas_processed": len(main_ideas),
+      }
+    )
+  
+  return JSONResponse(
+    status_code=status.HTTP_200_OK,
+    content={
+      "status": ResponseSignal.QUESTION_GENERATION_SUCCESS.value,
+      "ideas_processed": len(main_ideas),
+      "questions_generated": [question.model_dump() for question in questions],
+    }
+  )
