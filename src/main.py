@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from routes import base_router, data_router, nlp_router, savaal_router
 from helpers import get_settings, Settings
 from pymongo import AsyncMongoClient
-from stores.llm import LLMProviderFactory
+from stores.llm import LLMProviderFactory, AsyncLLMProviderFactory
 from stores.llm.LLMEnums import LLMEnums
 from stores.vectordb import VectorDBProviderFactory
 from stores.vectordb.VectorDBEnums import VectorDBEnums
@@ -18,15 +18,15 @@ async def lifespan(app: FastAPI):
   app.state.mongodb_conn = AsyncMongoClient(settings.MONGODB_URL)
   app.state.db_client = app.state.mongodb_conn[settings.MONGODB_DATABASE]
   
-  llm_provider_factory = LLMProviderFactory(settings)
+  async_llm_provider_factory = AsyncLLMProviderFactory(settings)
   vector_db_factory = VectorDBProviderFactory(settings)
 
   # generation client
-  app.state.generation_client = llm_provider_factory.create(provider=settings.GENERATION_BACKEND)
+  app.state.generation_client = async_llm_provider_factory.create(provider=settings.GENERATION_BACKEND)
   app.state.generation_client.set_generation_model(model_id=settings.GENERATION_MODEL_ID)
   
   # embedding client
-  app.state.embedding_client = llm_provider_factory.create(provider=settings.EMBEDDING_BACKEND)
+  app.state.embedding_client = async_llm_provider_factory.create(provider=settings.EMBEDDING_BACKEND)
   app.state.embedding_client.set_embedding_model(model_id=settings.EMBEDDING_MODEL_ID, embedding_size=settings.EMBEDDING_MODEL_SIZE)
   
   
