@@ -59,6 +59,7 @@ class AssociateChunksRequest(BaseModel):
   """Request to associate chunks to main ideas via vector search."""
   top_k: int = 5
   main_idea_ids: Optional[List[str]] = None  # None = all ideas
+  do_reset: int = 0
 
 
 class AssociateChunksResponse(BaseModel):
