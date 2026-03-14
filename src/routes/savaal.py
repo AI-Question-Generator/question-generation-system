@@ -250,12 +250,13 @@ async def associate_chunks_to_ideas(
   main_idea_chunk_model = await MainIdeaChunkModel.create_instance(request.app.state.db_client)
 
   # Drop old associations
-  deleted_count = await main_idea_chunk_model.delete_many_associations_by_project_id(project_id=project.id)
-  logger.info(f"Deleted {deleted_count} associations for project id: {project.id}")
+  if association_request.do_reset:
+    deleted_count = await main_idea_chunk_model.delete_many_associations_by_project_id(project_id=project.id)
+    logger.info(f"Deleted {deleted_count} associations for project id: {project.id}")
 
   total_associations = 0
   for idea in ideas:
-    search_results = nlp_controller.search_chunks_metadata(
+    search_results = await nlp_controller.search_chunks_metadata(
       project=project,
       text=idea.main_idea_summary,
       limit=association_request.top_k
