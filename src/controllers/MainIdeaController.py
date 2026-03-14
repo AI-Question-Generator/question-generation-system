@@ -58,7 +58,7 @@ class MainIdeaController(BaseController):
           role=self.generation_client.enums.SYSTEM.value,
         )
       ]
-      response = self.generation_client.generate_text(
+      response = await self.generation_client.generate_text(
         prompt=user_message,
         chat_history=chat_history,
       )
@@ -95,7 +95,7 @@ class MainIdeaController(BaseController):
       )
     ]
     
-    response = self.generation_client.generate_structured_text(
+    response = await self.generation_client.generate_structured_text(
       prompt=user_message,
       chat_history=chat_history,
       response_model=response_model
@@ -133,7 +133,7 @@ class MainIdeaController(BaseController):
       )
     ]
     
-    response = self.generation_client.generate_structured_text(
+    response = await self.generation_client.generate_structured_text(
       prompt=user_message,
       chat_history=chat_history,
       response_model=response_model
@@ -171,7 +171,7 @@ class MainIdeaController(BaseController):
       )
     ]
     
-    response = self.generation_client.generate_structured_text(
+    response = await self.generation_client.generate_structured_text(
       prompt=user_message,
       chat_history=chat_history,
       response_model=response_model
