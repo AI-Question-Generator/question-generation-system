@@ -167,9 +167,10 @@ class MainIdeaChunkModel(BaseDataModel):
   ) -> Optional[List[MainIdeaChunk]]:
     "Retrieve all main idea-chunk associations for a specific project. Useful for project-level analysis or cleanup."
     
-    records = await self.collection.find({
-    "project_id": project_id
-    })
+    cursor = self.collection.find(
+      {"project_id": project_id}
+      )
+    records = await cursor.to_list(length=None)
     
     return [MainIdeaChunk(**record) for record in records] if records else None
   
