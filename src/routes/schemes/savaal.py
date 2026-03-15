@@ -28,8 +28,8 @@ class MainIdeaRankResponse(BaseModel):
 
 class QuestionGenerationRequest(BaseModel):
   """Request to generate questions from main ideas."""
-  num_questions: int = 5
-  question_type: QuestionTypeEnum  # ["mcq", "tf", "short_answer"]
+  num_questions: int = Field(..., gt=0, description="The number of questions to generate.")
+  question_type: QuestionTypeEnum
 
 
 class QuestionGenerationResponse(BaseModel):
