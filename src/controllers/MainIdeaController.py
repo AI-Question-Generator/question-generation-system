@@ -38,11 +38,16 @@ class MainIdeaController(BaseController):
     
     tasks = []
     for section in sections:
-      system_message, user_message, response_model = self.prompt_template_parser.get(
+      result = self.prompt_template_parser.get(
         "main_idea",
         "extract_prompt",
         {"context": section}
       )
+      
+      if result is None:
+        continue
+      
+      system_message, user_message, response_model = result
             
       if not system_message or not user_message:
         logger.error("Extraction prompt template not found")
@@ -76,12 +81,17 @@ class MainIdeaController(BaseController):
     
     context = "\n\n".join(candidates)
     
-    system_message, user_message, response_model = self.prompt_template_parser.get(
+    result = self.prompt_template_parser.get(
         "main_idea",
         "combine_prompt",
         {"context": context}
     )
     
+    if result is None:
+      return []
+      
+    system_message, user_message, response_model = result
+      
     if not system_message or not user_message:
       logger.error("Combining prompt template not found")
       return []
@@ -114,12 +124,17 @@ class MainIdeaController(BaseController):
     
     context = candidates
     
-    system_message, user_message, response_model = self.prompt_template_parser.get(
+    result = self.prompt_template_parser.get(
         "main_idea",
         "reduce_prompt",
         {"limit": limit, "context": context}
     )
     
+    if result is None:
+        return []
+      
+    system_message, user_message, response_model = result
+      
     if not system_message or not user_message:
       logger.error("Reducing prompt template not found")
       return []
@@ -156,11 +171,16 @@ class MainIdeaController(BaseController):
       for i, idea in enumerate(ideas, 1)
     ])
     
-    system_message, user_message, response_model = self.prompt_template_parser.get(
+    result = self.prompt_template_parser.get(
         "main_idea",
         "rank_prompt",
         {"context": context}
     )
+    
+    if result is None:
+        return []
+      
+    system_message, user_message, response_model = result
     
     if not system_message or not user_message:
       logger.error("Ranking prompt template not found")
