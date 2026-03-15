@@ -54,8 +54,8 @@ class MainIdeaController(BaseController):
         continue
       
       if not isinstance(user_message, str) or not isinstance(system_message, str):
-          logger.error("Invalid prompt template format for main idea extraction")
-          continue
+        logger.error("Invalid prompt template format for main idea extraction")
+        continue
       
       chat_history = [
         self.generation_client.construct_prompt(
@@ -82,9 +82,9 @@ class MainIdeaController(BaseController):
     context = "\n\n".join(candidates)
     
     result = self.prompt_template_parser.get(
-        "main_idea",
-        "combine_prompt",
-        {"context": context}
+      "main_idea",
+      "combine_prompt",
+      {"context": context}
     )
     
     if result is None:
@@ -97,8 +97,8 @@ class MainIdeaController(BaseController):
       return []
     
     if not isinstance(user_message, str) or not isinstance(system_message, str):
-        logger.error("Invalid prompt template format for main idea combining")
-        return []
+      logger.error("Invalid prompt template format for main idea combining")
+      return []
     
     chat_history = [
       self.generation_client.construct_prompt(
@@ -125,9 +125,9 @@ class MainIdeaController(BaseController):
     context = candidates
     
     result = self.prompt_template_parser.get(
-        "main_idea",
-        "reduce_prompt",
-        {"limit": limit, "context": context}
+      "main_idea",
+      "reduce_prompt",
+      {"limit": limit, "context": context}
     )
     
     if result is None:
@@ -172,9 +172,9 @@ class MainIdeaController(BaseController):
     ])
     
     result = self.prompt_template_parser.get(
-        "main_idea",
-        "rank_prompt",
-        {"context": context}
+      "main_idea",
+      "rank_prompt",
+      {"context": context}
     )
     
     if result is None:
