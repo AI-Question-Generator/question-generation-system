@@ -555,5 +555,6 @@ async def batch_generate_questions(
 
 
   return BatchQuestionGenerationResponse(
+    status_code=status.HTTP_200_OK,
     results=overall_results
   )

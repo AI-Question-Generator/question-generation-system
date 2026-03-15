@@ -90,4 +90,5 @@ class ProjectGenerationResult(BaseModel):
 
 class BatchQuestionGenerationResponse(BaseModel):
   """The response model for the batch generation endpoint."""
+  status_code: int = Field(..., description="HTTP status code of the response.")
   results: List[ProjectGenerationResult]
