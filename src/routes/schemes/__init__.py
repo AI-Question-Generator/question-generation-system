@@ -10,4 +10,8 @@ from .savaal import (
   QuestionGenerationResponse,
   AssociateChunksRequest,
   AssociateChunksResponse,
+  BatchQuestionGenerationRequest,
+  BatchQuestionGenerationResponse,
+  ProjectGenerationResult,
+  GenerationResult
 )

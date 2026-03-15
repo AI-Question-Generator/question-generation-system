@@ -1,7 +1,7 @@
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from models.enums.QuestionEnum import QuestionTypeEnum
-from stores.llm.templates.response_models.questions import BaseQuestion
+from stores.llm.templates.response_models.questions import QuestionType
 
 # Request/Response Models
 class MainIdeaExtractionRequest(BaseModel):
@@ -26,17 +26,6 @@ class MainIdeaRankResponse(BaseModel):
   signal: str
   ranked_count: int
 
-class QuestionGenerationRequest(BaseModel):
-  """Request to generate questions from main ideas."""
-  num_questions: int = Field(..., gt=0, description="The number of questions to generate.")
-  question_type: QuestionTypeEnum
-
-
-class QuestionGenerationResponse(BaseModel):
-  """Response from question generation."""
-  signal: str
-  ideas_processed: int
-  questions_generated: List[type[BaseQuestion]]
 
 
 class MainIdeaResponse(BaseModel):
@@ -68,3 +57,37 @@ class AssociateChunksResponse(BaseModel):
   ideas_processed: int
   total_associations: int
   message: str
+
+class QuestionGenerationRequest(BaseModel):
+  """Request to generate questions from main ideas."""
+  num_questions: int = Field(..., gt=0, description="The number of questions to generate.")
+  question_type: QuestionTypeEnum
+
+class QuestionGenerationResponse(BaseModel):
+  """Response from question generation."""
+  signal: str
+  ideas_processed: int
+  questions_generated: List[QuestionType]
+
+class ProjectGenerationRequest(BaseModel):
+  """A single project's question generation task."""
+  project_id: str = Field(..., description="The ID of the project.")
+  requests: List[QuestionGenerationRequest] = Field(..., description="A list of question generation requests for the project.")
+
+class BatchQuestionGenerationRequest(BaseModel):
+  """The request model for batch question generation."""
+  tasks: List[ProjectGenerationRequest] = Field(..., description="A list of generation tasks for multiple projects.")
+
+class GenerationResult(BaseModel):
+  """The result of a single question generation request."""
+  question_type: str
+  questions: QuestionGenerationResponse
+
+class ProjectGenerationResult(BaseModel):
+  """The overall result for a single project's generation task."""
+  project_id: str
+  results: List[GenerationResult]
+
+class BatchQuestionGenerationResponse(BaseModel):
+  """The response model for the batch generation endpoint."""
+  results: List[ProjectGenerationResult]
