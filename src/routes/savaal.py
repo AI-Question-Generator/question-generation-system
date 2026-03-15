@@ -471,6 +471,7 @@ async def generate_questions(
   project = await project_model.get_project_or_create_one(project_id=project_id)
   main_ideas_count = await main_idea_model.count_main_ideas_by_project_id(project_id=project.id)
 
+  # Check that the project actually has main ideas.
   if main_ideas_count == 0:
     logger.error(f"No main ideas found for project {project_id}")
     return JSONResponse(
@@ -484,6 +485,7 @@ async def generate_questions(
       }
     )
   
+  # Determine questions per idea distribution
   if main_ideas_count > generation_request.num_questions:
     main_ideas = await main_idea_model.get_project_main_ideas_sample(
       project_id=project.id,
