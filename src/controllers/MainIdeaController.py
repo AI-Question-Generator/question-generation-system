@@ -36,7 +36,7 @@ class MainIdeaController(BaseController):
 
     # Check cache first
     
-    results = []
+    tasks = []
     for section in sections:
       system_message, user_message, response_model = self.prompt_template_parser.get(
         "main_idea",
@@ -46,11 +46,11 @@ class MainIdeaController(BaseController):
             
       if not system_message or not user_message:
         logger.error("Extraction prompt template not found")
-        return []
+        continue
       
       if not isinstance(user_message, str) or not isinstance(system_message, str):
           logger.error("Invalid prompt template format for main idea extraction")
-          return []
+          continue
       
       chat_history = [
         self.generation_client.construct_prompt(
@@ -58,13 +58,15 @@ class MainIdeaController(BaseController):
           role=self.generation_client.enums.SYSTEM.value,
         )
       ]
-      response = await self.generation_client.generate_text(
+      
+      task = self.generation_client.generate_text(
         prompt=user_message,
         chat_history=chat_history,
       )
-      results.append(response)
+      tasks.append(task)
     
-    return results
+    results = await asyncio.gather(*tasks)
+    return [result for result in results if result is not None]
   
   async def combine_candidates(self, candidates: list[str]) -> List[rm.MainIdea]:
     
