@@ -10,6 +10,7 @@ from models.ChunkModel import ChunkModel
 from models.db_schemas import MainIdea, MainIdeaChunk
 from models.MainIdeaChunkModel import MainIdeaChunkModel
 from models.enums import AssetTypeEnum
+from stores.llm.templates.response_models.questions import BaseQuestion
 from stores.llm.templates.template_parser import PromptTemplateParser
 import stores.llm.templates.response_models as rm
 from langchain_core.documents.base import Document
@@ -24,8 +25,13 @@ from .schemes import (
   QuestionGenerationRequest,
   QuestionGenerationResponse,
   AssociateChunksRequest,
-  AssociateChunksResponse
+  AssociateChunksResponse,
+  BatchQuestionGenerationRequest,
+  BatchQuestionGenerationResponse,
+  ProjectGenerationResult,
+  GenerationResult,
   )
+import asyncio
 import logging
 
 
@@ -436,107 +442,118 @@ async def rank_main_ideas(
 
 
 @savaal_router.post(
-    "/generate/{project_id}",
-    response_model=QuestionGenerationResponse,
-    status_code=status.HTTP_200_OK
+  "/generate",
+  response_model=BatchQuestionGenerationResponse,
+  status_code=status.HTTP_200_OK
 )
-async def generate_questions(
+async def batch_generate_questions(
   request: Request,
-  project_id: str,
-  generation_request: QuestionGenerationRequest,
+  batch_request: BatchQuestionGenerationRequest,
   settings: Settings = Depends(get_settings)
 ):
   """
-  Generate questions from main ideas.
-
-  This endpoint generates different types of questions (MCQ, T/F, Short Answer)
-  based on main ideas and their associated document chunks.
-
-  Args:
-      project_id: String id of the project
-      generation_request: Request parameters
-      
-  Returns:
-      Generation results with statistics
+  Generate questions in batch from main ideas for multiple projects.
   """
-  
-  logger.info(f"Question generation requested: project={project_id} type={generation_request.question_type}")
-  
+  logger.info(f"Batch question generation requested for {len(batch_request.tasks)} projects.")
+
   # Build Models
   project_model = await ProjectModel.create_instance(db_client=request.app.state.db_client)
   main_idea_model = await MainIdeaModel.create_instance(db_client=request.app.state.db_client)
   main_idea_chunk_model = await MainIdeaChunkModel.create_instance(db_client=request.app.state.db_client)
   chunk_model = await ChunkModel.create_instance(db_client=request.app.state.db_client)
-  
-  project = await project_model.get_project_or_create_one(project_id=project_id)
-  main_ideas_count = await main_idea_model.count_main_ideas_by_project_id(project_id=project.id)
 
-  # Check that the project actually has main ideas.
-  if main_ideas_count == 0:
-    logger.error(f"No main ideas found for project {project_id}")
-    return JSONResponse(
-      status_code=status.HTTP_400_BAD_REQUEST,
-      content={
-        "signal": ResponseSignal.QUESTION_GENERATION_FAILED.value,
-        "ideas_processed": 0,
-        "questions_generated": 0,
-        "questions_by_type": {},
-        "message": "No main ideas found for the project. Please run extraction first."
-      }
-    )
-  
-  # Determine questions per idea distribution
-  if main_ideas_count > generation_request.num_questions:
-    main_ideas = await main_idea_model.get_project_main_ideas_sample(
-      project_id=project.id,
-      sample_size=generation_request.num_questions
-    )
-    questions_per_idea = [1] * generation_request.num_questions
-  else:
-    main_ideas = await main_idea_model.get_project_main_ideas(project_id=project.id)
-    questions_per_idea = [generation_request.num_questions // main_ideas_count] * main_ideas_count
-    for i in range(generation_request.num_questions % main_ideas_count):
-      questions_per_idea[i] += 1
+  overall_results = []
+
+  for project_task in batch_request.tasks:
+    project_id = project_task.project_id
+    project_results = []
     
+    project = await project_model.get_project_or_create_one(project_id=project_id)
     
-  # Build controllers
-  prompt_template_parser = PromptTemplateParser(
-    domain=project.domain,
-    language=project.language.value,
-  )
-  
-  question_controller = QuestionController(
-    generation_client=request.app.state.generation_client,
-    prompt_template_parser=prompt_template_parser,
-  )
-  
-  # Run question generation
-  questions = []
-  for main_idea, q_count in zip(main_ideas, questions_per_idea):
-    assocs = await main_idea_chunk_model.get_chunks_for_idea(main_idea_id=main_idea.id)
-    chunks = await chunk_model.get_many_chunks_by_id(chunk_ids=[assoc.chunk_id for assoc in assocs])
-    questions += await question_controller.generate_questions(
-      main_idea_summary=main_idea.main_idea_summary,
-      passages=[chunk.chunk_text for chunk in chunks],
-      num_questions=q_count,
-      question_type=generation_request.question_type
+    # Build controllers
+    prompt_template_parser = PromptTemplateParser(
+      domain=project.domain,
+      language=project.language.value,
     )
-  
-  if not questions:
-    logger.error(f"Question generation failed for project {project_id}")
-    return JSONResponse(
-      status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-      content={
-        "signal": ResponseSignal.QUESTION_GENERATION_FAILED.value,
-        "ideas_processed": len(main_ideas),
-      }
+    question_controller = QuestionController(
+      generation_client=request.app.state.generation_client,
+      prompt_template_parser=prompt_template_parser,
     )
-  
-  return JSONResponse(
-    status_code=status.HTTP_200_OK,
-    content={
-      "status": ResponseSignal.QUESTION_GENERATION_SUCCESS.value,
-      "ideas_processed": len(main_ideas),
-      "questions_generated": [question.model_dump() for question in questions],
-    }
+
+    for generation_request in project_task.requests:
+      questions = []
+      main_ideas = []
+      main_ideas_count = await main_idea_model.count_main_ideas_by_project_id(project_id=project.id)
+
+      if main_ideas_count == 0:
+        logger.error(f"Error generating questions for project {project_id}, type {generation_request.question_type.value}: Project has no main ideas.")
+        project_results.append(GenerationResult(
+          signal=ResponseSignal.QUESTION_GENERATION_FAILED.value,
+          question_type=generation_request.question_type.value,
+          questions=[]
+        ))
+        continue
+
+      if main_ideas_count > generation_request.num_questions:
+        main_ideas = await main_idea_model.get_project_main_ideas(project_id=project.id, top=generation_request.num_questions)
+        questions_per_idea = [1] * len(main_ideas)
+      else:
+        main_ideas = await main_idea_model.get_project_main_ideas(project_id=project.id)
+        questions_per_idea = [generation_request.num_questions // main_ideas_count] * main_ideas_count
+        for i in range(generation_request.num_questions % main_ideas_count):
+          questions_per_idea[i] += 1
+
+      q_tasks = []
+      for main_idea, q_count in zip(main_ideas, questions_per_idea):
+        if q_count == 0:
+          continue
+        
+        context_chunks = await main_idea_chunk_model.get_chunks_for_idea(main_idea_id=main_idea.id)
+        if not context_chunks:
+          logger.error(f"No context chunks found for main idea {main_idea.id} - '{main_idea.main_idea_summary[:30]}...'")
+          project_results.append(GenerationResult(
+            question_type=generation_request.question_type.value,
+            questions=QuestionGenerationResponse(
+              signal=ResponseSignal.QUESTION_GENERATION_FAILED.value,
+              ideas_processed=0,
+              questions_generated=[]
+            )
+          ))
+          break
+        
+        chunk_ids = [c.chunk_id for c in context_chunks]
+        chunks = await chunk_model.get_many_chunks_by_id(chunk_ids=chunk_ids)
+        passages = [chunk.chunk_text for chunk in chunks]
+        
+        generated_q_task = question_controller.generate_questions(
+          main_idea_summary=main_idea.main_idea_summary,
+          passages=passages,
+          question_type=generation_request.question_type,
+          num_questions=q_count
+        )
+        q_tasks.append(generated_q_task)
+      
+      results = await asyncio.gather(*q_tasks)
+      
+      questions_generated: List[BaseQuestion] = []
+      for result in results:
+        questions_generated.extend(result)
+              
+      project_results.append(GenerationResult(
+        question_type=generation_request.question_type.value,
+        questions= QuestionGenerationResponse(
+          signal=ResponseSignal.QUESTION_GENERATION_SUCCESS.value,
+          ideas_processed= len(main_ideas),
+          questions_generated= questions_generated
+        )
+      ))
+
+    overall_results.append(ProjectGenerationResult(
+      project_id=project_id,
+      results=project_results
+    ))
+
+
+  return BatchQuestionGenerationResponse(
+    results=overall_results
   )
