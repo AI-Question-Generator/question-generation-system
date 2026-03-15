@@ -40,7 +40,6 @@ class MainIdeaResponse(BaseModel):
 class MainIdeasListResponse(BaseModel):
   """Response containing list of main ideas."""
   project_id: str
-  main_ideas_count: int
   main_ideas: List[MainIdeaResponse]
 
 
