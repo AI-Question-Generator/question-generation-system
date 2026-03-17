@@ -18,3 +18,10 @@ langchain-community==0.4.1
 json-repair==0.58.3
 jsonschema==4.26.0
 uvloop==0.22.1
+
+# Monitoring & metrics
+prometheus-client==0.24.1
+starlette-exporter==0.23.0
+
+# Health checks
+fastapi-health==0.4.0

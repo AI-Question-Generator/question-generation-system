@@ -8,6 +8,7 @@ dependencies = [
     "aiofiles==25.1.0",
     "cohere==5.20.6",
     "fastapi>=0.128.0",
+    "fastapi-health==0.4.0",
     "google-genai==1.62.0",
     "ipykernel>=7.1.0",
     "json-repair==0.58.3",
@@ -16,6 +17,7 @@ dependencies = [
     "langchain-community==0.4.1",
     "langchain-text-splitters==1.1.0",
     "openai==2.24.0",
+    "prometheus-client==0.24.1",
     "pydantic>=2.12.5",
     "pydantic-settings>=2.7.0",
     "pymongo==4.16.0",
@@ -23,6 +25,7 @@ dependencies = [
     "python-dotenv>=1.2.0",
     "python-multipart==0.0.22",
     "qdrant-client==1.16.0",
+    "starlette-exporter==0.23.0",
     "uvicorn[standard]>=0.39.0",
     "uvloop==0.22.1",
 ]
