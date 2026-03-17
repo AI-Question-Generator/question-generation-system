@@ -24,4 +24,5 @@ dependencies = [
     "python-multipart==0.0.22",
     "qdrant-client==1.16.0",
     "uvicorn[standard]>=0.39.0",
+    "uvloop==0.22.1",
 ]
