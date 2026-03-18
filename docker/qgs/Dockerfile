@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY src/requirements.txt .
 
-RUN uv pip install -r requirements --system
+RUN uv pip install -r requirements.txt --system
 
 COPY src/ .
 
