@@ -1,53 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "10.1.5"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "state-timeline",
-      "name": "State timeline",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "text",
-      "name": "Text",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -74,9 +25,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 2,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
@@ -94,7 +44,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "",
       "fieldConfig": {
@@ -108,7 +58,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "dark-red",
@@ -136,6 +86,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -143,9 +94,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.1.5",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -165,7 +118,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Mongodb Service Uptime in hours",
       "fieldConfig": {
@@ -179,7 +132,7 @@
             "steps": [
               {
                 "color": "#65882d",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -199,6 +152,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -206,13 +160,15 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {
           "titleSize": 15,
           "valueSize": 15
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.1.5",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -232,7 +188,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "The number of incoming connections from clients to the database server. This number includes the current shell session. Consider the value of connections.available to add more context to this datum.",
       "fieldConfig": {
@@ -246,7 +202,7 @@
             "steps": [
               {
                 "color": "semi-dark-green",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -265,6 +221,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -272,13 +229,15 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {
           "titleSize": 15,
           "valueSize": 15
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.1.5",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -298,7 +257,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Count of all incoming connections created to the server. This number includes connections that have since closed.",
       "fieldConfig": {
@@ -312,7 +271,7 @@
             "steps": [
               {
                 "color": "semi-dark-green",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -331,6 +290,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -338,13 +298,15 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {
           "titleSize": 15,
           "valueSize": 15
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.1.5",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -364,7 +326,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "The number of unused incoming connections available. Consider this value in combination with the value of connections.current to understand the connection load on the database, and the UNIX ulimit Settings document for more information about system thresholds on available connections.",
       "fieldConfig": {
@@ -378,7 +340,7 @@
             "steps": [
               {
                 "color": "semi-dark-green",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -397,6 +359,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -404,13 +367,15 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {
           "titleSize": 15,
           "valueSize": 15
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.1.5",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -430,7 +395,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "The number of active client connections to the server. Active client connections refers to client connections that currently have operations in progress.",
       "fieldConfig": {
@@ -444,7 +409,7 @@
             "steps": [
               {
                 "color": "semi-dark-green",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -463,6 +428,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "horizontal",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -470,13 +436,15 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {
           "titleSize": 15,
           "valueSize": 15
         },
-        "textMode": "auto"
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.1.5",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -494,11 +462,11 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
       "description": "",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
       "gridPos": {
         "h": 2,
         "w": 24,
@@ -515,14 +483,14 @@
         "content": "A document that reports on database operations by type since the mongod instance last started. These numbers will grow over time until next restart. Analyze these values over time to track database utilization.",
         "mode": "markdown"
       },
-      "pluginVersion": "10.1.5",
+      "pluginVersion": "12.3.5",
       "title": "opcounters",
       "type": "text"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "The total number of insert operations received since the mongod instance last started.",
       "fieldConfig": {
@@ -531,11 +499,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -552,6 +522,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -567,7 +538,7 @@
             "steps": [
               {
                 "color": "dark-yellow",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -590,11 +561,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "8.5.3",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -614,7 +586,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "The total number of update operations received since the mongod instance last started.",
       "fieldConfig": {
@@ -623,11 +595,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -644,6 +618,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -659,7 +634,7 @@
             "steps": [
               {
                 "color": "dark-yellow",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -682,11 +657,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "8.5.3",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -706,7 +682,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "The total number of commands issued to the database since the mongod instance last started.\n\nopcounters.command counts all commands except the write commands: insert, update, and delete.",
       "fieldConfig": {
@@ -715,11 +691,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -736,6 +714,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -751,7 +730,7 @@
             "steps": [
               {
                 "color": "dark-yellow",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -774,11 +753,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "8.5.3",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -798,7 +778,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "The total number of queries received since the mongod instance last started.",
       "fieldConfig": {
@@ -807,11 +787,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -828,6 +810,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -843,7 +826,7 @@
             "steps": [
               {
                 "color": "dark-yellow",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -866,11 +849,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "8.5.3",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -890,7 +874,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "The total number of delete operations since the mongod instance last started.",
       "fieldConfig": {
@@ -899,11 +883,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -920,6 +906,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -935,7 +922,7 @@
             "steps": [
               {
                 "color": "dark-yellow",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -958,11 +945,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "8.5.3",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -982,7 +970,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "The total number of getMore operations since the mongod instance last started. This counter can be high even if the query count is low. Secondary nodes send getMore operations as part of the replication process.",
       "fieldConfig": {
@@ -991,11 +979,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1012,6 +1002,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1027,7 +1018,7 @@
             "steps": [
               {
                 "color": "dark-yellow",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -1050,11 +1041,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "8.5.3",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -1074,7 +1066,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Number of collections in the database.",
       "fieldConfig": {
@@ -1083,6 +1075,7 @@
             "mode": "continuous-GrYlRd"
           },
           "custom": {
+            "axisPlacement": "auto",
             "fillOpacity": 60,
             "hideFrom": {
               "legend": false,
@@ -1099,7 +1092,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -1124,10 +1117,12 @@
         "rowHeight": 0.93,
         "showValue": "always",
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -1147,7 +1142,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Total number of indexes across all collections in the database.",
       "fieldConfig": {
@@ -1156,6 +1151,7 @@
             "mode": "continuous-GrYlRd"
           },
           "custom": {
+            "axisPlacement": "auto",
             "fillOpacity": 60,
             "hideFrom": {
               "legend": false,
@@ -1172,7 +1168,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -1197,10 +1193,12 @@
         "rowHeight": 0.93,
         "showValue": "always",
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -1220,7 +1218,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Number of views in the database.",
       "fieldConfig": {
@@ -1229,6 +1227,7 @@
             "mode": "continuous-GrYlRd"
           },
           "custom": {
+            "axisPlacement": "auto",
             "fillOpacity": 60,
             "hideFrom": {
               "legend": false,
@@ -1245,7 +1244,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -1270,10 +1269,12 @@
         "rowHeight": 0.93,
         "showValue": "always",
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -1293,7 +1294,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Sum of the space allocated to all collections in the database for document storage, including free space.",
       "fieldConfig": {
@@ -1302,11 +1303,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1323,6 +1326,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1338,7 +1342,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -1365,10 +1369,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -1388,7 +1394,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Sum of the space allocated to all indexes in the database, including free index space.",
       "fieldConfig": {
@@ -1397,11 +1403,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1418,6 +1426,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1433,7 +1442,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -1460,10 +1469,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -1496,7 +1507,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -1509,7 +1520,7 @@
             "steps": [
               {
                 "color": "semi-dark-blue",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -1528,6 +1539,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1535,12 +1547,14 @@
           "fields": "",
           "values": false
         },
+        "showPercentChange": false,
         "text": {
           "valueSize": 30
         },
-        "textMode": "name"
+        "textMode": "name",
+        "wideLayout": true
       },
-      "pluginVersion": "10.1.5",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -1554,12 +1568,13 @@
           "refId": "A"
         }
       ],
+      "title": "",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "This metric can show a correlation with the replication lag value.",
       "fieldConfig": {
@@ -1568,11 +1583,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -1589,6 +1606,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1604,7 +1622,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               },
               {
                 "color": "red",
@@ -1633,10 +1651,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -1656,7 +1676,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "The oplog (operations log) is a special capped collection that keeps a rolling record of all operations that modify the data stored in your databases.",
       "fieldConfig": {
@@ -1665,11 +1685,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 14,
             "gradientMode": "none",
@@ -1686,6 +1708,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1701,7 +1724,7 @@
             "steps": [
               {
                 "color": "dark-yellow",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -1740,11 +1763,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
-      "pluginVersion": "8.5.3",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -1764,7 +1788,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "fieldConfig": {
         "defaults": {
@@ -1777,7 +1801,7 @@
             "steps": [
               {
                 "color": "semi-dark-blue",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -1796,6 +1820,7 @@
         "graphMode": "none",
         "justifyMode": "center",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1803,9 +1828,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "name"
+        "showPercentChange": false,
+        "textMode": "name",
+        "wideLayout": true
       },
-      "pluginVersion": "10.1.5",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -1819,12 +1846,13 @@
           "refId": "A"
         }
       ],
+      "title": "",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "MongoDB replication lag occurs when the secondary node cannot replicate data fast enough to keep up with the rate that data is being written to the primary node. It could be caused by something as simple as network latency, packet loss within your network, or a routing issue.",
       "fieldConfig": {
@@ -1833,11 +1861,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 22,
             "gradientMode": "none",
@@ -1854,6 +1884,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -1869,7 +1900,7 @@
             "steps": [
               {
                 "color": "green",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -1897,10 +1928,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -1920,7 +1953,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "This shows the time since the last election.",
       "fieldConfig": {
@@ -1934,7 +1967,7 @@
             "steps": [
               {
                 "color": "dark-green",
-                "value": null
+                "value": 0
               }
             ]
           },
@@ -1954,6 +1987,7 @@
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1961,9 +1995,11 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "10.1.5",
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -1993,7 +2029,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Cursor is a pointer, and using this pointer we can access the document. cursor.timeOut property was updated incrementally, and connections that died without closing the cursor. The consequence is that it will remain open on the server and consume memory unless it is reaped by the default MongoDB setting.",
       "fieldConfig": {
@@ -2002,11 +2038,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 9,
             "gradientMode": "none",
@@ -2023,6 +2061,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -2038,7 +2077,7 @@
             "steps": [
               {
                 "color": "semi-dark-orange",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -2064,10 +2103,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -2087,7 +2128,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "PBFA97CFB590B2093"
       },
       "description": "Number of cursors currently opened by MongoDB for clients",
       "fieldConfig": {
@@ -2096,11 +2137,13 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
+            "barWidthFactor": 0.6,
             "drawStyle": "line",
             "fillOpacity": 0,
             "gradientMode": "none",
@@ -2117,6 +2160,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
+            "showValues": false,
             "spanNulls": false,
             "stacking": {
               "group": "A",
@@ -2132,7 +2176,7 @@
             "steps": [
               {
                 "color": "semi-dark-orange",
-                "value": null
+                "value": 0
               }
             ]
           }
@@ -2158,10 +2202,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "single",
           "sort": "none"
         }
       },
+      "pluginVersion": "12.3.5",
       "targets": [
         {
           "datasource": {
@@ -2179,9 +2225,9 @@
       "type": "timeseries"
     }
   ],
+  "preload": false,
   "refresh": "",
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 42,
   "tags": [],
   "templating": {
     "list": [
@@ -2192,10 +2238,8 @@
           "uid": "prometheus"
         },
         "definition": "label_values(mongodb_up,app_kubernetes_io_instance)",
-        "hide": 0,
         "includeAll": false,
         "label": "cluster",
-        "multi": false,
         "name": "cluster",
         "options": [],
         "query": {
@@ -2204,8 +2248,6 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       },
       {
@@ -2215,10 +2257,8 @@
           "uid": "prometheus"
         },
         "definition": "label_values(mongodb_up{app_kubernetes_io_instance=\"$cluster\"},instance)",
-        "hide": 0,
         "includeAll": false,
         "label": "Instance",
-        "multi": false,
         "name": "instance",
         "options": [],
         "query": {
@@ -2227,8 +2267,6 @@
         },
         "refresh": 2,
         "regex": "",
-        "skipUrlSync": false,
-        "sort": 0,
         "type": "query"
       }
     ]
@@ -2241,7 +2279,5 @@
   "timezone": "",
   "title": "Mongodb Dashboard",
   "uid": "fb83c1b6-953f-482c-99d9-aeec370ac29a",
-  "version": 9,
-  "weekStart": "",
-  "gnetId": 20867
+  "version": 4
 }
