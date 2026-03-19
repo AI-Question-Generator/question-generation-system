@@ -49,13 +49,11 @@ class AssociateChunksRequest(BaseModel):
   main_idea_ids: Optional[List[str]] = None  # None = all ideas
   do_reset: int = 0
 
-
 class AssociateChunksResponse(BaseModel):
   """Response from chunk association."""
   signal: str
   ideas_processed: int
   total_associations: int
-  message: str
 
 class QuestionGenerationRequest(BaseModel):
   """Request to generate questions from main ideas."""
