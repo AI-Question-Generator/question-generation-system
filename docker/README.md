@@ -135,10 +135,9 @@ https://grafana.com/grafana/dashboards/18739-fastapi-observability/
 
 https://grafana.com/grafana/dashboards/1860-node-exporter-full/
 
-https://grafana.com/grafana/dashboards/23033-qdrant/
+https://grafana.com/grafana/dashboards/24603-qdrant-prometheus-metrics-only-by-divakar-r/
 
-https://grafana.com/grafana/dashboards/12485-mongodb-exporter/
-
+https://grafana.com/grafana/dashboards/20867-mongodb-dashboard/
 
 ## Development Workflow
 
