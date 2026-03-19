@@ -31,6 +31,8 @@ class Settings(BaseSettings):
   
   VECTOR_DB_BACKEND: str
   VECTOR_DB_PATH: str
+  VECTOR_DB_LOCATION: str
+  VECTOR_DB_PORT: int
   VECTOR_DB_DISTANCE_METHOD: str = None
 
   PRIMARY_LANG: str 

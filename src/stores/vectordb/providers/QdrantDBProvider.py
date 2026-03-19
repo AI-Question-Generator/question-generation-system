@@ -9,10 +9,12 @@ import uuid
 
 class QdrantDBProvider(VectorDBInterface):
   
-  def __init__(self, db_path: str, distance_method: str ):
+  def __init__(self, db_path: Optional[str] = None, location: Optional[str] = None, port: Optional[int] = 6333, distance_method: str = "cosine"):
     
     self.client = None
     self.db_path = db_path
+    self.location = location
+    self.port = port
     self.distance_method = None
     
     if distance_method == DistanceMethodEnums.COSINE.value:
@@ -23,7 +25,10 @@ class QdrantDBProvider(VectorDBInterface):
     self.logger = logging.getLogger(__name__)
     
   def connect(self):
-    self.client = QdrantClient(path=self.db_path)
+    if self.location and self.port: # Remote
+      self.client = QdrantClient(location=self.location, port=self.port)
+    else: # On Disk
+      self.client = QdrantClient(path=self.db_path)
     
   def disconnect(self):
     self.client = None
