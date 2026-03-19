@@ -8,8 +8,8 @@ class MainIdeaExtractionRequest(BaseModel):
   """Request to start main idea extraction pipeline."""
   asset_name: Optional[str] = None
   section_size: int = 2000
-  limit: Optional[int] = None
-  do_reset: int = 0
+  limit: Optional[int] = Field(None, gt=0, description="Limit the number of main ideas to extract. Default is no limit.")
+  do_reset: int = Field(0, description="Whether to entirely delete existing main ideas for the project before extraction. 0 = No Reset, 1 = Reset")
 
 class MainIdeaExtractionResponse(BaseModel):
   """Response from main idea extraction."""
