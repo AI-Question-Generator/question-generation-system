@@ -116,37 +116,37 @@ async def get_project_index_info(request: Request, project_id: str):
     )
     
     
-# @nlp_router.post("/index/search/{project_id}")
-# async def get_project_index_info(request: Request, project_id:str ,search_request: SearchRequest):
+@nlp_router.post("/index/search/{project_id}")
+async def search(request: Request, project_id:str ,search_request: SearchRequest):
   
-#   project_model = ProjectModel(db_client=request.app.state.db_client)
+  project_model = ProjectModel(db_client=request.app.state.db_client)
   
-  # project = await project_model.get_project_or_create_one(project_id=project_id)
+  project = await project_model.get_project_or_create_one(project_id=project_id)
   
-  # nlp_controller = NLPController(
-  #           vectordb_client=request.app.state.vectordb_client,
-  #           generation_client=request.app.state.generation_client,
-  #           embedding_client=request.app.state.embedding_client,
-  #           template_parser=request.app.state.template_parser
-  #         )
+  nlp_controller = NLPController(
+            vectordb_client=request.app.state.vectordb_client,
+            generation_client=request.app.state.generation_client,
+            embedding_client=request.app.state.embedding_client,
+            template_parser=request.app.state.template_parser
+          )
   
-  # results = await nlp_controller.search_vector_db_collection( project=project,
-  #                                             text=search_request.text,
-  #                                             limit=search_request.limit)
+  results = await nlp_controller.search_vector_db_collection( project=project,
+                                              text=search_request.text,
+                                              limit=search_request.limit)
   
-  # if not results:
-  #   return JSONResponse(
-  #     status_code=status.HTTP_400_BAD_REQUEST,
-  #     content={
-  #       "signal": ResponseSignal.VECTOR_DB_SEARCH_ERROR.value}
-  #   )
+  if not results:
+    return JSONResponse(
+      status_code=status.HTTP_400_BAD_REQUEST,
+      content={
+        "signal": ResponseSignal.VECTOR_DB_SEARCH_ERROR.value}
+    )
     
-  # return JSONResponse(
-  #   content = {
-  #     "signal": ResponseSignal.VECTOR_DB_SEARCH_SUCCESS.value,
-  #     "results": [res.dict() for res in results]
-  #   }
-  # )
+  return JSONResponse(
+    content = {
+      "signal": ResponseSignal.VECTOR_DB_SEARCH_SUCCESS.value,
+      "results": [res.dict() for res in results]
+    }
+  )
   
 
 
