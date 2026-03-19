@@ -39,12 +39,14 @@ async def upload(
   ):
   
   if not language:
+    logger.warning(f"No language is provided for project {project_id}")
     language = SupportedLanguage(settings.DEFAULT_LANG)
   
   project_model = await ProjectModel.create_instance(db_client=request.app.state.db_client)
   
   
   project = await project_model.get_project_or_create_one(project_id=project_id, language=language, domain=domain)
+  logger.info(f"Project {project_id} is created with language {language} and domain {domain}")
   
   # validate file type & validate file size 
   data_controller = DataController()
@@ -60,8 +62,10 @@ async def upload(
     
   # get project path
   project_dir_path = ProjectController().get_project_path(project_id=project_id)
+  logger.info(f"Project {project_id} directory path is {project_dir_path}")
   
   file_path, file_id = data_controller.generate_unique_filepath(orig_file_name=file.filename, project_path=project_dir_path)
+  logger.info(f"Generated file path for uploaded file {file.filename} is {file_path}")
   
   try:
     
