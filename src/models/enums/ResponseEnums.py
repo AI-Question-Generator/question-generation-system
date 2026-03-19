@@ -9,8 +9,8 @@ class ResponseSignal(Enum):
   CHUNKING_COMPLETED = "chunking process completed successfully"
   CHUNKING_FAILED = "chunking failed"
   
-  NO_FILES_IDS = "No Files Founded"
-  FILE_ID_ERROR = "No File Founded With This ID"
+  NO_FILES_IDS = "No Files Found"
+  FILE_ID_ERROR = "No File Found With This ID"
   
   PROJECT_NOT_FOUND = "Project With This ID Not Found"
   
