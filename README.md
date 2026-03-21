@@ -38,3 +38,27 @@ $ pip install -r src/requirements.txt
 ```bash
 $ uv sync
 ```
+## Setup the environment variables
+
+```bash
+cp src/.env.example src/.env
+```
+
+Set your environment variables in `src/.env` (for example, `OPENAI_API_KEY`).
+
+## Run Docker Compose Services
+
+```bash
+cd docker/env
+cp .env.example.app .env.app
+cp .env.example.mongodb .env.mongodb
+cp .env.example.grafana .env.grafana
+cp .env.example.mongodb-exporter .env.mongodb-exporter
+```
+
+- update the created files in `docker/env/` with your credentials
+
+```bash
+cd docker
+sudo docker compose up -d
+```
