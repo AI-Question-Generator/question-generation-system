@@ -69,3 +69,8 @@ sudo docker compose up -d
 cd src
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
+
+---
+
+**POSTMAN Collection**: [assets/QGS.postman.json](assets/QGS.postman.json)
+**APIDOG Collection**: [assets/QGS.apidog.json](assets/QGS.apidog.json)
