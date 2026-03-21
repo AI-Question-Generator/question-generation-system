@@ -62,3 +62,10 @@ cp .env.example.mongodb-exporter .env.mongodb-exporter
 cd docker
 sudo docker compose up -d
 ```
+
+## Run the FastAPI Server
+
+```bash
+cd src
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
