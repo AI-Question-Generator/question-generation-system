@@ -293,10 +293,20 @@ async def associate_chunks_to_ideas(
 
   logger.info(f"Chunk association complete: {total_associations} associations across {len(ideas)} ideas")
 
+  if total_associations == 0: # No associations done
+    return JSONResponse(
+      status_code=status.HTTP_200_OK,
+      content={
+        "signal": ResponseSignal.MAIN_IDEA_RETRIEVAL_FAILED.value,
+        "ideas_processed": len(ideas),
+        "total_associations": total_associations,
+      }
+    )
+  
   return JSONResponse(
     status_code=status.HTTP_200_OK,
     content={
-      "signal": ResponseSignal.MAIN_IDEA_EXTRACTION_SUCCESS.value,
+      "signal": ResponseSignal.MAIN_IDEA_RETRIEVAL_SUCCESS.value,
       "ideas_processed": len(ideas),
       "total_associations": total_associations,
     }
@@ -480,12 +490,12 @@ async def batch_generate_questions(
       prompt_template_parser=prompt_template_parser,
     )
 
+    # Process generation requests
     for generation_request in project_task.requests:
-      questions = []
       main_ideas = []
       main_ideas_count = await main_idea_model.count_main_ideas_by_project_id(project_id=project.id)
 
-      if main_ideas_count == 0:
+      if main_ideas_count == 0: # No main ideas for this project
         logger.error(f"Error generating questions for project {project_id}, type {generation_request.question_type.value}: Project has no main ideas.")
         project_results.append(GenerationResult(
           signal=ResponseSignal.QUESTION_GENERATION_FAILED.value,
@@ -495,9 +505,11 @@ async def batch_generate_questions(
         continue
 
       if main_ideas_count > generation_request.num_questions:
+        # Put a question for each main idea
         main_ideas = await main_idea_model.get_project_main_ideas(project_id=project.id, top=generation_request.num_questions)
         questions_per_idea = [1] * len(main_ideas)
       else:
+        # Distribute number of questions over main ideas
         main_ideas = await main_idea_model.get_project_main_ideas(project_id=project.id)
         questions_per_idea = [generation_request.num_questions // main_ideas_count] * main_ideas_count
         for i in range(generation_request.num_questions % main_ideas_count):
