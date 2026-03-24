@@ -34,7 +34,6 @@ class MainIdeaResponse(BaseModel):
   title: str
   summary: str
   rank: Optional[int]
-  chunk_count: Optional[int] = 0
 
 
 class MainIdeasListResponse(BaseModel):

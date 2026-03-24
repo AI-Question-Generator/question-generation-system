@@ -366,7 +366,6 @@ async def get_main_ideas(
       "title": idea.main_idea_name,
       "summary": idea.main_idea_summary,
       "rank": idea.main_idea_rank,
-      "chunk_count": len(ideas) if ideas else 0
     }
     for idea in ideas
   ]
