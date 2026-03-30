@@ -20,6 +20,7 @@ from .schemes import (
   MainIdeaExtractionRequest,
   MainIdeaExtractionResponse,
   MainIdeasListResponse,
+  MainIdeaResponse,
   MainIdeaRankRequest,
   MainIdeaRankResponse,
   QuestionGenerationRequest,
@@ -360,27 +361,21 @@ async def get_main_ideas(
     )
 
   # Convert to response format
-  ideas_response = [
-    {
-      "id": str(idea.id),
-      "title": idea.main_idea_name,
-      "summary": idea.main_idea_summary,
-      "rank": idea.main_idea_rank,
-    }
-    for idea in ideas
-  ]
-
-  # Sort by rank if available
-  ideas_response.sort(key=lambda x: x["rank"] if x["rank"] else 999)
-
-  return JSONResponse(
-    status_code=status.HTTP_200_OK,
-    content={
-      "signal": ResponseSignal.MAIN_IDEA_RETRIEVAL_SUCCESS.value,
-      "project_id": project_id,
-      "main_ideas": ideas_response,
-    }
+  ideas_response = MainIdeasListResponse(
+    signal=ResponseSignal.MAIN_IDEA_RETRIEVAL_SUCCESS.value,
+    project_id=project_id,
+    main_ideas=[
+      MainIdeaResponse(
+        id= str(idea.id),
+        title=idea.main_idea_name,
+        summary=idea.main_idea_summary,
+        rank=idea.main_idea_rank,
+      )
+      for idea in ideas
+    ]
   )
+
+  return ideas_response
 
 @savaal_router.post(
   "/rank/{project_id}",

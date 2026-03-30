@@ -38,6 +38,7 @@ class MainIdeaResponse(BaseModel):
 
 class MainIdeasListResponse(BaseModel):
   """Response containing list of main ideas."""
+  signal: Optional[str] = None
   project_id: str
   main_ideas: List[MainIdeaResponse]
 
