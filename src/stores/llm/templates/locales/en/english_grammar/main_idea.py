@@ -28,7 +28,9 @@ extract_prompt.system = Template("\n".join([
   " - Usage Rules/Patterns",
   " - Example Sentences",
   " - Common Errors to Avoid (if applicable)",
-  "...",]))
+  "...",
+  "Do not add any introductions or any conclusions. Just follow the provided output format.",
+  ]))
 
 # Main Idea Combining
 combine_prompt = main_idea.combine_prompt
