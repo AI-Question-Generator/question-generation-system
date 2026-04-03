@@ -8,7 +8,7 @@ class Project(BaseModel):
   id: Optional[ObjectId] = Field(None, alias="_id")
   project_id: str = Field(..., min_length=1)
   language: SupportedLanguage = Field(...)
-  domain: str = Field(...)
+  domain: str = Field('')
   
   model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={ObjectId: str})
   
@@ -22,7 +22,7 @@ class Project(BaseModel):
   @model_validator(mode='after')
   def validate_domain(self):
     supported_domains = get_supported_domains(self.language)
-    if self.domain not in supported_domains:
+    if self.domain and self.domain not in supported_domains:
       raise ValueError(
           f"domain '{self.domain}' is not supported for language '{self.language}'. "
           f"Supported domains: {supported_domains}"
