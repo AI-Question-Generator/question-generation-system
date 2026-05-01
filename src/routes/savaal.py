@@ -492,9 +492,12 @@ async def batch_generate_questions(
       if main_ideas_count == 0: # No main ideas for this project
         logger.error(f"Error generating questions for project {project_id}, type {generation_request.question_type.value}: Project has no main ideas.")
         project_results.append(GenerationResult(
-          signal=ResponseSignal.QUESTION_GENERATION_FAILED.value,
           question_type=generation_request.question_type.value,
-          questions=[]
+          questions=QuestionGenerationResponse(
+              signal=ResponseSignal.QUESTION_GENERATION_FAILED.value,
+              ideas_processed=0,
+              questions_generated=[]
+            )
         ))
         continue
 
