@@ -486,7 +486,6 @@ async def batch_generate_questions(
 
     # Process generation requests
     for generation_request in project_task.requests:
-      main_ideas = []
       main_ideas_count = await main_idea_model.count_main_ideas_by_project_id(project_id=project.id)
 
       if main_ideas_count == 0: # No main ideas for this project
