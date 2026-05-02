@@ -502,7 +502,7 @@ async def batch_generate_questions(
 
       if main_ideas_count > generation_request.num_questions:
         # Put a question for each main idea
-        main_ideas = await main_idea_model.get_project_main_ideas(project_id=project.id, top=generation_request.num_questions)
+        main_ideas = await main_idea_model.get_project_main_ideas_sample(project_id=project.id, sample_size=generation_request.num_questions)
         questions_per_idea = [1] * len(main_ideas)
       else:
         # Distribute number of questions over main ideas
