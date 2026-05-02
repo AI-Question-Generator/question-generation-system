@@ -2,6 +2,7 @@ import os
 from enum import Enum
 
 _LOCALES_PATH = os.path.dirname(__file__)
+EXCLUDED_DIR_NAMES = ['__pycache__']
 
 def _get_supported_languages():
     return {
@@ -15,7 +16,7 @@ def get_supported_domains(language: str) -> list[str]:
         return []
     return [
         name for name in os.listdir(lang_path)
-        if os.path.isdir(os.path.join(lang_path, name))
+        if os.path.isdir(os.path.join(lang_path, name)) and name not in EXCLUDED_DIR_NAMES
     ]
 
 class SupportedLanguage(str, Enum):
