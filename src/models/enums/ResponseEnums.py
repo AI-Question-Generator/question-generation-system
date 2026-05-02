@@ -1,6 +1,10 @@
 from enum import Enum
 
 class ResponseSignal(Enum):
+  PROJECT_CREATED_SUCCESSFULLY = "project created successfully"
+  PROJECT_CREATION_FAILED = "project creation failed"
+  PROJECT_ALREADY_EXISTS = "project already exists"
+
   FILE_TYPE_NOT_ALLOWED = "file type not allowed"
   FILE_SIZE_EXCEEDED = "file size exceeded"
   FILE_UPLOADED_SUCCESSFULLY = "file uploaded successfully"

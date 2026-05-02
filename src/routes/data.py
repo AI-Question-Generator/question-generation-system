@@ -1,6 +1,5 @@
 from fastapi import APIRouter, Depends, UploadFile, status, Request
 from fastapi.responses import JSONResponse
-from typing import Optional
 from helpers import get_settings, Settings
 from controllers import DataController, ProjectController, ProcessController
 from models import ResponseSignal
@@ -12,11 +11,9 @@ from stores.llm.templates.locales.LocalesRegistry import SupportedLanguage
 from .schemes.data import ProcessRequest
 from models.ProjectModel import ProjectModel
 from models.ChunkModel import ChunkModel
-from models.db_schemas import DataChunk
+from models.db_schemas import DataChunk, Project
 from models.AssetModel import AssetModel
 from models.db_schemas import Asset
-from models.enums import AssetTypeEnum
-from bson.objectid import ObjectId
 from models.enums import AssetTypeEnum
 
 
@@ -28,25 +25,73 @@ data_router = APIRouter(
   tags=["data"]
 )
 
+@data_router.post("/create/{project_id}")
+async def create_project(
+  request: Request,
+  project_id: str,
+  language: SupportedLanguage,
+  domain: str = "",
+  ):
+  project_model = await ProjectModel.create_instance(db_client=request.app.state.db_client)
+
+  existing_project = await project_model.get_project(project_id=project_id)
+  if existing_project is not None:
+    return JSONResponse(
+      status_code=status.HTTP_400_BAD_REQUEST,
+      content={
+        "signal": ResponseSignal.PROJECT_ALREADY_EXISTS.value,
+        "project_id": str(existing_project.id),
+      }
+    )
+
+  try:
+    project = await project_model.create_project(
+      project=Project(
+        project_id=project_id,
+        language=language,
+        domain=domain,
+      )
+    )
+  except Exception as exc:
+    logger.error(f"Error While Creating Project {project_id}: {exc}")
+    return JSONResponse(
+      status_code=status.HTTP_400_BAD_REQUEST,
+      content={
+        "signal": ResponseSignal.PROJECT_CREATION_FAILED.value,
+      }
+    )
+
+  ProjectController().get_project_path(project_id=project_id)
+
+  return JSONResponse(
+    content={
+      "signal": ResponseSignal.PROJECT_CREATED_SUCCESSFULLY.value,
+      "project_id": str(project.id),
+    }
+  )
+
+
+
 @data_router.post("/upload/{project_id}")
 async def upload(
   request: Request,
   project_id: str,
   file: UploadFile,
-  language: Optional[SupportedLanguage] = None,
-  domain: str = "",
   settings : Settings = Depends(get_settings)
   ):
-  
-  if not language:
-    logger.warning(f"No language is provided for project {project_id}")
-    language = SupportedLanguage(settings.DEFAULT_LANG)
-  
   project_model = await ProjectModel.create_instance(db_client=request.app.state.db_client)
-  
-  
-  project = await project_model.get_project_or_create_one(project_id=project_id, language=language, domain=domain)
-  logger.info(f"Project {project_id} is created with language {language} and domain {domain}")
+
+  project = await project_model.get_project(project_id=project_id)
+  if project is None:
+    logger.warning(f"Project {project_id} was not found for upload")
+    return JSONResponse(
+      status_code=status.HTTP_400_BAD_REQUEST,
+      content={
+        "signal": ResponseSignal.PROJECT_NOT_FOUND.value,
+      }
+    )
+
+  logger.info(f"Project {project_id} is found with language {project.language} and domain {project.domain}")
   
   # validate file type & validate file size 
   data_controller = DataController()
@@ -92,7 +137,7 @@ async def upload(
     )
   
   asset_record = await asset_model.create_asset(asset=asset_resource)
-  
+  print("here")
   return JSONResponse(
       content={
         "signal": ResponseSignal.FILE_UPLOADED_SUCCESSFULLY.value,

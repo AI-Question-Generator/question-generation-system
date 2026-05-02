@@ -3,7 +3,7 @@ from typing import Optional
 from .BaseDataModel import BaseDataModel
 from .db_schemas import Project
 from .enums import DataBaseEnum
-from stores.llm.templates.locales.LocalesRegistry import SupportedLanguage, get_supported_domains
+from stores.llm.templates.locales.LocalesRegistry import SupportedLanguage
 
 class ProjectModel(BaseDataModel):
   def __init__(self, db_client: object):
@@ -33,9 +33,16 @@ class ProjectModel(BaseDataModel):
         )
   
   async def create_project(self, project: Project):
-    result = await self.collection.insert_one(project.dict(by_alias=True, exclude_unset=True))
+    result = await self.collection.insert_one(project.model_dump(by_alias=True, exclude_unset=True))
     project.id = result.inserted_id
     return project
+
+  async def get_project(self, project_id: str) -> Optional[Project]:
+    record = await self.collection.find_one({"project_id": project_id})
+    if record is None:
+      return None
+
+    return Project(**record)
   
   
     
@@ -44,7 +51,11 @@ class ProjectModel(BaseDataModel):
         
     # create new project if not found
     if record is None:
-      project = Project(project_id=project_id,
+      if language is None:
+        raise ValueError("language is required to create a new project")
+
+      project = Project(_id=None,
+                        project_id=project_id,
                         language=language,
                         domain=domain)
       project = await self.create_project(project=project)
