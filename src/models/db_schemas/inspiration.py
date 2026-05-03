@@ -5,10 +5,10 @@ from typing import Optional
 
 class Inspiration(BaseModel):
   id: Optional[ObjectId] = Field(None, alias="_id")
-  content: str = Field(min_length=1)
-  language: SupportedLanguage = Field(...)
-  domain: str = Field(...)
-  project_id: str = Field(..., min_length=1)
+  inspiration_content: str = Field(min_length=1)
+  inspiration_language: SupportedLanguage = Field(...)
+  inspiration_domain: str = Field(...)
+  inspiration_project_id: str = Field(..., min_length=1)
   
   model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={ObjectId: str})
   
