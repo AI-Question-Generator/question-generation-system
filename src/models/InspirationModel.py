@@ -4,6 +4,7 @@ from .BaseDataModel import BaseDataModel
 from .enums import DataBaseEnum
 from .db_schemas import Inspiration
 from pymongo import InsertOne, UpdateOne
+from stores.llm.templates.locales.LocalesRegistry import SupportedLanguage
 import logging
 
 class InspirationModel(BaseDataModel):
@@ -36,3 +37,8 @@ class InspirationModel(BaseDataModel):
           name=index["name"],
           unique=index["unique"]
         )
+
+  async def create_inspiration(self, inspiration: Inspiration):
+    result = await self.collection.insert_one(inspiration.model_dump(by_alias=True, exclude_unset=True))
+    inspiration.id = result.inserted_id
+    return inspiration
