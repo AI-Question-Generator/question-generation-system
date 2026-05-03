@@ -1,5 +1,6 @@
 from typing import List, Optional, Union
 from bson import ObjectId
+from pydantic import Field
 from .BaseDataModel import BaseDataModel
 from .enums import DataBaseEnum
 from .db_schemas import Inspiration
@@ -61,3 +62,49 @@ class InspirationModel(BaseDataModel):
     result= await self.collection.find(query).limit(top).to_list(length=None)
     result = [Inspiration(**res) for res in result]
     return result
+  
+  async def get_inspiration_sample(self, language: SupportedLanguage, domain: str, sample_size: int = Field(gt=0), exclude_project_set: bool = False):
+    '''Extracts inspirations related to a language and a domain'''
+    
+    query: dict = {
+      "inspiration_language": language,
+      "inspiration_domain": domain,
+    }
+    
+    if exclude_project_set:
+      query["inspiration_project_id"] = None
+    
+    pipeline = [
+      {"$match": query},
+      {"$sample": {"size": sample_size}}
+    ]
+    
+    result = await self.collection.aggregate(pipeline)
+    result = await result.to_list(length=None)
+    result = [Inspiration(**res) for res in result]
+    return result
+    
+  async def get_project_inspiration_sample(self, language: SupportedLanguage, domain: str, project_id: Optional[Union[str, ObjectId]], sample_size: int = Field(gt=0), exclude_project_unset: bool = False) -> List[Inspiration]:
+    '''Extracts inspirations related to a project'''
+    
+    query: dict = {
+      "inspiration_language": language,
+      "inspiration_domain": domain,
+      '$or': [
+        {"inspiration_project_id": ObjectId(project_id) if isinstance(project_id, str) else project_id}
+      ]
+    }
+    
+    if not exclude_project_unset:
+      query['$or'].append({"inspiration_project_id": None})
+    
+    pipeline = [
+      {"$match": query},
+      {"$sample": {"size": sample_size}}
+    ]
+    
+    result = await self.collection.aggregate(pipeline)
+    result = await result.to_list(length=None)
+    result = [Inspiration(**res) for res in result]
+    return result
+    
