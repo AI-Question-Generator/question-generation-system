@@ -1,6 +1,5 @@
 from typing import List, Optional, Union
 from bson import ObjectId
-from pydantic import Field
 from .BaseDataModel import BaseDataModel
 from .enums import DataBaseEnum
 from .db_schemas import Inspiration
@@ -62,7 +61,7 @@ class InspirationModel(BaseDataModel):
     result = [Inspiration(**res) for res in result]
     return result
   
-  async def get_inspiration_sample(self, language: SupportedLanguage, domain: str, sample_size: int = Field(gt=0), exclude_project_set: bool = False):
+  async def get_inspiration_sample(self, language: SupportedLanguage, domain: str, sample_size: int = 1, exclude_project_set: bool = False):
     '''Extracts inspirations related to a language and a domain'''
     
     query: dict = {
@@ -83,7 +82,7 @@ class InspirationModel(BaseDataModel):
     result = [Inspiration(**res) for res in result]
     return result
     
-  async def get_project_inspiration_sample(self, language: SupportedLanguage, domain: str, project_id: Optional[Union[str, ObjectId]], sample_size: int = Field(gt=0), exclude_project_unset: bool = False) -> List[Inspiration]:
+  async def get_project_inspiration_sample(self, language: SupportedLanguage, domain: str, project_id: Optional[Union[str, ObjectId]], sample_size: int = 1, exclude_project_unset: bool = False) -> List[Inspiration]:
     '''Extracts inspirations related to a project'''
     
     query: dict = {
