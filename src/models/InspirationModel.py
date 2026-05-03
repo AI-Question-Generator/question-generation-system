@@ -13,7 +13,6 @@ class InspirationModel(BaseDataModel):
   def __init__(self, db_client):
     super().__init__(db_client=db_client)
     self.collection = self.db_client[DataBaseEnum.COLLECTION_INSPIRATION_NAME.value]
-    self.relation_collection = self.db_client[DataBaseEnum.COLLECTION_MAIN_IDEA_CHUNK_NAME.value]
     self.logger = logging.getLogger(__name__)
   
   @classmethod
