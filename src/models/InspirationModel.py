@@ -42,3 +42,22 @@ class InspirationModel(BaseDataModel):
     result = await self.collection.insert_one(inspiration.model_dump(by_alias=True, exclude_unset=True))
     inspiration.id = result.inserted_id
     return inspiration
+
+  async def get_project_inspirations(self, language: SupportedLanguage, domain: str, project_id: Optional[Union[str, ObjectId]], top: int = 0, exclude_project_unset: bool = False) -> List[Inspiration]:
+    '''Extracts inspirations related to a project'''
+    
+    query: dict = {
+      "inspiration_language": language,
+      "inspiration_domain": domain,
+      '$or': [
+        {"inspiration_project_id": ObjectId(project_id) if isinstance(project_id, str) else project_id}
+      ]
+    }
+    
+    if not exclude_project_unset:
+      query['$or'].append({"inspiration_project_id": None})
+    
+    
+    result= await self.collection.find(query).limit(top).to_list(length=None)
+    result = [Inspiration(**res) for res in result]
+    return result
