@@ -7,3 +7,4 @@ class DataBaseEnum(Enum):
   COLLECTION_ASSET_NAME = "assets"
   COLLECTION_MAIN_IDEA_NAME = "mainideas"
   COLLECTION_MAIN_IDEA_CHUNK_NAME = "mainidea_chunks"
+  COLLECTION_INSPIRATION_NAME = "inspiration"
