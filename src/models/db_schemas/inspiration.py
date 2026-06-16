@@ -8,22 +8,16 @@ class Inspiration(BaseModel):
   inspiration_content: str = Field(min_length=1)
   inspiration_language: SupportedLanguage = Field(...)
   inspiration_domain: str = Field(...)
-  inspiration_project_id: str = Field(..., min_length=1)
+  inspiration_project_id: Optional[ObjectId] = None
   
   model_config = ConfigDict(arbitrary_types_allowed=True, json_encoders={ObjectId: str})
-  
-  @field_validator("project_id")
-  def validate_project_id(cls, value):
-    if not value.isalnum():
-      raise ValueError("project_id must be alphanumeric")
-    return value
 
   @model_validator(mode='after')
   def validate_domain(self):
-    supported_domains = get_supported_domains(self.language)
-    if self.domain not in supported_domains:
+    supported_domains = get_supported_domains(self.inspiration_language)
+    if self.inspiration_domain not in supported_domains:
       raise ValueError(
-          f"domain '{self.domain}' is not supported for language '{self.language}'. "
+          f"domain '{self.inspiration_domain}' is not supported for language '{self.inspiration_language}'. "
           f"Supported domains: {supported_domains}"
         )
     return self
@@ -32,13 +26,13 @@ class Inspiration(BaseModel):
   def get_indexes(cls):
     return [
       {
-        "key":[("language", 1), ("domain", 1)],
+        "key":[("inspiration_language", 1), ("inspiration_domain", 1)],
         "name": "language_domain_index_1",
         "unique": False
       },
       {
-        "key":[("project_id", 1)],
-        "name": "language_domain_index_1",
+        "key":[("inspiration_project_id", 1)],
+        "name": "project_id_index_1",
         "unique": False
       }
     ]
