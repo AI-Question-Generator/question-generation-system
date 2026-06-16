@@ -1,1 +1,1 @@
-from . import main_idea, question_generation
+from . import main_idea, question_generation, inspiration
