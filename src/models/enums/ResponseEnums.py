@@ -44,3 +44,7 @@ class ResponseSignal(Enum):
   
   QUESTION_GENERATION_SUCCESS = "Question generation completed successfully"
   QUESTION_GENERATION_FAILED = "Question generation failed"
+
+  INSPIRATION_EXTRACTION_SUCCESS = "Inspiration extraction completed successfully"
+  INSPIRATION_EXTRACTION_FAILED = "Inspiration extraction failed"
+  
