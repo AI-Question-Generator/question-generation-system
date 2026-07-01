@@ -1,30 +1,36 @@
-from stores.llm.LLMInterface import LLMInterface
+from stores.llm.LLMInterface import AsyncLLMInterface
 from stores.llm.templates.template_parser import PromptTemplateParserInterface
 from stores.llm.templates import response_models as rm
 from stores.llm.templates.response_models.questions import BaseQuestion
 from stores.llm.templates.response_models.list_wrapper import ListOf
 from models.enums.QuestionEnum import QuestionTypeEnum
 from helpers.json_tools import pydantic_model_from_json
-from typing import List
+from typing import List, Optional
 import logging
 
 class QuestionController:
   def __init__(
     self,
-    generation_client: LLMInterface,
+    generation_client: AsyncLLMInterface,
     prompt_template_parser: PromptTemplateParserInterface,
     ):
     self.generation_client = generation_client
     self.prompt_template_parser = prompt_template_parser
     self.logger = logging.getLogger(__name__)
   
-  async def generate_questions(self, main_idea_summary: str, passages: List[str], num_questions: int, question_type: QuestionTypeEnum) -> List[type[BaseQuestion]]:
+  async def generate_questions(self, main_idea_summary: str, passages: List[str], num_questions: int, question_type: QuestionTypeEnum, inspirations: Optional[List[str]] = None) -> List[type[BaseQuestion]]:
     passages_str = "\n\n".join(passages)
+    inspirations_str = "\n\n".join(inspirations) if inspirations else "(Not provided)"
     
     prompt_template = self.prompt_template_parser.get(
       "question_generation",
       f"{question_type.value.lower()}_prompt",
-      vars={"main_idea": main_idea_summary, "passages": passages_str, "num_questions": num_questions}
+      vars={
+        "main_idea": main_idea_summary,
+        "passages": passages_str,
+        "num_questions": num_questions,
+        "inspirations": inspirations_str,
+      }
     )
     
     if not prompt_template:
@@ -52,5 +58,5 @@ class QuestionController:
     response = pydantic_model_from_json(response, response_model)
     return list(response) if response else []
   
-  async def generate_questions_from_main_idea(self, main_idea: rm.MainIdea, passages: List[str], question_type: QuestionTypeEnum, num_questions: int) -> List[type[BaseQuestion]]:
+  async def generate_questions_from_main_idea(self, main_idea: rm.MainIdea, passages: List[str], question_type: QuestionTypeEnum, num_questions: int) -> List[type[rm.questions.QuestionType]]:
     return await self.generate_questions(main_idea_summary=main_idea.summary, passages=passages, num_questions=num_questions, question_type=question_type)
