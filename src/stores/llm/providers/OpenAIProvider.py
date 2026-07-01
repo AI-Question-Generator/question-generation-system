@@ -1,5 +1,4 @@
 from typing import Optional
-
 from pydantic import BaseModel
 from ..LLMInterface import LLMInterface, AsyncLLMInterface
 from ..LLMEnums import OpenAIEnums
@@ -74,7 +73,7 @@ class OpenAIProvider(LLMInterface):
     if not response or not response.choices or len(response.choices) == 0 or not response.choices[0].message:
       self.logger.error("Error while Generation Text with OpenAI")
       return None
-  
+    
     return response.choices[0].message.content
   
   def generate_structured_text(self, prompt: str, response_model: type[BaseModel], chat_history: list = [], max_output_tokens: Optional[int] = None, temperature: Optional[float] = None):
@@ -98,6 +97,7 @@ class OpenAIProvider(LLMInterface):
                           messages=chat_history,
                           max_tokens=max_output_tokens,
                           temperature=temperature,
+                          reasoning_effort=None,
                           response_format={
                             "type": "json_schema",
                             "json_schema": {
@@ -217,6 +217,7 @@ class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
                           messages=chat_history,
                           max_tokens=max_output_tokens,
                           temperature=temperature,
+                          reasoning_effort=None,
                           response_format={
                             "type": "json_schema",
                             "json_schema": {
