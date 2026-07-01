@@ -38,7 +38,9 @@
       "publishedDocUrlRules": {
         "defaultRule": "SLUGIFY_WITH_RESOURCE_KEY",
         "resourceKeyStandard": "NEW"
-      }
+      },
+      "request2": false,
+      "preferredHttpVersion": {}
     },
     "initialDisabledMockIds": [],
     "servers": [
@@ -49,9 +51,10 @@
       }
     ],
     "cloudMock": {
-      "security": "free",
       "enable": false,
-      "tokenKey": "apidogToken"
+      "security": "free",
+      "tokenKey": "apidogToken",
+      "isCreatedAutomaticallyByDefaultConfigFromAdmin": true
     }
   },
   "apiCollection": [
@@ -609,7 +612,7 @@
                   "type": "none",
                   "parameters": [],
                   "required": false,
-                  "additionalContent": [],
+                  "additionalContentTypes": [],
                   "oasExtensions": ""
                 },
                 "description": "",
@@ -747,7 +750,7 @@
                   "mediaType": "application/json",
                   "oasExtensions": "",
                   "required": true,
-                  "additionalContent": []
+                  "additionalContentTypes": []
                 },
                 "description": "",
                 "tags": [
@@ -890,7 +893,7 @@
                   "type": "none",
                   "parameters": [],
                   "required": false,
-                  "additionalContent": [],
+                  "additionalContentTypes": [],
                   "oasExtensions": ""
                 },
                 "description": "",
@@ -1038,7 +1041,7 @@
                   "mediaType": "application/json",
                   "oasExtensions": "",
                   "required": true,
-                  "additionalContent": []
+                  "additionalContentTypes": []
                 },
                 "description": "",
                 "tags": [
@@ -1186,7 +1189,7 @@
                   "mediaType": "application/json",
                   "oasExtensions": "",
                   "required": true,
-                  "additionalContent": []
+                  "additionalContentTypes": []
                 },
                 "description": "",
                 "tags": [
@@ -1307,11 +1310,11 @@
           "inheritPreProcessors": {},
           "items": [
             {
-              "name": "Upload",
+              "name": "Create Project",
               "api": {
-                "id": "30811895",
+                "id": "34636992",
                 "method": "post",
-                "path": "/data/upload/{project_id}",
+                "path": "/data/create/{project_id}",
                 "parameters": {
                   "path": [
                     {
@@ -1330,26 +1333,18 @@
                   ],
                   "query": [
                     {
-                      "id": "Eaf3CH1qXC",
+                      "id": "YuHPvvmvMG",
                       "name": "language",
-                      "required": false,
+                      "required": true,
                       "enable": true,
                       "description": "",
-                      "type": "other",
+                      "type": "string",
                       "schema": {
-                        "anyOf": [
-                          {
-                            "$ref": "#/definitions/13535707"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "title": "Language"
+                        "$ref": "#/definitions/13535707"
                       }
                     },
                     {
-                      "id": "pC7Bqe6pqJ",
+                      "id": "sTfyIYswBN",
                       "name": "domain",
                       "required": false,
                       "enable": true,
@@ -1368,6 +1363,105 @@
                 "auth": {},
                 "securityScheme": {},
                 "commonParameters": {},
+                "responses": [
+                  {
+                    "id": "129319304",
+                    "code": "200",
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {},
+                    "itemSchema": {},
+                    "description": "Successful Response",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  },
+                  {
+                    "id": "121089730",
+                    "code": "422",
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/13535690"
+                    },
+                    "itemSchema": {},
+                    "description": "Validation Error",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  }
+                ],
+                "responseExamples": [],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "additionalContentTypes": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [
+                  "data"
+                ],
+                "status": "released",
+                "serverId": "",
+                "operationId": "create_project_data_create__project_id__post",
+                "sourceUrl": "",
+                "ordering": 0,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1118767,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Upload",
+              "api": {
+                "id": "30811895",
+                "method": "post",
+                "path": "/data/upload/{project_id}",
+                "parameters": {
+                  "query": [],
+                  "path": [
+                    {
+                      "id": "project_id#0",
+                      "name": "project_id",
+                      "required": true,
+                      "enable": true,
+                      "description": "",
+                      "example": "",
+                      "type": "string",
+                      "schema": {
+                        "type": "string",
+                        "title": "Project Id"
+                      }
+                    }
+                  ],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
                 "responses": [
                   {
                     "id": "147916114",
@@ -1401,23 +1495,23 @@
                   "type": "multipart/form-data",
                   "parameters": [
                     {
-                      "id": "5aidB6jrXK",
+                      "id": "yB9htHbN8c",
                       "name": "file",
                       "required": true,
                       "enable": true,
                       "description": "",
                       "example": "",
-                      "type": "string",
+                      "type": "file",
                       "schema": {
-                        "type": "string",
-                        "contentMediaType": "application/octet-stream",
-                        "title": "File"
+                        "format": "binary",
+                        "type": "string"
                       }
                     }
                   ],
-                  "oasExtensions": "",
                   "required": true,
-                  "additionalContent": []
+                  "mediaType": "",
+                  "examples": [],
+                  "oasExtensions": ""
                 },
                 "description": "",
                 "tags": [
@@ -1427,7 +1521,7 @@
                 "serverId": "",
                 "operationId": "upload_data_upload__project_id__post",
                 "sourceUrl": "",
-                "ordering": 0,
+                "ordering": 6,
                 "cases": [
                   {
                     "id": 42388242,
@@ -1686,7 +1780,7 @@
                   "mediaType": "application/json",
                   "oasExtensions": "",
                   "required": true,
-                  "additionalContent": []
+                  "additionalContentTypes": []
                 },
                 "description": "",
                 "tags": [
@@ -1696,7 +1790,7 @@
                 "serverId": "",
                 "operationId": "process_endpoint_data_process__project_id__post",
                 "sourceUrl": "",
-                "ordering": 6,
+                "ordering": 12,
                 "cases": [
                   {
                     "id": 42396880,
@@ -1706,19 +1800,19 @@
                     "responseId": "165990304",
                     "parameters": {
                       "query": [],
-                      "header": [],
-                      "cookie": [],
                       "path": [
                         {
                           "id": "project_id#0",
                           "name": "project_id",
-                          "relatedName": "project_id",
                           "relatedId": "project_id#0",
-                          "value": "1",
                           "enable": true,
-                          "isDelete": false
+                          "isDelete": false,
+                          "value": "1",
+                          "relatedName": "project_id"
                         }
-                      ]
+                      ],
+                      "cookie": [],
+                      "header": []
                     },
                     "commonParameters": {
                       "query": [],
@@ -1729,7 +1823,7 @@
                     "requestBody": {
                       "parameters": [],
                       "data": "{\n    \"chunk_size\": 300,\n    \"overlap_size\": 100,\n    \"do_reset\": 1\n}",
-                      "type": "application/json"
+                      "generateMode": "normal"
                     },
                     "auth": {},
                     "securityScheme": {},
@@ -1939,7 +2033,7 @@
                   "mediaType": "application/json",
                   "oasExtensions": "",
                   "required": true,
-                  "additionalContent": []
+                  "additionalContentTypes": []
                 },
                 "description": "Start main idea extraction pipeline for a document.\n\nPipeline Steps:\n1. Get chunks from database by asset_name\n2. Group chunks into sections (each chunk is a section)\n3. Extract candidate ideas from each section in parallel\n4. Consolidates and deduplicates ideas\n5. Ranks ideas by importance\n6. Saves everything to database",
                 "tags": [
@@ -1983,7 +2077,7 @@
                     "requestBody": {
                       "parameters": [],
                       "type": "application/json",
-                      "data": "{\n    \"section_size\": 1000,\n    \"do_reset\": 1\n}",
+                      "data": "{\n    \"section_size\": 2000,\n    \"do_reset\": 1\n}",
                       "jsonSchema": {
                         "$ref": "#/definitions/13535692"
                       },
@@ -2169,7 +2263,7 @@
                   "mediaType": "application/json",
                   "oasExtensions": "",
                   "required": true,
-                  "additionalContent": []
+                  "additionalContentTypes": []
                 },
                 "description": "Associate vector-DB chunks to each main idea via semantic search.\n\nFor every main idea (or the subset given in main_idea_ids), the summary\nis embedded and the top-k nearest chunks are retrieved from the project\ncollection, then persisted as MainIdeaChunk records.",
                 "tags": [
@@ -2354,7 +2448,7 @@
                   ],
                   "query": [
                     {
-                      "id": "ToXQMVdMog",
+                      "id": "mhGb0VVto6",
                       "name": "limit",
                       "required": false,
                       "enable": true,
@@ -2409,7 +2503,7 @@
                   "type": "none",
                   "parameters": [],
                   "required": false,
-                  "additionalContent": [],
+                  "additionalContentTypes": [],
                   "oasExtensions": ""
                 },
                 "description": "Get all main ideas for a project.\n\nRetrieves main ideas along with their associated chunk counts.\n\nArgs:\n    project_id: String id of the project\n    limit: Maximum number of ideas to return (0 = no limit)\n\nReturns:\n    List of main ideas with metadata",
@@ -2655,7 +2749,7 @@
                   "mediaType": "application/json",
                   "oasExtensions": "",
                   "required": true,
-                  "additionalContent": []
+                  "additionalContentTypes": []
                 },
                 "description": "",
                 "tags": [
@@ -2784,6 +2878,7 @@
                   {
                     "id": "153023893",
                     "code": "422",
+                    "name": "",
                     "headers": [],
                     "jsonSchema": {
                       "$ref": "#/definitions/13535690"
@@ -2805,7 +2900,7 @@
                   "mediaType": "application/json",
                   "oasExtensions": "",
                   "required": true,
-                  "additionalContent": []
+                  "additionalContentTypes": []
                 },
                 "description": "Generate questions in batch from main ideas for multiple projects.",
                 "tags": [
@@ -2946,6 +3041,159 @@
           ]
         },
         {
+          "name": "inspiration",
+          "id": 9203953,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 0,
+          "serverId": "",
+          "description": "",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 1118767,
+          "preProcessors": [
+            {
+              "id": "inheritProcessors",
+              "type": "inheritProcessors",
+              "data": {}
+            }
+          ],
+          "postProcessors": [
+            {
+              "id": "inheritProcessors",
+              "type": "inheritProcessors",
+              "data": {}
+            }
+          ],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "Extract Inspirations",
+              "api": {
+                "id": "38455005",
+                "method": "post",
+                "path": "/api/v1/inspiration/extract",
+                "parameters": {
+                  "query": [
+                    {
+                      "id": "3XHhnwV5Qw",
+                      "name": "project_id",
+                      "required": false,
+                      "enable": true,
+                      "description": "",
+                      "type": "other",
+                      "schema": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ],
+                        "title": "Project Id"
+                      }
+                    }
+                  ],
+                  "path": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {
+                  "query": [],
+                  "body": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "responses": [
+                  {
+                    "id": "179435896",
+                    "code": "200",
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/15975324"
+                    },
+                    "itemSchema": {},
+                    "description": "Successful Response",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  },
+                  {
+                    "id": "188824477",
+                    "code": "422",
+                    "name": "",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/13535690"
+                    },
+                    "itemSchema": {},
+                    "description": "Validation Error",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  }
+                ],
+                "responseExamples": [],
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "$ref": "#/definitions/15975323"
+                  },
+                  "required": true,
+                  "mediaType": "",
+                  "examples": [
+                    {
+                      "mediaType": "application/json",
+                      "value": "{\n    \"language\": \"en\",\n    \"domain\": \"english_grammar\",\n    \"text\": \"When all the false self-identifications are thrown away, what remains is all-embracing love.”\\n~Nisargadatta Maharaj\\n\\nI once sat with a friend and watched with deep respect and a full heart as she realized how a pattern from her childhood had been holding her back.\\n\\nShe became fully aware of the inner critical voice that had plagued her for decades and saw clearly how this voice was inserted into her thoughts by her childhood experiences.\\n\\nDid she want this voice to be in charge? No.\\nDid she believe what it said? Not once she became aware of what it was telling her.\\nWas she tired of the way it diminished her and sapped her zest for life? Yes!\\nRight then and there, she decided to cut the cord to her past.\\n\\nShe chose to stop being a victim to the inner critic with its familiar put-downs that kept her stuck. instead, she took the path of not knowing. She happily stepped into herself…fresh and new.\\n\\nPatterns from Our Childhood\\nIf you examine any recurring emotion or thought pattern that derails your happiness, you will probably be able to trace it back to your childhood.\\n\\nA tendency to feel alone and abandoned comes from not getting enough loving attention as a child.\\nA tendency to be hyper-responsible about everything comes from being raised in a chaotic home.\\nA pattern of not trusting others comes from a lack of emotional or physical safety in childhood.\\nPatterns like these are conditioned, having developed as a way to cope with challenging circumstances. They feel like they define us, but they are actually false stories we’ve come to believe about ourselves.\\n\\nWhat’s amazing is that there is another possibility…freedom in your life as it is right now. With love, care, and focused attention, we can shed these conditioned patterns so our natural, unconditioned, shining self is revealed. We’re finally free to feel good about ourselves.\\n\\nFinding Freedom\\nThere’s no substitute for being conscious in our lives, and that’s what it takes for our patterns to soften their hold on us.\\n\\nTurn your attention inward so you can know with great precision how your patterns show up. When you are caught in them,\\n\\nHow do you feel?\\nWhat thoughts have taken over?\\nWhat triggers them?\\nKnow that these limiting patterns don’t in any way accurately define the truth of who you are.\\n\\nThis deeply held programming from our past grabs tightly, so be patient with the process to loosen its grip. Notice the patterns over and over, bow to them from your heart for their intention to help you, then step aside into freedom.\\n\\nEventually the insight dawns that the pull to leave your conditioning is stronger than the fear not to. This is truth illuminated, the golden moment that sets you free.\\n\\nEvery time the pattern appears, feel it with understanding and love. Then stand in liberation from it—unburdened, fully open, and unapologetically alive.\",\n    \"do_reset\": 0,\n    \"section_size\": 2000\n}"
+                    }
+                  ],
+                  "oasExtensions": ""
+                },
+                "description": "Start inspiration extraction pipeline.\n\nPipeline Steps:\n1. Resolve domain, language, and text sections (from project assets or request payload).\n2. Generate contextual situations (inspirations) for each section in parallel.\n3. Deduplicate the generated inspirations.\n4. Save them to the database.",
+                "tags": [
+                  "inspiration"
+                ],
+                "status": "released",
+                "serverId": "",
+                "operationId": "extract_inspirations_api_v1_inspiration_extract_post",
+                "sourceUrl": "",
+                "ordering": 0,
+                "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1118767,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
           "name": "Welcome Request",
           "api": {
             "id": "30016100",
@@ -3055,12 +3303,12 @@
     {
       "_databaseId": 1375440,
       "updatedAt": "2026-03-08T22:25:44.000Z",
+      "id": 1375440,
       "name": "Root",
       "type": "root",
       "children": [],
       "moduleId": 1118767,
       "parentId": 0,
-      "id": 1375440,
       "ordering": [],
       "items": []
     }
@@ -3311,6 +3559,115 @@
           "moduleId": 1118767
         },
         {
+          "name": "InspirationExtractionRequest",
+          "displayName": "InspirationExtractionRequest",
+          "id": "#/definitions/15975323",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "properties": {
+                "project_id": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Project Id",
+                  "description": "Optional Project ID to bind these inspirations to if we want to save them for a specific project."
+                },
+                "language": {
+                  "$ref": "#/definitions/13535707",
+                  "description": "The language of the template to use."
+                },
+                "domain": {
+                  "type": "string",
+                  "title": "Domain",
+                  "description": "The specific educational domain (e.g., english_grammar).",
+                  "default": ""
+                },
+                "text": {
+                  "type": "string",
+                  "title": "Text",
+                  "description": "The source text to extract inspirations from."
+                },
+                "do_reset": {
+                  "type": "integer",
+                  "title": "Do Reset",
+                  "default": 0
+                },
+                "section_size": {
+                  "type": "integer",
+                  "title": "Section Size",
+                  "default": 2000
+                }
+              },
+              "type": "object",
+              "required": [
+                "language",
+                "text"
+              ],
+              "title": "InspirationExtractionRequest",
+              "x-apidog-orders": [
+                "project_id",
+                "language",
+                "domain",
+                "text",
+                "do_reset",
+                "section_size"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 1118767
+        },
+        {
+          "name": "InspirationExtractionResponse",
+          "displayName": "InspirationExtractionResponse",
+          "id": "#/definitions/15975324",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "properties": {
+                "inspirations": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array",
+                  "title": "Inspirations",
+                  "description": "The list of extracted contextual situations."
+                },
+                "inserted_count": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Inserted Count",
+                  "description": "The number of inspirations successfully saved to the database.",
+                  "default": 0
+                }
+              },
+              "type": "object",
+              "required": [
+                "inspirations"
+              ],
+              "title": "InspirationExtractionResponse",
+              "x-apidog-orders": [
+                "inspirations",
+                "inserted_count"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 1118767
+        },
+        {
           "name": "MCQ",
           "displayName": "MCQ",
           "id": "#/definitions/13535691",
@@ -3544,18 +3901,6 @@
                     }
                   ],
                   "title": "Rank"
-                },
-                "chunk_count": {
-                  "anyOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ],
-                  "title": "Chunk Count",
-                  "default": 0
                 }
               },
               "type": "object",
@@ -3571,8 +3916,7 @@
                 "id",
                 "title",
                 "summary",
-                "rank",
-                "chunk_count"
+                "rank"
               ]
             }
           },
@@ -3587,6 +3931,17 @@
           "schema": {
             "jsonSchema": {
               "properties": {
+                "signal": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Signal"
+                },
                 "project_id": {
                   "type": "string",
                   "title": "Project Id"
@@ -3607,6 +3962,7 @@
               "title": "MainIdeasListResponse",
               "description": "Response containing list of main ideas.",
               "x-apidog-orders": [
+                "signal",
                 "project_id",
                 "main_ideas"
               ]
@@ -4714,7 +5070,7 @@
                 "requestBody": {
                   "parameters": [],
                   "type": "application/json",
-                  "data": "{\n    \"section_size\": 1000,\n    \"do_reset\": 1\n}",
+                  "data": "{\n    \"section_size\": 2000,\n    \"do_reset\": 1\n}",
                   "jsonSchema": {
                     "$ref": "#/definitions/13535692"
                   },

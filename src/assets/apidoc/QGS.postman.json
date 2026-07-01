@@ -44,48 +44,41 @@
                             "variable": []
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "nlp_index_push(Push project 1 to VectorDB)",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"do_reset\": 1\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
+                    "response": [
+                        {
+                            "name": "Push project 1 to VectorDB",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/nlp/index/push/1",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "nlp",
+                                        "index",
+                                        "push",
+                                        "1"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"do_reset\": 1\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
                                 }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/push/1",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "push",
-                                "1"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": []
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -118,40 +111,33 @@
                             "variable": []
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "nlp_index_info(Project 1)",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "GET",
-                        "body": {},
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/info/1",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "info",
-                                "1"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": []
+                    "response": [
+                        {
+                            "name": "Project 1",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/nlp/index/info/1",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "nlp",
+                                        "index",
+                                        "info",
+                                        "1"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "body": {}
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -192,48 +178,41 @@
                             "variable": []
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "nlp_index_search(search proj_1)",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"text\": \"Ahmed treats us as if he were\",\n    \"limit\": 5\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
+                    "response": [
+                        {
+                            "name": "search proj_1",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/nlp/index/search/1",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "nlp",
+                                        "index",
+                                        "search",
+                                        "1"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"text\": \"Ahmed treats us as if he were\",\n    \"limit\": 5\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
                                 }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/search/1",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "search",
-                                "1"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": []
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -287,36 +266,29 @@
                             "variable": []
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Health Check(Success)",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "GET",
-                        "body": {},
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/",
-                            "path": [
-                                "api",
-                                "v1"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": []
+                    "response": [
+                        {
+                            "name": "Success",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/",
+                                    "path": [
+                                        "api",
+                                        "v1"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "body": {}
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -363,55 +335,48 @@
                             ]
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Index Project(Success)",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "",
-                            "options": {
-                                "raw": {
-                                    "language": "text"
+                    "response": [
+                        {
+                            "name": "Success",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/nlp/index/push/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "nlp",
+                                        "index",
+                                        "push",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "",
+                                    "options": {
+                                        "raw": {
+                                            "language": "text"
+                                        }
+                                    }
                                 }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/push/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "push",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "",
-                                    "description": "",
-                                    "disabled": false
-                                }
-                            ]
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -451,47 +416,40 @@
                             ]
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Get Project Index Info(Success)",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "GET",
-                        "body": {},
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/info/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "info",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "",
-                                    "description": "",
-                                    "disabled": false
-                                }
-                            ]
+                    "response": [
+                        {
+                            "name": "Success",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/nlp/index/info/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "nlp",
+                                        "index",
+                                        "info",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {}
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -538,55 +496,48 @@
                             ]
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Search(Success)",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "",
-                            "options": {
-                                "raw": {
-                                    "language": "text"
+                    "response": [
+                        {
+                            "name": "Success",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/nlp/index/search/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "nlp",
+                                        "index",
+                                        "search",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "",
+                                    "options": {
+                                        "raw": {
+                                            "language": "text"
+                                        }
+                                    }
                                 }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/search/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "search",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "",
-                                    "description": "",
-                                    "disabled": false
-                                }
-                            ]
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -633,55 +584,48 @@
                             ]
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Answer Rag(Success)",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "",
-                            "options": {
-                                "raw": {
-                                    "language": "text"
+                    "response": [
+                        {
+                            "name": "Success",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/nlp/index/answer/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "nlp",
+                                        "index",
+                                        "answer",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "",
+                                    "options": {
+                                        "raw": {
+                                            "language": "text"
+                                        }
+                                    }
                                 }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/answer/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "answer",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "",
-                                    "description": "",
-                                    "disabled": false
-                                }
-                            ]
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -713,29 +657,20 @@
             "description": "",
             "item": [
                 {
-                    "name": "Upload",
+                    "name": "Create Project",
                     "description": "",
                     "event": [],
                     "auth": {},
                     "request": {
                         "auth": {},
                         "method": "POST",
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "file",
-                                    "type": "text",
-                                    "disabled": false
-                                }
-                            ]
-                        },
+                        "body": {},
                         "header": [],
                         "url": {
-                            "raw": "{{baseUrl}}/data/upload/:project_id",
+                            "raw": "{{baseUrl}}/data/create/:project_id",
                             "path": [
                                 "data",
-                                "upload",
+                                "create",
                                 ":project_id"
                             ],
                             "host": [
@@ -770,7 +705,7 @@
                     }
                 },
                 {
-                    "name": "Upload(Upload english_past_simple)",
+                    "name": "Upload",
                     "description": "",
                     "event": [],
                     "auth": {},
@@ -782,67 +717,6 @@
                             "formdata": [
                                 {
                                     "key": "file",
-                                    "value": "file:///media/ahmedelhefnawy/New Volume/Projects/Graduation Project/Main-Idea-Extraction/content/01 - u1_Past Simple.txt",
-                                    "type": "text",
-                                    "disabled": false
-                                }
-                            ]
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/data/upload/:project_id",
-                            "path": [
-                                "data",
-                                "upload",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [
-                                {
-                                    "key": "language",
-                                    "value": "en",
-                                    "description": "",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "domain",
-                                    "value": "english_grammer",
-                                    "description": "",
-                                    "disabled": false
-                                }
-                            ],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "1",
-                                    "description": "",
-                                    "disabled": false
-                                }
-                            ]
-                        }
-                    },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Upload(Create Project 1 with 1 file)",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "formdata",
-                            "formdata": [
-                                {
-                                    "key": "file",
-                                    "value": "file:///media/ahmedelhefnawy/New Volume/Projects/Graduation Project/Main-Idea-Extraction/content/01 - u1_Past Simple.txt",
                                     "type": "file",
                                     "disabled": false
                                 }
@@ -859,31 +733,145 @@
                             "host": [
                                 "{{baseUrl}}"
                             ],
-                            "query": [
-                                {
-                                    "key": "language",
-                                    "value": "en",
-                                    "description": "",
-                                    "disabled": false
-                                },
-                                {
-                                    "key": "domain",
-                                    "value": "english_grammar",
-                                    "description": "",
-                                    "disabled": false
-                                }
-                            ],
+                            "query": [],
                             "variable": [
                                 {
                                     "key": "project_id",
-                                    "value": "1",
+                                    "value": "",
                                     "description": "",
-                                    "disabled": false
+                                    "type": "string"
                                 }
                             ]
                         }
                     },
-                    "response": [],
+                    "response": [
+                        {
+                            "name": "Upload english_past_simple",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/data/upload/:project_id",
+                                    "path": [
+                                        "data",
+                                        "upload",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "language",
+                                            "value": "en",
+                                            "disabled": false
+                                        },
+                                        {
+                                            "key": "domain",
+                                            "value": "english_grammer",
+                                            "disabled": false
+                                        }
+                                    ],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "1",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "file",
+                                            "value": "file:///media/ahmedelhefnawy/New Volume/Projects/Graduation Project/Main-Idea-Extraction/content/01 - u1_Past Simple.txt",
+                                            "type": "text",
+                                            "disabled": false
+                                        }
+                                    ]
+                                }
+                            },
+                            "cookie": [],
+                            "status": "Internal Server Error",
+                            "code": 500,
+                            "_postman_previewlanguage": "text",
+                            "header": [
+                                {
+                                    "key": "Server",
+                                    "value": "nginx/1.28.2"
+                                },
+                                {
+                                    "key": "Date",
+                                    "value": "Thu, 19 Mar 2026 12:44:07 GMT"
+                                },
+                                {
+                                    "key": "Content-Type",
+                                    "value": "text/plain; charset=utf-8"
+                                },
+                                {
+                                    "key": "Content-Length",
+                                    "value": "21"
+                                },
+                                {
+                                    "key": "Connection",
+                                    "value": "keep-alive"
+                                }
+                            ],
+                            "body": "Internal Server Error"
+                        },
+                        {
+                            "name": "Create Project 1 with 1 file",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/data/upload/:project_id",
+                                    "path": [
+                                        "data",
+                                        "upload",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "language",
+                                            "value": "en",
+                                            "disabled": false
+                                        },
+                                        {
+                                            "key": "domain",
+                                            "value": "english_grammar",
+                                            "disabled": false
+                                        }
+                                    ],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "1",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "file",
+                                            "value": "file:///media/ahmedelhefnawy/New Volume/Projects/Graduation Project/Main-Idea-Extraction/content/01 - u1_Past Simple.txt",
+                                            "type": "file",
+                                            "disabled": false
+                                        }
+                                    ]
+                                }
+                            },
+                            "cookie": []
+                        }
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -927,97 +915,82 @@
                             ]
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Process Endpoint(Process all project 1 files)",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"chunk_size\": 300,\n    \"overlap_size\": 100,\n    \"do_reset\": 1\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
+                    "response": [
+                        {
+                            "name": "Process all project 1 files",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/data/process/:project_id",
+                                    "path": [
+                                        "data",
+                                        "process",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "1",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"chunk_size\": 300,\n    \"overlap_size\": 100,\n    \"do_reset\": 1\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
                                 }
-                            }
+                            },
+                            "cookie": []
                         },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/data/process/:project_id",
-                            "path": [
-                                "data",
-                                "process",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "1",
-                                    "description": "",
-                                    "disabled": false
+                        {
+                            "name": "Process all files proj_1",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/data/process/:project_id",
+                                    "path": [
+                                        "data",
+                                        "process",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "1",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"chunk_size\": 300,\n    \"overlap_size\": 100,\n    \"do_reset\": 0\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
                                 }
-                            ]
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Process Endpoint(Process all files proj_1)",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"chunk_size\": 300,\n    \"overlap_size\": 100,\n    \"do_reset\": 0\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/data/process/:project_id",
-                            "path": [
-                                "data",
-                                "process",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "1",
-                                    "description": "",
-                                    "disabled": false
-                                }
-                            ]
-                        }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -1088,101 +1061,86 @@
                             ]
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Extract Main Ideas(Extract Ideas Project 1)",
-                    "description": "Start main idea extraction pipeline for a document.\n\nPipeline Steps:\n1. Get chunks from database by asset_name\n2. Group chunks into sections (each chunk is a section)\n3. Extract candidate ideas from each section in parallel\n4. Consolidates and deduplicates ideas\n5. Ranks ideas by importance\n6. Saves everything to database",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"section_size\": 1000,\n    \"do_reset\": 1\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
+                    "response": [
+                        {
+                            "name": "Extract Ideas Project 1",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/savaal/extract/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "savaal",
+                                        "extract",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "1",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"section_size\": 2000,\n    \"do_reset\": 1\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
                                 }
-                            }
+                            },
+                            "cookie": []
                         },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/savaal/extract/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "savaal",
-                                "extract",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "1",
-                                    "description": "",
-                                    "disabled": false
+                        {
+                            "name": "Extract Only 5 Ideas Project 1",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/savaal/extract/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "savaal",
+                                        "extract",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "1",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"section_size\": 1000,\n    \"limit\": 5,\n    \"do_reset\": 1\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
                                 }
-                            ]
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Extract Main Ideas(Extract Only 5 Ideas Project 1)",
-                    "description": "Start main idea extraction pipeline for a document.\n\nPipeline Steps:\n1. Get chunks from database by asset_name\n2. Group chunks into sections (each chunk is a section)\n3. Extract candidate ideas from each section in parallel\n4. Consolidates and deduplicates ideas\n5. Ranks ideas by importance\n6. Saves everything to database",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"section_size\": 1000,\n    \"limit\": 5,\n    \"do_reset\": 1\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/savaal/extract/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "savaal",
-                                "extract",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "1",
-                                    "description": "",
-                                    "disabled": false
-                                }
-                            ]
-                        }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -1228,101 +1186,86 @@
                             ]
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Associate Chunks To Ideas(top_k with reset)",
-                    "description": "Associate vector-DB chunks to each main idea via semantic search.\n\nFor every main idea (or the subset given in main_idea_ids), the summary\nis embedded and the top-k nearest chunks are retrieved from the project\ncollection, then persisted as MainIdeaChunk records.",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"top_k\": 5,\n    \"do_reset\": 1\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
+                    "response": [
+                        {
+                            "name": "top_k with reset",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/savaal/associate/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "savaal",
+                                        "associate",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "1",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"top_k\": 5,\n    \"do_reset\": 1\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
                                 }
-                            }
+                            },
+                            "cookie": []
                         },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/savaal/associate/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "savaal",
-                                "associate",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "1",
-                                    "description": "",
-                                    "disabled": false
+                        {
+                            "name": "All with reset",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/savaal/associate/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "savaal",
+                                        "associate",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "1",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"do_reset\": 1\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
                                 }
-                            ]
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Associate Chunks To Ideas(All with reset)",
-                    "description": "Associate vector-DB chunks to each main idea via semantic search.\n\nFor every main idea (or the subset given in main_idea_ids), the summary\nis embedded and the top-k nearest chunks are retrieved from the project\ncollection, then persisted as MainIdeaChunk records.",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"do_reset\": 1\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/savaal/associate/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "savaal",
-                                "associate",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "1",
-                                    "description": "",
-                                    "disabled": false
-                                }
-                            ]
-                        }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -1367,98 +1310,83 @@
                             ]
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Get Main Ideas(Top 5 Ideas for project 1)",
-                    "description": "Get all main ideas for a project.\n\nRetrieves main ideas along with their associated chunk counts.\n\nArgs:\n    project_id: String id of the project\n    limit: Maximum number of ideas to return (0 = no limit)\n\nReturns:\n    List of main ideas with metadata",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "GET",
-                        "body": {},
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/savaal/main-ideas/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "savaal",
-                                "main-ideas",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [
-                                {
-                                    "key": "limit",
-                                    "value": "5",
-                                    "description": "Maximum number of ideas to return (0 = no limit)",
-                                    "disabled": false
-                                }
-                            ],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "1",
-                                    "description": "",
-                                    "disabled": false
-                                }
-                            ]
+                    "response": [
+                        {
+                            "name": "Top 5 Ideas for project 1",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/savaal/main-ideas/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "savaal",
+                                        "main-ideas",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "limit",
+                                            "value": "5",
+                                            "description": "Maximum number of ideas to return (0 = no limit)",
+                                            "disabled": false
+                                        }
+                                    ],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "1",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {}
+                            },
+                            "cookie": []
+                        },
+                        {
+                            "name": "Get all ideas for project 1",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/savaal/main-ideas/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "savaal",
+                                        "main-ideas",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "limit",
+                                            "description": "Maximum number of ideas to return (0 = no limit)",
+                                            "disabled": true
+                                        }
+                                    ],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "1",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {}
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Get Main Ideas(Get all ideas for project 1)",
-                    "description": "Get all main ideas for a project.\n\nRetrieves main ideas along with their associated chunk counts.\n\nArgs:\n    project_id: String id of the project\n    limit: Maximum number of ideas to return (0 = no limit)\n\nReturns:\n    List of main ideas with metadata",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "GET",
-                        "body": {},
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/savaal/main-ideas/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "savaal",
-                                "main-ideas",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [
-                                {
-                                    "key": "limit",
-                                    "description": "Maximum number of ideas to return (0 = no limit)",
-                                    "disabled": true
-                                }
-                            ],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "1",
-                                    "description": "",
-                                    "disabled": false
-                                }
-                            ]
-                        }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -1504,54 +1432,47 @@
                             ]
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Rank Main Ideas(Rank all Project 1 ideas)",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
+                    "response": [
+                        {
+                            "name": "Rank all Project 1 ideas",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/savaal/rank/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "savaal",
+                                        "rank",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "1",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
                                 }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/savaal/rank/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "savaal",
-                                "rank",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "1",
-                                    "description": "",
-                                    "disabled": false
-                                }
-                            ]
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
@@ -1589,54 +1510,103 @@
                             "variable": []
                         }
                     },
-                    "response": [],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Batch Generate Questions(Multiple questions for project 1)",
-                    "description": "Generate questions in batch from main ideas for multiple projects.",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n  \"tasks\": [\n    {\n      \"project_id\": \"1\",\n      \"requests\": [\n        {\n          \"num_questions\": 3,\n          \"question_type\": \"mcq\"\n        },\n        {\n          \"num_questions\": 2,\n          \"question_type\": \"tf\"\n        },\n        {\n          \"num_questions\": 4,\n          \"question_type\": \"short_answer\"\n        }\n      ]\n    }\n  ]\n}\n",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
+                    "response": [
+                        {
+                            "name": "Multiple questions for project 1",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/savaal/generate",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "savaal",
+                                        "generate"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"tasks\": [\n    {\n      \"project_id\": \"1\",\n      \"requests\": [\n        {\n          \"num_questions\": 3,\n          \"question_type\": \"mcq\"\n        },\n        {\n          \"num_questions\": 2,\n          \"question_type\": \"tf\"\n        },\n        {\n          \"num_questions\": 4,\n          \"question_type\": \"short_answer\"\n        }\n      ]\n    }\n  ]\n}\n",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
                                 }
-                            }
+                            },
+                            "cookie": []
                         },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/savaal/generate",
-                            "path": [
-                                "api",
-                                "v1",
-                                "savaal",
-                                "generate"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": []
+                        {
+                            "name": "50 MCQ Proj 1",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/savaal/generate",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "savaal",
+                                        "generate"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": []
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n  \"tasks\": [\n    {\n      \"project_id\": \"1\",\n      \"requests\": [\n        {\n          \"num_questions\": 50,\n          \"question_type\": \"mcq\"\n        }\n      ]\n    }\n  ]\n}\n",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "cookie": []
                         }
-                    },
-                    "response": [],
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true
                     }
+                }
+            ],
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
                 },
                 {
-                    "name": "Batch Generate Questions(50 MCQ Proj 1)",
-                    "description": "Generate questions in batch from main ideas for multiple projects.",
+                    "listen": "test",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "auth": {}
+        },
+        {
+            "name": "inspiration",
+            "description": "",
+            "item": [
+                {
+                    "name": "Extract Inspirations",
+                    "description": "Start inspiration extraction pipeline.\n\nPipeline Steps:\n1. Resolve domain, language, and text sections (from project assets or request payload).\n2. Generate contextual situations (inspirations) for each section in parallel.\n3. Deduplicate the generated inspirations.\n4. Save them to the database.",
                     "event": [],
                     "auth": {},
                     "request": {
@@ -1644,7 +1614,7 @@
                         "method": "POST",
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n  \"tasks\": [\n    {\n      \"project_id\": \"1\",\n      \"requests\": [\n        {\n          \"num_questions\": 50,\n          \"question_type\": \"mcq\"\n        }\n      ]\n    }\n  ]\n}\n",
+                            "raw": "{\n    \"language\": \"en\",\n    \"domain\": \"english_grammar\",\n    \"text\": \"When all the false self-identifications are thrown away, what remains is all-embracing love.”\\n~Nisargadatta Maharaj\\n\\nI once sat with a friend and watched with deep respect and a full heart as she realized how a pattern from her childhood had been holding her back.\\n\\nShe became fully aware of the inner critical voice that had plagued her for decades and saw clearly how this voice was inserted into her thoughts by her childhood experiences.\\n\\nDid she want this voice to be in charge? No.\\nDid she believe what it said? Not once she became aware of what it was telling her.\\nWas she tired of the way it diminished her and sapped her zest for life? Yes!\\nRight then and there, she decided to cut the cord to her past.\\n\\nShe chose to stop being a victim to the inner critic with its familiar put-downs that kept her stuck. instead, she took the path of not knowing. She happily stepped into herself…fresh and new.\\n\\nPatterns from Our Childhood\\nIf you examine any recurring emotion or thought pattern that derails your happiness, you will probably be able to trace it back to your childhood.\\n\\nA tendency to feel alone and abandoned comes from not getting enough loving attention as a child.\\nA tendency to be hyper-responsible about everything comes from being raised in a chaotic home.\\nA pattern of not trusting others comes from a lack of emotional or physical safety in childhood.\\nPatterns like these are conditioned, having developed as a way to cope with challenging circumstances. They feel like they define us, but they are actually false stories we’ve come to believe about ourselves.\\n\\nWhat’s amazing is that there is another possibility…freedom in your life as it is right now. With love, care, and focused attention, we can shed these conditioned patterns so our natural, unconditioned, shining self is revealed. We’re finally free to feel good about ourselves.\\n\\nFinding Freedom\\nThere’s no substitute for being conscious in our lives, and that’s what it takes for our patterns to soften their hold on us.\\n\\nTurn your attention inward so you can know with great precision how your patterns show up. When you are caught in them,\\n\\nHow do you feel?\\nWhat thoughts have taken over?\\nWhat triggers them?\\nKnow that these limiting patterns don’t in any way accurately define the truth of who you are.\\n\\nThis deeply held programming from our past grabs tightly, so be patient with the process to loosen its grip. Notice the patterns over and over, bow to them from your heart for their intention to help you, then step aside into freedom.\\n\\nEventually the insight dawns that the pull to leave your conditioning is stronger than the fear not to. This is truth illuminated, the golden moment that sets you free.\\n\\nEvery time the pattern appears, feel it with understanding and love. Then stand in liberation from it—unburdened, fully open, and unapologetically alive.\",\n    \"do_reset\": 0,\n    \"section_size\": 2000\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -1653,17 +1623,23 @@
                         },
                         "header": [],
                         "url": {
-                            "raw": "{{baseUrl}}/api/v1/savaal/generate",
+                            "raw": "{{baseUrl}}/api/v1/inspiration/extract",
                             "path": [
                                 "api",
                                 "v1",
-                                "savaal",
-                                "generate"
+                                "inspiration",
+                                "extract"
                             ],
                             "host": [
                                 "{{baseUrl}}"
                             ],
-                            "query": [],
+                            "query": [
+                                {
+                                    "key": "project_id",
+                                    "description": "",
+                                    "type": "string"
+                                }
+                            ],
                             "variable": []
                         }
                     },
@@ -1717,36 +1693,29 @@
                     "variable": []
                 }
             },
-            "response": [],
-            "protocolProfileBehavior": {
-                "strictSSL": false,
-                "followRedirects": true
-            }
-        },
-        {
-            "name": "Welcome Request(Test Health)",
-            "description": "",
-            "event": [],
-            "auth": {},
-            "request": {
-                "auth": {},
-                "method": "GET",
-                "body": {},
-                "header": [],
-                "url": {
-                    "raw": "{{baseUrl}}/api/v1",
-                    "path": [
-                        "api",
-                        "v1"
-                    ],
-                    "host": [
-                        "{{baseUrl}}"
-                    ],
-                    "query": [],
-                    "variable": []
+            "response": [
+                {
+                    "name": "Test Health",
+                    "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1",
+                            "path": [
+                                "api",
+                                "v1"
+                            ],
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "query": [],
+                            "variable": []
+                        },
+                        "body": {}
+                    },
+                    "cookie": []
                 }
-            },
-            "response": [],
+            ],
             "protocolProfileBehavior": {
                 "strictSSL": false,
                 "followRedirects": true
