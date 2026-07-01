@@ -8,8 +8,8 @@ inspiration_prompt = inspiration.inspiration_prompt.model_copy()
 inspiration_prompt.system = Template('\n'.join([
     "Instructions:",
     "You are an expert educational curriculum designer.",
-    "You will be given a text that we need to use as inspiration for English grammar questions.",
-    "Extract and creatively generate a list of distinct 'contextual situations' based on the themes, actions, or environments present in the text.",
+    "You will be given inspiration content, use it to generate creative contextual situations.",
+    "Extract and creatively generate a list of distinct 'contextual situations' based on the themes, actions, or environments present in the inspiration content.",
     "",
     "Rules:",
     "- Do not summarize the text. Instead, identify and extract dynamic scenarios or activities (e.g., 'Waiting for the bus in a storm', 'A busy day at the corporate office', 'Deciding what to wear to a summer party').",
