@@ -5,6 +5,7 @@ class LLMEnums(Enum):
   OPENAI = "OPENAI"
   COHERE = "COHERE"
   GEMINI = "GEMINI"
+  OLLAMA = "OLLAMA"
 
   
 class OpenAIEnums(Enum):
@@ -27,6 +28,11 @@ class GeminiEnums(Enum):
   USER = "user"
   ASSISTANT = "model"
 
+class OllamaEnums(Enum):
+  SYSTEM = "system"
+  USER = "user"
+  ASSISTANT = "assistant"
+  
 class DocumentTypeEnum(Enum):
   DOCUMENT = "document"
   QUERY = "query"
