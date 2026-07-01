@@ -67,6 +67,7 @@ class MainIdeaController(BaseController):
       task = self.generation_client.generate_text(
         prompt=user_message,
         chat_history=chat_history,
+        temperature=0.7
       )
       tasks.append(task)
     
