@@ -7,10 +7,10 @@ from models.MainIdeaModel import MainIdeaModel
 from models.ProjectModel import ProjectModel
 from models.AssetModel import AssetModel
 from models.ChunkModel import ChunkModel
+from models.InspirationModel import InspirationModel
 from models.db_schemas import MainIdea, MainIdeaChunk
 from models.MainIdeaChunkModel import MainIdeaChunkModel
 from models.enums import AssetTypeEnum
-from stores.llm.templates.response_models.questions import BaseQuestion
 from stores.llm.templates.template_parser import PromptTemplateParser
 import stores.llm.templates.response_models as rm
 from langchain_core.documents.base import Document
@@ -414,7 +414,6 @@ async def rank_main_ideas(
 
   # Update ideas ranks
   if len(ranks) != len(ideas):
-    print("here")
     return JSONResponse(
       status_code=status.HTTP_400_BAD_REQUEST,
       content={
@@ -465,6 +464,7 @@ async def batch_generate_questions(
   main_idea_model = await MainIdeaModel.create_instance(db_client=request.app.state.db_client)
   main_idea_chunk_model = await MainIdeaChunkModel.create_instance(db_client=request.app.state.db_client)
   chunk_model = await ChunkModel.create_instance(db_client=request.app.state.db_client)
+  inspiration_model = await InspirationModel.create_instance(db_client=request.app.state.db_client)
 
   overall_results = []
 
@@ -484,8 +484,28 @@ async def batch_generate_questions(
       prompt_template_parser=prompt_template_parser,
     )
 
+    # Retrieve Inspirations
+    total_number_of_questions = sum(req.num_questions for req in project_task.requests)
+    inspirations = await inspiration_model.get_project_inspiration_sample(
+      language=project.language,
+      domain=project.domain,
+      project_id=project.id,
+      sample_size=total_number_of_questions,
+    )
+
+    if not inspirations:
+      logger.warning(f"No inspirations found with language={project.language}, domain={project.domain}, and project={project.project_id}")
+    else:
+      # Duplicate if needed
+      while len(inspirations) < total_number_of_questions:
+        difference = total_number_of_questions - len(inspirations)
+        inspirations = inspirations + inspirations[:difference]
+
+
     # Process generation requests
     for generation_request in project_task.requests:
+
+      # Retrieve Main Ideas
       main_ideas_count = await main_idea_model.count_main_ideas_by_project_id(project_id=project.id)
 
       if main_ideas_count == 0: # No main ideas for this project
@@ -529,21 +549,29 @@ async def batch_generate_questions(
           ))
           break
         
+        # Retrieve Chunks
         chunk_ids = [c.chunk_id for c in context_chunks]
         chunks = await chunk_model.get_many_chunks_by_id(chunk_ids=chunk_ids)
+        
+        # Build context
         passages = [chunk.chunk_text for chunk in chunks]
+        inspirations_batch = [inspiration.inspiration_content for inspiration in inspirations[:q_count]]
         
         generated_q_task = question_controller.generate_questions(
           main_idea_summary=main_idea.main_idea_summary,
           passages=passages,
+          inspirations=inspirations_batch,
           question_type=generation_request.question_type,
           num_questions=q_count
         )
         q_tasks.append(generated_q_task)
+
+        # Drop used inspirations
+        inspirations = inspirations[q_count:]
       
       results = await asyncio.gather(*q_tasks)
       
-      questions_generated: List[BaseQuestion] = []
+      questions_generated: List[rm.questions.QuestionType] = []
       for result in results:
         questions_generated.extend(result)
               
