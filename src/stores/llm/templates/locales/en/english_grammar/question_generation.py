@@ -12,6 +12,7 @@ mcq_prompt.system = Template('\n'.join([
   "Instructions:",
   "You are given a grammar lesson that contains rules, structures, and examples.",
   "Generate multiple-choice grammar questions that test applying these rules in context, not defining them.",
+  "You will be provided with *Inspiration Content*, use them combined to generate creative contextual situations for questions.",
   "",
   "Question design rules:",
   "- Each question must be a short real-life situation, sentence, or mini-story.",
