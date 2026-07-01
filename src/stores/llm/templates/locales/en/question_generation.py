@@ -1,6 +1,5 @@
 from string import Template
 from stores.llm.templates.locales.PromptTemplate import PromptTemplate
-from stores.llm.templates.response_models import ListOf
 from stores.llm.templates.response_models.questions import MCQ, ShortAnswer, TrueOrFalse
 
 #### QUESTION GENERATION PROMPT ####
@@ -9,8 +8,9 @@ from stores.llm.templates.response_models.questions import MCQ, ShortAnswer, Tru
 mcq_prompt = PromptTemplate(
   system=Template("\n".join([
     "Instructions:",
-    "Based on the following main idea and its relevant passages, create $num_questions multiple-choice questions that require deep understanding, critical thinking, and detailed analysis. The questions should go beyond mere factual recall, involving higher-order thinking skills like analysis, synthesis, and evaluation.",
-    'Do not use the phrases "main idea" or "passages" in the question statement. Instead, directly address the content or concepts described.',
+    "- Based on the following main idea and its relevant passages, create $num_questions multiple-choice questions that require deep understanding, critical thinking, and detailed analysis. The questions should go beyond mere factual recall, involving higher-order thinking skills like analysis, synthesis, and evaluation.",
+    '- Do not use the phrases "main idea" or "passages" in the question statement. Instead, directly address the content or concepts described.',
+    "- You will be provided with *Inspiration Content*, them combined to generate questions."
     "Provide four answer choices for each question:",
     "- One correct answer.",
     "- Three plausible distractors that are contextually appropriate, relevant to the content, and reflect common misunderstandings or errors without introducing contradictory or irrelevant information.",
@@ -22,6 +22,9 @@ mcq_prompt = PromptTemplate(
     "",
     "Passages:",
     "$passages",
+    "",
+    "Inspiration Content:",
+    "$inspirations",
   ])),
   response_model=MCQ
 )
@@ -30,8 +33,9 @@ mcq_prompt = PromptTemplate(
 tf_prompt = PromptTemplate(
   system=Template("\n".join([
     "Instructions:",
-    "Based on the following main idea and its relevant passages, create $num_questions true/false questions that test comprehension and understanding of key concepts.",
-    'Do not use the phrases "main idea" or "passages" in the question statement. Instead, directly address the content or concepts described.',
+    "- Based on the following main idea and its relevant passages, create $num_questions true/false questions that test comprehension and understanding of key concepts.",
+    '- Do not use the phrases "main idea" or "passages" in the question statement. Instead, directly address the content or concepts described.',
+    "- You will be provided with *Inspiration Content*, them combined to generate questions.",
     "For each question:",
     "- Create a clear, definitive statement (not ambiguous)",
     "- Provide the correct answer (true or false)",
@@ -45,6 +49,9 @@ tf_prompt = PromptTemplate(
     "",
     "Passages:",
     "$passages",
+    "",
+    "Inspiration Content:",
+    "$inspirations",
   ])),
   response_model=TrueOrFalse
 )
@@ -53,8 +60,9 @@ tf_prompt = PromptTemplate(
 short_answer_prompt = PromptTemplate(
   system=Template("\n".join([
     "Instructions:",
-    "Based on the following main idea and its relevant passages, create $num_questions short-answer questions that require brief, focused responses demonstrating understanding.",
-    'Do not use the phrases "main idea" or "passages" in the question statement. Instead, directly address the content or concepts described.',
+    "- Based on the following main idea and its relevant passages, create $num_questions short-answer questions that require brief, focused responses demonstrating understanding.",
+    '- Do not use the phrases "main idea" or "passages" in the question statement. Instead, directly address the content or concepts described.',
+    "- You will be provided with *Inspiration Content*, them combined to generate questions.",
     "For each question:",
     "- Create a clear question that requires a brief answer (1-3 sentences)",
     "- Provide an expected answer or key points that should be included",
@@ -68,6 +76,9 @@ short_answer_prompt = PromptTemplate(
     "",
     "Passages:",
     "$passages",
+    "",
+    "Inspiration Content:",
+    "$inspirations",
   ])),
   response_model=ShortAnswer
 )
