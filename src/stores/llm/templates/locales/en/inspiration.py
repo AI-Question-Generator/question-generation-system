@@ -1,6 +1,6 @@
 from string import Template
 from stores.llm.templates.locales.PromptTemplate import PromptTemplate
-from stores.llm.templates.response_models.list_wrapper import ListOf
+from stores.llm.templates.response_models import ListOf
 
 inspiration_prompt = PromptTemplate(
     system=Template('\n'.join([
@@ -15,6 +15,6 @@ inspiration_prompt = PromptTemplate(
         "- Do not number the output.",
         "- Extract as many unique contextual situations as the text naturally supports."
     ])),
-    user=Template("Source Text:\n$text\n\nGenerate the contextual situations:"),
+    user=Template("Source Text:\n$text"),
     response_model=ListOf[str]
 )
