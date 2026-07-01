@@ -1,4 +1,5 @@
 from .nlp import PushRequest, SearchRequest
+from .inspiration import InspirationExtractionRequest, InspirationExtractionResponse
 from .savaal import (
   MainIdeaExtractionRequest,
   MainIdeaExtractionResponse,
