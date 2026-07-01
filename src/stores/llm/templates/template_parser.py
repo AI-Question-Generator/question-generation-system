@@ -73,8 +73,8 @@ class PromptTemplateParser(PromptTemplateParserInterface):
 
   def __init__(
     self,
-    domain: str,
     language: str,
+    domain: str = "",
     default_language: str = "en",
     language_resolver: Optional[LanguageResolverInterface] = None,
   ):
