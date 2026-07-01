@@ -15,25 +15,29 @@ class Settings(BaseSettings):
   GENERATION_BACKEND: str
   EMBEDDING_BACKEND: str
 
-  OPENAI_API_KEY: str = None
-  OPENAI_API_URL: str = None
-  COHERE_API_KEY: str = None
-  GEMINI_API_KEY: str = None
+  OPENAI_API_KEY: Optional[str] = None
+  OPENAI_API_URL: Optional[str] = None
 
-  GENERATION_MODEL_ID: str = None
-  EMBEDDING_MODEL_ID: str = None
-  EMBEDDING_MODEL_SIZE: int = None
+  OLLAMA_API_KEY: Optional[str] = None
+  OLLAMA_HOST_URL: Optional[str] = None
 
-  DEFAULT_INPUT_MAX_CHARACHTERS: int = None
-  GENERATION_DEFAULT_MAX_TOKENS: int = None
-  GENERATION_DEFAULT_TEMPERATURE: float = None
+  COHERE_API_KEY: Optional[str] = None
+  GEMINI_API_KEY: Optional[str] = None
+
+  GENERATION_MODEL_ID: Optional[str] = None
+  EMBEDDING_MODEL_ID: Optional[str] = None
+  EMBEDDING_MODEL_SIZE: Optional[int] = None
+
+  DEFAULT_INPUT_MAX_CHARACHTERS: Optional[int] = None
+  GENERATION_DEFAULT_MAX_TOKENS: Optional[int] = None
+  GENERATION_DEFAULT_TEMPERATURE: Optional[float] = None
   
   
   VECTOR_DB_BACKEND: str
   VECTOR_DB_PATH: str
   VECTOR_DB_LOCATION: str
   VECTOR_DB_PORT: int
-  VECTOR_DB_DISTANCE_METHOD: str = None
+  VECTOR_DB_DISTANCE_METHOD: Optional[str] = None
 
   PRIMARY_LANG: str 
   DEFAULT_LANG: str
