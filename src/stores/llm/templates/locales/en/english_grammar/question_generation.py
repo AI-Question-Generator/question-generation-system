@@ -7,7 +7,7 @@ from .. import question_generation
 #### QUESTION GENERATION PROMPTS. ####
 
 # Multiple Choice Question Generation 
-mcq_prompt = question_generation.mcq_prompt
+mcq_prompt = question_generation.mcq_prompt.model_copy()
 mcq_prompt.system = Template('\n'.join([
   "Instructions:",
   "You are given a grammar lesson that contains rules, structures, and examples.",
@@ -32,8 +32,8 @@ mcq_prompt.system = Template('\n'.join([
 
 
 # True/False Question Generation 
-tf_prompt = question_generation.tf_prompt
+tf_prompt = question_generation.tf_prompt.model_copy()
 
 
 # Short Answer Question Generation 
-short_answer_prompt = question_generation.short_answer_prompt
+short_answer_prompt = question_generation.short_answer_prompt.model_copy()

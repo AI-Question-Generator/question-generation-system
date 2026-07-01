@@ -6,7 +6,7 @@ from .. import main_idea
 #### MAIN IDEA EXTRACTION, CONSOLIDATION, AND RANKING PROMPTS ####
 
 # Main Idea Extraction
-extract_prompt = main_idea.extract_prompt
+extract_prompt = main_idea.extract_prompt.model_copy()
 extract_prompt.system = Template("\n".join([
   "You are an expert English grammar educator specializing in analyzing grammar lessons and texts. Given the following excerpt from a grammar lesson or text, extract the main grammar concepts, rules, and supporting details that are critical to understanding the material.",
   "Focus on identifying:",
@@ -33,7 +33,7 @@ extract_prompt.system = Template("\n".join([
   ]))
 
 # Main Idea Combining
-combine_prompt = main_idea.combine_prompt
+combine_prompt = main_idea.combine_prompt.model_copy()
 combine_prompt.system = Template("\n".join([
   "You are an expert English grammar educator. Your task is to combine multiple sets of extracted grammar concepts into a single, comprehensive and organized summary.",
   "When merging the lists:",
@@ -46,8 +46,8 @@ combine_prompt.system = Template("\n".join([
   
 
 # Main Idea Reducing
-reduce_prompt = main_idea.reduce_prompt
+reduce_prompt = main_idea.reduce_prompt.model_copy()
 
 
 # Main Idea Ranking
-rank_prompt = main_idea.rank_prompt
+rank_prompt = main_idea.rank_prompt.model_copy()
