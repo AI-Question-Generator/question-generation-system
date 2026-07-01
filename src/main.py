@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from routes import base_router, data_router, nlp_router, savaal_router
+from routes import base_router, data_router, nlp_router, savaal_router, inspiration_router
 from helpers import get_settings, Settings
 from pymongo import AsyncMongoClient
 from stores.llm import LLMProviderFactory, AsyncLLMProviderFactory
@@ -56,3 +56,4 @@ app.include_router(base_router)
 app.include_router(data_router)
 app.include_router(nlp_router)
 app.include_router(savaal_router)
+app.include_router(inspiration_router)
