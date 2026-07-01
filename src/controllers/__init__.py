@@ -4,3 +4,4 @@ from .ProcessController import ProcessController
 from .NLPController import NLPController
 from .MainIdeaController import MainIdeaController
 from .QuestionController import QuestionController
+from .InspirationController import InspirationController
