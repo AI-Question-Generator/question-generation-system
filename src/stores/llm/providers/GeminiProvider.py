@@ -127,7 +127,8 @@ class GeminiProvider(LLMInterface):
       
         pydantic_model_from_json(response.candidates[0].content.parts[0].text, model_class=response_model)
       except Exception as exc:
-        self.logger.error(f'Schema validation error on attempt {attempt}, retrying...')
+                self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
+
         chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
 
     if (
@@ -256,7 +257,8 @@ class AsyncGeminiProvider(GeminiProvider, AsyncLLMInterface):
       
         pydantic_model_from_json(response.candidates[0].content.parts[0].text, model_class=response_model)
       except Exception as exc:
-        self.logger.error(f'Schema validation error on attempt {attempt}, retrying...')
+                self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
+
         chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
     
     if (

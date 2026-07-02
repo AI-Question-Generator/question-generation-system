@@ -115,7 +115,7 @@ class OpenAIProvider(LLMInterface):
       
         pydantic_model_from_json(response.choices[0].message.content, model_class=response_model)
       except Exception as exc:
-        self.logger.error(f'Schema validation error on attempt {attempt}, retrying...')
+        self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
         chat_history.append(self.construct_prompt(prompt=f'{exc}', role=OpenAIEnums.USER.value))
     
     
@@ -244,7 +244,8 @@ class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
       
         pydantic_model_from_json(response.choices[0].message.content, model_class=response_model)
       except Exception as exc:
-        self.logger.error(f'Schema validation error on attempt {attempt}, retrying...')
+        self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
+
         chat_history.append(self.construct_prompt(prompt=f'{exc}', role=OpenAIEnums.USER.value))
     
     if not response or not response.choices or len(response.choices) == 0 or not response.choices[0].message:

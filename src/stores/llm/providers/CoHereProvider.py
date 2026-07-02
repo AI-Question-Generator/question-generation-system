@@ -109,7 +109,8 @@ class CoHereProvider(LLMInterface):
       
         pydantic_model_from_json(response.text, model_class=response_model)
       except Exception as exc:
-        self.logger.error(f'Schema validation error on attempt {attempt}, retrying...')
+                self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
+
         chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
 
     if not response or not response.text:
@@ -241,7 +242,8 @@ class AsyncCoHereProvider(CoHereProvider, AsyncLLMInterface):
       
         pydantic_model_from_json(response.text, model_class=response_model)
       except Exception as exc:
-        self.logger.error(f'Schema validation error on attempt {attempt}, retrying...')
+                self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
+
         chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
 
     if not response or not response.text:
