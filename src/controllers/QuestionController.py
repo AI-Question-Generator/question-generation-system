@@ -69,6 +69,8 @@ class QuestionController:
   
   async def fix_question_candidates(self, response: str, response_model: type[rm.questions.QuestionType]) -> List[type[rm.questions.QuestionType]]:
     candidates = json_repair_loads(response, salvage=False)['root'] if response else []
+    logger.info(f'Parsed {len(candidates)} question candidates from the response, attempting to fix any invalid candidates...')
+    logger.info(f'Candidates: {candidates}')
 
     question_fixer = AsyncQuestionFixer(
       generation_client=self.generation_client,
@@ -81,7 +83,7 @@ class QuestionController:
       try:
         candidates[i] = pydantic_model_from_json(json.dumps(candidate, ensure_ascii=False), response_model)
       except Exception as exc:
-        logger.error(f'Failed to parse question candidate at index {i}, exception:\n{exc}.\n\nCandidate:\n{candidate}')
+        logger.error(f'Failed to parse question candidate at index {i}, exception:\n{exc}.\nCandidate:\n{candidate}')
         idx.append(i)
         excs.append(exc)
 
