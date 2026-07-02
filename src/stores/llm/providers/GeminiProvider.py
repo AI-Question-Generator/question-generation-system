@@ -1,9 +1,9 @@
 from pydantic import BaseModel
-from typing import Optional, Literal, Union, List
+from google.genai import types, Client
+from typing import Optional, Union, List
+from helpers.json_tools import pydantic_model_from_json
 from ..LLMInterface import LLMInterface, AsyncLLMInterface
 from ..LLMEnums import GeminiEnums
-from google import genai
-from google.genai import types
 import logging
 
 
@@ -15,6 +15,7 @@ class GeminiProvider(LLMInterface):
     default_input_max_characters: int = 1000,
     default_generation_max_output_tokens: int = 1000,
     default_generation_temperature: float = 0.1,
+    max_retries: int = 0
   ):
     self.api_key = api_key
     self.api_url = api_url
@@ -22,6 +23,7 @@ class GeminiProvider(LLMInterface):
     self.default_input_max_characters = default_input_max_characters
     self.default_generation_max_output_tokens = default_generation_max_output_tokens
     self.default_generation_temperature = default_generation_temperature
+    self.max_retries = max_retries
 
     self.generation_model_id = None
 
@@ -29,7 +31,7 @@ class GeminiProvider(LLMInterface):
     self.embedding_size = None
 
     self.enums = GeminiEnums
-    self.client = genai.Client(
+    self.client = Client(
         api_key=self.api_key,
     )
 
@@ -110,16 +112,23 @@ class GeminiProvider(LLMInterface):
     temperature = temperature if temperature else self.default_generation_temperature
 
     chat_history.append(self.construct_prompt(prompt=prompt, role=self.enums.USER.value))
-
-    response = self.client.models.generate_content(
-      model=self.generation_model_id,
-      contents=chat_history,
-      config=types.GenerateContentConfig(
-        temperature=temperature,
-        max_output_tokens=max_output_tokens,
-        response_json_schema=response_model.model_json_schema()
-      ),
-    )
+    
+    for attempt in range(self.max_retries + 1):
+      try:
+        response = self.client.models.generate_content(
+          model=self.generation_model_id,
+          contents=chat_history,
+          config=types.GenerateContentConfig(
+            temperature=temperature,
+            max_output_tokens=max_output_tokens,
+            response_json_schema=response_model.model_json_schema()
+          ),
+        )
+      
+        pydantic_model_from_json(response.candidates[0].content.parts[0].text, model_class=response_model)
+      except Exception as exc:
+        self.logger.error(f'Schema validation error on attempt {attempt}, retrying...')
+        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
 
     if (
       not response
@@ -231,16 +240,25 @@ class AsyncGeminiProvider(GeminiProvider, AsyncLLMInterface):
 
     chat_history.append(self.construct_prompt(prompt=prompt, role=self.enums.USER.value))
 
-    response = await self.client.aio.models.generate_content(
-      model=self.generation_model_id,
-      contents=chat_history,
-      config=types.GenerateContentConfig(
-        temperature=temperature,
-        max_output_tokens=max_output_tokens,
-        response_json_schema=response_model.model_json_schema()
-      ),
-    )
-
+    
+        
+    for attempt in range(self.max_retries + 1):
+      try:
+        response = await self.client.aio.models.generate_content(
+          model=self.generation_model_id,
+          contents=chat_history,
+          config=types.GenerateContentConfig(
+            temperature=temperature,
+            max_output_tokens=max_output_tokens,
+            response_json_schema=response_model.model_json_schema()
+          ),
+        )
+      
+        pydantic_model_from_json(response.candidates[0].content.parts[0].text, model_class=response_model)
+      except Exception as exc:
+        self.logger.error(f'Schema validation error on attempt {attempt}, retrying...')
+        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
+    
     if (
       not response
       or not response.candidates

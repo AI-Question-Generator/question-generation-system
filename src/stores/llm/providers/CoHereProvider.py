@@ -1,9 +1,10 @@
 from pydantic import BaseModel
 from typing import Optional
-from ..LLMInterface import LLMInterface, AsyncLLMInterface
-from ..LLMEnums import CoHereEnums, DocumentTypeEnum
 import cohere
 from cohere.types.response_format import JsonObjectResponseFormat
+from helpers.json_tools import pydantic_model_from_json
+from ..LLMInterface import LLMInterface, AsyncLLMInterface
+from ..LLMEnums import CoHereEnums, DocumentTypeEnum
 import logging
 
 class CoHereProvider(LLMInterface):
@@ -11,13 +12,15 @@ class CoHereProvider(LLMInterface):
   def __init__(self, api_key: str,
                     default_input_max_characters: int = 1000,
                     default_generation_max_output_tokens: int = 1000,
-                    default_generation_temperature: float = .5):
+                    default_generation_temperature: float = .5,
+                    max_retries: int = 0):
     
     self.api_key = api_key
     
     self.default_input_max_characters = default_input_max_characters
     self.default_generation_max_output_tokens = default_generation_max_output_tokens
     self.default_generation_temperature = default_generation_temperature
+    self.max_retries = max_retries
     
     self.generation_model_id = None
     
@@ -91,16 +94,23 @@ class CoHereProvider(LLMInterface):
     temperature = temperature if temperature else self.default_generation_temperature
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
 
-    response = self.client.chat(
-      model=self.generation_model_id,
-      chat_history=chat_history,
-      message=prompt,
-      temperature=temperature,
-      max_tokens=max_output_tokens,
-      response_format=JsonObjectResponseFormat(
-        schema_=response_model.model_json_schema(),
-      ),
-    )
+    for attempt in range(self.max_retries + 1):
+      try:
+        response = self.client.chat(
+          model=self.generation_model_id,
+          chat_history=chat_history,
+          message=prompt,
+          temperature=temperature,
+          max_tokens=max_output_tokens,
+          response_format=JsonObjectResponseFormat(
+            schema_=response_model.model_json_schema(),
+          ),
+        )
+      
+        pydantic_model_from_json(response.text, model_class=response_model)
+      except Exception as exc:
+        self.logger.error(f'Schema validation error on attempt {attempt}, retrying...')
+        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
 
     if not response or not response.text:
       self.logger.error("Error while generating structured text using CoHere")
@@ -216,16 +226,23 @@ class AsyncCoHereProvider(CoHereProvider, AsyncLLMInterface):
     temperature = temperature if temperature else self.default_generation_temperature
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
 
-    response = await self.client.chat(
-      model=self.generation_model_id,
-      chat_history=chat_history,
-      message=prompt,
-      temperature=temperature,
-      max_tokens=max_output_tokens,
-      response_format=JsonObjectResponseFormat(
-        schema_=response_model.model_json_schema(),
-      ),
-    )
+    for attempt in range(self.max_retries + 1):
+      try:
+        response = await self.client.chat(
+          model=self.generation_model_id,
+          chat_history=chat_history,
+          message=prompt,
+          temperature=temperature,
+          max_tokens=max_output_tokens,
+          response_format=JsonObjectResponseFormat(
+            schema_=response_model.model_json_schema(),
+          ),
+        )
+      
+        pydantic_model_from_json(response.text, model_class=response_model)
+      except Exception as exc:
+        self.logger.error(f'Schema validation error on attempt {attempt}, retrying...')
+        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
 
     if not response or not response.text:
       self.logger.error("Error while generating structured text using CoHere")
