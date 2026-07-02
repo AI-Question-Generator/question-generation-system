@@ -12,7 +12,8 @@ class LLMProviderFactory:
         api_key=self.config.OPENAI_API_KEY,
         api_url=self.config.OPENAI_API_URL,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
-        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE
+        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
+        max_retries=self.config.MAX_RETRIES,
       )
     
     if provider == LLMEnums.COHERE.value:
@@ -20,7 +21,8 @@ class LLMProviderFactory:
       return CoHereProvider(
         api_key=self.config.COHERE_API_KEY,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
-        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE
+        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
+        max_retries=self.config.MAX_RETRIES,
       )
     
     if provider == LLMEnums.GEMINI.value:
@@ -29,7 +31,8 @@ class LLMProviderFactory:
         api_key= self.config.GEMINI_API_KEY,
         default_input_max_characters= self.config.DEFAULT_INPUT_MAX_CHARACHTERS,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
-        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE
+        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
+        max_retries=self.config.MAX_RETRIES,
       )
     
     if provider == LLMEnums.OLLAMA.value:
@@ -38,8 +41,9 @@ class LLMProviderFactory:
         api_key=self.config.OLLAMA_API_KEY,
         default_input_max_characters= self.config.DEFAULT_INPUT_MAX_CHARACHTERS,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
-        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE
-        )
+        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
+        max_retries=self.config.MAX_RETRIES,
+      )
 
     return None
   
@@ -57,7 +61,8 @@ class AsyncLLMProviderFactory:
         api_key=self.config.OPENAI_API_KEY,
         api_url=self.config.OPENAI_API_URL,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
-        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE
+        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
+        max_retries=self.config.MAX_RETRIES,
       )
     
     if provider == LLMEnums.COHERE.value:
@@ -65,7 +70,8 @@ class AsyncLLMProviderFactory:
       return AsyncCoHereProvider(
         api_key=self.config.COHERE_API_KEY,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
-        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE
+        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
+        max_retries=self.config.MAX_RETRIES,
       )
     
     if provider == LLMEnums.GEMINI.value:
@@ -74,7 +80,8 @@ class AsyncLLMProviderFactory:
         api_key= self.config.GEMINI_API_KEY,
         default_input_max_characters= self.config.DEFAULT_INPUT_MAX_CHARACHTERS,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
-        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE
+        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
+        max_retries=self.config.MAX_RETRIES,
       )
     
     if provider == LLMEnums.OLLAMA.value:
@@ -84,7 +91,8 @@ class AsyncLLMProviderFactory:
         api_url=self.config.OLLAMA_HOST_URL,
         default_input_max_characters= self.config.DEFAULT_INPUT_MAX_CHARACHTERS,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
-        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE
-        )
+        default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
+        max_retries=self.config.MAX_RETRIES,
+      )
 
     return None

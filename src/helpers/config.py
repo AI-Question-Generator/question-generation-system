@@ -31,6 +31,7 @@ class Settings(BaseSettings):
   DEFAULT_INPUT_MAX_CHARACHTERS: Optional[int] = None
   GENERATION_DEFAULT_MAX_TOKENS: Optional[int] = None
   GENERATION_DEFAULT_TEMPERATURE: Optional[float] = None
+  MAX_RETRIES: Optional[int] = None
   
   
   VECTOR_DB_BACKEND: str
