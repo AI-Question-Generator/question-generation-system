@@ -8,6 +8,8 @@ from helpers.json_tools import pydantic_model_from_json
 from typing import List, Optional
 import logging
 
+logger = logging.getLogger(__name__)
+
 class QuestionController:
   def __init__(
     self,
@@ -16,9 +18,8 @@ class QuestionController:
     ):
     self.generation_client = generation_client
     self.prompt_template_parser = prompt_template_parser
-    self.logger = logging.getLogger(__name__)
   
-  async def generate_questions(self, main_idea_summary: str, passages: List[str], num_questions: int, question_type: QuestionTypeEnum, inspirations: Optional[List[str]] = None) -> List[type[BaseQuestion]]:
+  async def generate_questions(self, main_idea_summary: str, passages: List[str], num_questions: int, question_type: QuestionTypeEnum, inspirations: Optional[List[str]] = None) -> List[type[rm.questions.QuestionType]]:
     passages_str = "\n\n".join(passages)
     inspirations_str = "\n\n".join(inspirations) if inspirations else "(Not provided)"
     
@@ -34,14 +35,14 @@ class QuestionController:
     )
     
     if not prompt_template:
-      self.logger.error(f"Prompt template for question type {question_type} not found")
+      logger.error(f"Prompt template for question type {question_type} not found")
       return []
     
     system_message, user_message, response_model = prompt_template
     response_model = ListOf.constrained(response_model, min_length=num_questions, max_length=num_questions)
     
     if not system_message or not user_message:
-      self.logger.error(f"Invalid prompt template format for question type {question_type}")
+      logger.error(f"Invalid prompt template format for question type {question_type}")
       return []
     
     chat_history = [
@@ -55,8 +56,13 @@ class QuestionController:
       chat_history=chat_history,
       response_model=response_model,
     )
-    response = pydantic_model_from_json(response, response_model)
-    return list(response) if response else []
+
+    try:
+      candidates = pydantic_model_from_json(response, response_model)
+      return list(candidates) if candidates else []
+    except Exception as exc:
+      logger.error(f'Main Ideas reranking failed in schema validation, Response:\n{response}\n\nException:\n{exc}')
+      return []
   
   async def generate_questions_from_main_idea(self, main_idea: rm.MainIdea, passages: List[str], question_type: QuestionTypeEnum, num_questions: int) -> List[type[rm.questions.QuestionType]]:
     return await self.generate_questions(main_idea_summary=main_idea.summary, passages=passages, num_questions=num_questions, question_type=question_type)

@@ -113,9 +113,12 @@ class MainIdeaController(BaseController):
       chat_history=chat_history,
       response_model=response_model
     )
-
-    response = pydantic_model_from_json(response, response_model)
-    return list(response) if response else []
+    try:
+      candidates = pydantic_model_from_json(response, response_model)
+      return list(candidates) if candidates else []
+    except Exception as exc:
+      logger.error(f'Main Ideas combining failed in schema validation, Response:\n{response}\n\nException:\n{exc}')
+      return []
   
   async def reduce_candidates(self, candidates: List[rm.MainIdea], limit: int) -> List[rm.MainIdea]:
     
@@ -157,9 +160,12 @@ class MainIdeaController(BaseController):
       response_model=response_model
     )
     
-    response = pydantic_model_from_json(response, response_model)
-        
-    return list(response) if response else []
+    try:
+      candidates = pydantic_model_from_json(response, response_model)
+      return list(candidates) if candidates else []
+    except Exception as exc:
+      logger.error(f'Main Ideas reduction failed in schema validation, Response:\n{response}\n\nException:\n{exc}')
+      return []
   
 
   async def rank_main_ideas(self, ideas: List[rm.MainIdea]) -> List[int]:
@@ -200,5 +206,9 @@ class MainIdeaController(BaseController):
       response_model=response_model
     )
     
-    response = pydantic_model_from_json(response, response_model)
-    return list(response) if response else []
+    try:
+      candidates = pydantic_model_from_json(response, response_model)
+      return list(candidates) if candidates else []
+    except Exception as exc:
+      logger.error(f'Main Ideas reranking failed in schema validation, Response:\n{response}\n\nException:\n{exc}')
+      return []

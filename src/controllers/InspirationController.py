@@ -8,7 +8,7 @@ from helpers.json_tools import pydantic_model_from_json
 import asyncio
 import logging
 
-logger = logging.getLogger('uvicorn.error')
+logger = logging.getLogger(__name__)
 
 
 class InspirationController(BaseController):
@@ -69,18 +69,19 @@ class InspirationController(BaseController):
 
     results = await asyncio.gather(*tasks, return_exceptions=True)
     all_inspirations = set()
-    for res, model in zip(results, response_models):
+    for res, response_model in zip(results, response_models):
       if isinstance(res, Exception):
         logger.error(f"Error generating inspiration: {res}")
         continue
 
-      parsed_res = pydantic_model_from_json(res, model)
-      if not list(parsed_res):
-        logger.warning(f"Model generated Zero Inspirations")
-        continue
-
+      try:
+        candidates = pydantic_model_from_json(res, response_model)
+      except Exception as exc:
+        logger.error(f'Main Ideas reranking failed in schema validation, Response:\n{res}\n\nException:\n{exc}')
+        return []
+      
       # Handle ListOf[str] or similar list-based response models
-      items = list(parsed_res) if parsed_res else []
+      items = list(candidates) if candidates else []
       for item in items:
         all_inspirations.add(item.strip())
 
