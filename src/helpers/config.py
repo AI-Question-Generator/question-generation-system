@@ -42,8 +42,8 @@ class Settings(BaseSettings):
   PRIMARY_LANG: str 
   DEFAULT_LANG: str
   
-  class Config:
-    env_file = ".env"
+
+  SettingsConfigDict(env_file='.env')
     
 def get_settings():
   return Settings()
