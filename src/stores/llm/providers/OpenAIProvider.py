@@ -62,7 +62,7 @@ class OpenAIProvider(LLMInterface):
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
       
     chat_history.append(
-      self.construct_prompt(prompt=prompt,role=OpenAIEnums.USER.value)
+      self.construct_prompt(prompt=prompt,role=self.enums.USER.value)
     )
       
     response = self.client.chat.completions.create(
@@ -92,7 +92,7 @@ class OpenAIProvider(LLMInterface):
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
       
     chat_history.append(
-      self.construct_prompt(prompt=prompt,role=OpenAIEnums.USER.value)
+      self.construct_prompt(prompt=prompt,role=self.enums.USER.value)
     )
     
     for attempt in range(self.max_retries + 1):
@@ -116,7 +116,8 @@ class OpenAIProvider(LLMInterface):
         pydantic_model_from_json(response.choices[0].message.content, model_class=response_model)
       except Exception as exc:
         self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
-        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=OpenAIEnums.USER.value))
+        chat_history.append(self.construct_prompt(prompt=response.choices[0].message.content, role=self.enums.ASSISTANT.value))
+        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
     
     
     if not response or not response.choices or len(response.choices) == 0 or not response.choices[0].message:
@@ -193,7 +194,7 @@ class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
       
     chat_history.append(
-      self.construct_prompt(prompt=prompt,role=OpenAIEnums.USER.value)
+      self.construct_prompt(prompt=prompt,role=self.enums.USER.value)
     )
       
     response = await self.client.chat.completions.create(
@@ -222,7 +223,7 @@ class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
       
     chat_history.append(
-      self.construct_prompt(prompt=prompt,role=OpenAIEnums.USER.value)
+      self.construct_prompt(prompt=prompt,role=self.enums.USER.value)
     )
     
     for attempt in range(self.max_retries + 1):
@@ -245,8 +246,8 @@ class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
         pydantic_model_from_json(response.choices[0].message.content, model_class=response_model)
       except Exception as exc:
         self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
-
-        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=OpenAIEnums.USER.value))
+        chat_history.append(self.construct_prompt(prompt=response.choices[0].message.content, role=self.enums.ASSISTANT.value))
+        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
     
     if not response or not response.choices or len(response.choices) == 0 or not response.choices[0].message:
       self.logger.error("Error while Generating Structured Text with OpenAI")

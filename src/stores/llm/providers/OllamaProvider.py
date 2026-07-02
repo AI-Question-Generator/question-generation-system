@@ -109,9 +109,11 @@ class OllamaProvider(LLMInterface):
 
         pydantic_model_from_json(response.message.content, model_class=response_model)
       except Exception as exc:
-                self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
-
-        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
+        self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}')
+        if attempt != self.max_retries:
+          self.logger.error('\nretrying...')
+          chat_history.append(self.construct_prompt(prompt=response.message.content, role=self.enums.ASSISTANT.value))
+          chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
 
     if not response or not response.message or not response.message.content:
       self.logger.error("Error while generating structured text with Ollama")
@@ -229,8 +231,8 @@ class AsyncOllamaProvider(OllamaProvider, AsyncLLMInterface):
 
         pydantic_model_from_json(response.message.content, model_class=response_model)
       except Exception as exc:
-                self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
-
+        self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
+        chat_history.append(self.construct_prompt(prompt=response.message.content, role=self.enums.ASSISTANT.value))
         chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
 
     if not response or not response.message:
