@@ -58,6 +58,7 @@ class QuestionController:
       prompt=user_message,
       chat_history=chat_history,
       response_model=list_of_response_model,
+      max_retries=0,
     )
 
     try:
@@ -65,9 +66,9 @@ class QuestionController:
       return list(candidates) if candidates else []
     except Exception as exc:
       logger.error(f'Failed to parse questions, exception:\n{exc}.\n\nResponse:\n{response}\n\nTrying to fix the questions...')
-      return await self.fix_question_candidates(response, list_of_response_model)
+      return await self.fix_question_candidates(response, response_model)
   
-  async def fix_question_candidates(self, response: str, response_model: type[rm.questions.QuestionType]) -> List[type[rm.questions.QuestionType]]:
+  async def fix_question_candidates(self, response: str, response_model) -> List:
     candidates = json_repair_loads(response, salvage=False)['root'] if response else []
     logger.info(f'Parsed {len(candidates)} question candidates from the response, attempting to fix any invalid candidates...')
     logger.info(f'Candidates: {candidates}')
