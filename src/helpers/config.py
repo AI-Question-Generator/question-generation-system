@@ -30,9 +30,9 @@ class Settings(BaseSettings):
   EMBEDDING_MODEL_SIZE: Optional[int] = None
 
   DEFAULT_INPUT_MAX_CHARACHTERS: Optional[int] = None
-  GENERATION_DEFAULT_MAX_TOKENS: Optional[int] = None
+  DEFAULT_MAX_RETRIES: Optional[int] = None
   GENERATION_DEFAULT_TEMPERATURE: Optional[float] = None
-  MAX_RETRIES: Optional[int] = None
+  GENERATION_DEFAULT_MAX_TOKENS: Optional[int] = None
   
   
   VECTOR_DB_BACKEND: str
