@@ -1,3 +1,4 @@
+import re
 from typing import List
 from pydantic import Field, model_validator
 from .BaseQuestion import BaseQuestion
@@ -11,7 +12,7 @@ class MCQ(BaseQuestion):
     if self.correct_answer in self.plausible_distractors:
       raise ValueError(
         f"The correct_answer '{self.correct_answer}' appears in plausible_distractors. "
-        "Please replace it with a different incorrect option in the distractors list."
+        "Please replace it with a different UNIQUE incorrect option in the distractors list. "
       )
     
     # Check plausible distractor repetition
@@ -19,4 +20,10 @@ class MCQ(BaseQuestion):
       duplicates = [item for item in set(self.plausible_distractors) if self.plausible_distractors.count(item) > 1]
       raise ValueError(f"All plausible_distractors must be unique. Duplicate values detected: {duplicates}")
 
+    return self
+  
+  @model_validator(mode='after')
+  def post_processing(self):
+    # Replace underscores with points
+    self.question_statement = re.sub(r'_{3,}', '......', self.question_statement)
     return self
