@@ -25,5 +25,5 @@ class MCQ(BaseQuestion):
   @model_validator(mode='after')
   def post_processing(self):
     # Replace underscores with points
-    self.question_statement = re.sub(r'_{3,}', '......', self.question_statement)
+    self.question_statement = re.sub(r'_{3,}', '.'*10, self.question_statement)
     return self
