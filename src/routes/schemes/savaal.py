@@ -64,7 +64,7 @@ class QuestionGenerationResponse(BaseModel):
   """Response from question generation."""
   signal: str
   ideas_processed: int
-  questions_generated: List[QuestionType]
+  questions_generated: List[dict | QuestionType]
 
 class ProjectGenerationRequest(BaseModel):
   """A single project's question generation task."""

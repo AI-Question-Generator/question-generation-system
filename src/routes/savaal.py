@@ -472,7 +472,13 @@ async def batch_generate_questions(
     project_id = project_task.project_id
     project_results = []
     
-    project = await project_model.get_project_or_create_one(project_id=project_id)
+    project = await project_model.get_project(project_id=project_id)
+    if project is None:
+      logger.error(f"Project of ID: {project_id} is not found.")
+      return BatchQuestionGenerationResponse(
+        status_code=status.HTTP_400_BAD_REQUEST,
+        results=[]
+      )
     
     # Build controllers
     prompt_template_parser = PromptTemplateParser(
@@ -571,16 +577,15 @@ async def batch_generate_questions(
       
       results = await asyncio.gather(*q_tasks)
       
-      questions_generated: List[rm.questions.QuestionType] = []
+      questions_generated: List[dict | rm.questions.QuestionType] = []
       for result in results:
         questions_generated.extend(result)
-              
       project_results.append(GenerationResult(
         question_type=generation_request.question_type.value,
         questions= QuestionGenerationResponse(
           signal=ResponseSignal.QUESTION_GENERATION_SUCCESS.value,
-          ideas_processed= len(main_ideas),
-          questions_generated= questions_generated
+          ideas_processed=len(main_ideas),
+          questions_generated=questions_generated
         )
       ))
 
