@@ -14,7 +14,7 @@ class OllamaProvider(LLMInterface):
                default_input_max_characters: int = 1000,
                default_generation_max_output_tokens: int = 1000,
                default_generation_temperature: float = 0.5,
-               max_retries: int = 0):
+               default_max_retries: int = 0):
     
     self.api_key = api_key
     self.api_url = api_url
@@ -22,14 +22,14 @@ class OllamaProvider(LLMInterface):
     self.default_input_max_characters = default_input_max_characters
     self.default_generation_max_output_tokens = default_generation_max_output_tokens
     self.default_generation_temperature = default_generation_temperature
-    self.max_retries = max_retries
+    self.default_max_retries = default_max_retries
     
     self.generation_model_id = None
     self.embedding_model_id = None
     self.embedding_size = None
     
-    self.client = Client(host=self.api_url)
     self.enums = OllamaEnums
+    self.client = Client(host=self.api_url)
     self.logger = logging.getLogger(__name__)
 
   
@@ -78,7 +78,7 @@ class OllamaProvider(LLMInterface):
   
 
   def generate_structured_text(self, prompt: str, response_model: type[BaseModel], chat_history: list = [], 
-                               max_output_tokens: Optional[int] = None, temperature: Optional[float] = None):
+                               max_output_tokens: Optional[int] = None, temperature: Optional[float] = None, max_retries: Optional[int] = None):
     if not self.client:
       self.logger.error("Ollama Client was not set")
       return None
@@ -87,6 +87,9 @@ class OllamaProvider(LLMInterface):
       self.logger.error("Generation Model was not set")
       return None
     
+    if max_retries is None:
+      max_retries = self.default_max_retries
+
     temperature = temperature if temperature else self.default_generation_temperature
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
       
@@ -94,23 +97,23 @@ class OllamaProvider(LLMInterface):
       self.construct_prompt(prompt=prompt, role=self.enums.USER.value)
     )
     
-    for attempt in range(self.max_retries + 1):
-      try:
-        response = self.client.chat(
-          model=self.generation_model_id,
-          messages=chat_history,
-          think=False,
-          options={
-            "temperature": temperature,
-            "num_predict": max_output_tokens
-          },
-          format=response_model.model_json_schema()
-        )
+    for attempt in range(max_retries + 1):
+      response = self.client.chat(
+        model=self.generation_model_id,
+        messages=chat_history,
+        think=False,
+        options={
+          "temperature": temperature,
+          "num_predict": max_output_tokens
+        },
+        format=response_model.model_json_schema()
+      )
 
+      try:
         pydantic_model_from_json(response.message.content, model_class=response_model)
       except Exception as exc:
         self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}')
-        if attempt != self.max_retries:
+        if attempt != max_retries:
           self.logger.error('\nretrying...')
           chat_history.append(self.construct_prompt(prompt=response.message.content, role=self.enums.ASSISTANT.value))
           chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
@@ -156,10 +159,22 @@ class AsyncOllamaProvider(OllamaProvider, AsyncLLMInterface):
                default_input_max_characters: int = 1000,
                default_generation_max_output_tokens: int = 1000,
                default_generation_temperature: float = 0.5,
-               max_retries: int = 0):
+               default_max_retries: int = 0):
     
-    super().__init__(api_key, api_url, default_input_max_characters, 
-                     default_generation_max_output_tokens, default_generation_temperature, max_retries=max_retries)
+        
+    self.api_key = api_key
+    self.api_url = api_url
+    
+    self.default_input_max_characters = default_input_max_characters
+    self.default_generation_max_output_tokens = default_generation_max_output_tokens
+    self.default_generation_temperature = default_generation_temperature
+    self.default_max_retries = default_max_retries
+    
+    self.generation_model_id = None
+    self.embedding_model_id = None
+    self.embedding_size = None
+    
+    self.enums = OllamaEnums
     
     self.client = AsyncClient(host=self.api_url)
     self.logger = logging.getLogger(__name__)
@@ -200,7 +215,7 @@ class AsyncOllamaProvider(OllamaProvider, AsyncLLMInterface):
   
 
   async def generate_structured_text(self, prompt: str, response_model: type[BaseModel], chat_history: list = [], 
-                                     max_output_tokens: Optional[int] = None, temperature: Optional[float] = None):
+                                     max_output_tokens: Optional[int] = None, temperature: Optional[float] = None, max_retries: Optional[int] = None):
     if not self.client:
       self.logger.error("Ollama Client was not set")
       return None
@@ -209,6 +224,9 @@ class AsyncOllamaProvider(OllamaProvider, AsyncLLMInterface):
       self.logger.error("Generation Model was not set")
       return None
     
+    if max_retries is None:
+      max_retries = self.default_max_retries
+
     temperature = temperature if temperature else self.default_generation_temperature
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
       
@@ -216,24 +234,25 @@ class AsyncOllamaProvider(OllamaProvider, AsyncLLMInterface):
       self.construct_prompt(prompt=prompt, role=self.enums.USER.value)
     )
     
-    for attempt in range(self.max_retries + 1):
-      try:
-        response = await self.client.chat(
-          model=self.generation_model_id,
-          messages=chat_history,
-          think=False,
-          options={
-            "temperature": temperature,
-            "num_predict": max_output_tokens
+    for attempt in range(max_retries + 1):
+      response = await self.client.chat(
+        model=self.generation_model_id,
+        messages=chat_history,
+        think=False,
+        options={
+          "temperature": temperature,
+          "num_predict": max_output_tokens
         },
-          format=response_model.model_json_schema()
-        )
+        format=response_model.model_json_schema()
+      )
 
+      try:
         pydantic_model_from_json(response.message.content, model_class=response_model)
       except Exception as exc:
         self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
-        chat_history.append(self.construct_prompt(prompt=response.message.content, role=self.enums.ASSISTANT.value))
-        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
+        if attempt != max_retries:
+          chat_history.append(self.construct_prompt(prompt=response.message.content, role=self.enums.ASSISTANT.value))
+          chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
 
     if not response or not response.message:
       self.logger.error("Error while generating structured text with Ollama")

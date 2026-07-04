@@ -13,14 +13,14 @@ class CoHereProvider(LLMInterface):
                     default_input_max_characters: int = 1000,
                     default_generation_max_output_tokens: int = 1000,
                     default_generation_temperature: float = .5,
-                    max_retries: int = 0):
+                    default_max_retries: int = 0):
     
     self.api_key = api_key
     
     self.default_input_max_characters = default_input_max_characters
     self.default_generation_max_output_tokens = default_generation_max_output_tokens
     self.default_generation_temperature = default_generation_temperature
-    self.max_retries = max_retries
+    self.default_max_retries = default_max_retries
     
     self.generation_model_id = None
     
@@ -78,6 +78,7 @@ class CoHereProvider(LLMInterface):
     chat_history: list = [],
     max_output_tokens: Optional[int] = None,
     temperature: Optional[float] = None,
+    max_retries: Optional[int] = None,
   ) -> Optional[str]:
     if not self.client:
       self.logger.error("Cohere Client was not set")
@@ -91,27 +92,31 @@ class CoHereProvider(LLMInterface):
       self.logger.error("No response model provided")
       return None
 
+    if max_retries is None:
+      max_retries = self.default_max_retries
+
     temperature = temperature if temperature else self.default_generation_temperature
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
 
-    for attempt in range(self.max_retries + 1):
+    for attempt in range(max_retries + 1):
+      response = self.client.chat(
+        model=self.generation_model_id,
+        chat_history=chat_history,
+        message=prompt,
+        temperature=temperature,
+        max_tokens=max_output_tokens,
+        response_format=JsonObjectResponseFormat(
+          schema_=response_model.model_json_schema(),
+        ),
+      )
+    
       try:
-        response = self.client.chat(
-          model=self.generation_model_id,
-          chat_history=chat_history,
-          message=prompt,
-          temperature=temperature,
-          max_tokens=max_output_tokens,
-          response_format=JsonObjectResponseFormat(
-            schema_=response_model.model_json_schema(),
-          ),
-        )
-      
         pydantic_model_from_json(response.text, model_class=response_model)
       except Exception as exc:
         self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
-        chat_history.append(self.construct_prompt(prompt=response.text, role=self.enums.ASSISTANT.value))
-        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
+        if attempt != max_retries:
+          chat_history.append(self.construct_prompt(prompt=response.text, role=self.enums.ASSISTANT.value))
+          chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
 
     if not response or not response.text:
       self.logger.error("Error while generating structured text using CoHere")
@@ -211,6 +216,7 @@ class AsyncCoHereProvider(CoHereProvider, AsyncLLMInterface):
     chat_history: list = [],
     max_output_tokens: Optional[int] = None,
     temperature: Optional[float] = None,
+    max_retries: Optional[int] = None,
   ) -> Optional[str]:
     if not self.client:
       self.logger.error("Cohere Client was not set")
@@ -226,25 +232,28 @@ class AsyncCoHereProvider(CoHereProvider, AsyncLLMInterface):
 
     temperature = temperature if temperature else self.default_generation_temperature
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
+    if max_retries is None:
+      max_retries = self.default_max_retries
 
-    for attempt in range(self.max_retries + 1):
-      try:
-        response = await self.client.chat(
-          model=self.generation_model_id,
-          chat_history=chat_history,
-          message=prompt,
-          temperature=temperature,
-          max_tokens=max_output_tokens,
-          response_format=JsonObjectResponseFormat(
-            schema_=response_model.model_json_schema(),
-          ),
-        )
+    for attempt in range(max_retries + 1):
+      response = await self.client.chat(
+        model=self.generation_model_id,
+        chat_history=chat_history,
+        message=prompt,
+        temperature=temperature,
+        max_tokens=max_output_tokens,
+        response_format=JsonObjectResponseFormat(
+          schema_=response_model.model_json_schema(),
+        ),
+      )
       
+      try:
         pydantic_model_from_json(response.text, model_class=response_model)
       except Exception as exc:
         self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
-        chat_history.append(self.construct_prompt(prompt=response.text, role=self.enums.ASSISTANT.value))
-        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
+        if attempt != max_retries:
+          chat_history.append(self.construct_prompt(prompt=response.text, role=self.enums.ASSISTANT.value))
+          chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
 
     if not response or not response.text:
       self.logger.error("Error while generating structured text using CoHere")

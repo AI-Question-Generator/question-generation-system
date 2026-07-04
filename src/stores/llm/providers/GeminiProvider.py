@@ -15,7 +15,7 @@ class GeminiProvider(LLMInterface):
     default_input_max_characters: int = 1000,
     default_generation_max_output_tokens: int = 1000,
     default_generation_temperature: float = 0.1,
-    max_retries: int = 0
+    default_max_retries: int = 0
   ):
     self.api_key = api_key
     self.api_url = api_url
@@ -23,7 +23,7 @@ class GeminiProvider(LLMInterface):
     self.default_input_max_characters = default_input_max_characters
     self.default_generation_max_output_tokens = default_generation_max_output_tokens
     self.default_generation_temperature = default_generation_temperature
-    self.max_retries = max_retries
+    self.default_max_retries = default_max_retries
 
     self.generation_model_id = None
 
@@ -95,6 +95,7 @@ class GeminiProvider(LLMInterface):
     chat_history: list = [],
     max_output_tokens: Optional[int] = None,
     temperature: Optional[float] = None,
+    max_retries: Optional[int] = None,
   ):
     if not self.client:
       self.logger.error("Gemini client was not set")
@@ -108,28 +109,33 @@ class GeminiProvider(LLMInterface):
       self.logger.error("No response model provided")
       return None
     
+    if max_retries is None:
+      max_retries = self.default_max_retries
+    
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
     temperature = temperature if temperature else self.default_generation_temperature
 
     chat_history.append(self.construct_prompt(prompt=prompt, role=self.enums.USER.value))
     
-    for attempt in range(self.max_retries + 1):
+
+    for attempt in range(max_retries + 1):
+      response = self.client.models.generate_content(
+        model=self.generation_model_id,
+        contents=chat_history,
+        config=types.GenerateContentConfig(
+          temperature=temperature,
+          max_output_tokens=max_output_tokens,
+          response_json_schema=response_model.model_json_schema()
+        ),
+      )
+    
       try:
-        response = self.client.models.generate_content(
-          model=self.generation_model_id,
-          contents=chat_history,
-          config=types.GenerateContentConfig(
-            temperature=temperature,
-            max_output_tokens=max_output_tokens,
-            response_json_schema=response_model.model_json_schema()
-          ),
-        )
-      
         pydantic_model_from_json(response.candidates[0].content.parts[0].text, model_class=response_model)
       except Exception as exc:
         self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
-        chat_history.append(self.construct_prompt(prompt=response.candidates[0].content.parts[0].text, role=self.enums.ASSISTANT.value))
-        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
+        if attempt != max_retries:
+          chat_history.append(self.construct_prompt(prompt=response.candidates[0].content.parts[0].text, role=self.enums.ASSISTANT.value))
+          chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
 
     if (
       not response
@@ -223,6 +229,7 @@ class AsyncGeminiProvider(GeminiProvider, AsyncLLMInterface):
     chat_history: list = [],
     max_output_tokens: Optional[int] = None,
     temperature: Optional[float] = None,
+    max_retries: Optional[int] = None,
   ):
     if not self.client:
       self.logger.error("Gemini client was not set")
@@ -236,30 +243,33 @@ class AsyncGeminiProvider(GeminiProvider, AsyncLLMInterface):
       self.logger.error("No response model provided")
       return None
     
+    if max_retries is None:
+      max_retries = self.default_max_retries
+    
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
     temperature = temperature if temperature else self.default_generation_temperature
 
     chat_history.append(self.construct_prompt(prompt=prompt, role=self.enums.USER.value))
 
-    
-        
-    for attempt in range(self.max_retries + 1):
-      try:
-        response = await self.client.aio.models.generate_content(
-          model=self.generation_model_id,
-          contents=chat_history,
-          config=types.GenerateContentConfig(
-            temperature=temperature,
-            max_output_tokens=max_output_tokens,
-            response_json_schema=response_model.model_json_schema()
-          ),
-        )
+
+    for attempt in range(max_retries + 1):
+      response = await self.client.aio.models.generate_content(
+        model=self.generation_model_id,
+        contents=chat_history,
+        config=types.GenerateContentConfig(
+          temperature=temperature,
+          max_output_tokens=max_output_tokens,
+          response_json_schema=response_model.model_json_schema()
+        ),
+      )
       
+      try:
         pydantic_model_from_json(response.candidates[0].content.parts[0].text, model_class=response_model)
       except Exception as exc:
         self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
-        chat_history.append(self.construct_prompt(prompt=response.candidates[0].content.parts[0].text, role=self.enums.ASSISTANT.value))
-        chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
+        if attempt != max_retries:
+          chat_history.append(self.construct_prompt(prompt=response.candidates[0].content.parts[0].text, role=self.enums.ASSISTANT.value))
+          chat_history.append(self.construct_prompt(prompt=f'{exc}', role=self.enums.USER.value))
     
     if (
       not response

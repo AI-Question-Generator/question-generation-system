@@ -14,7 +14,7 @@ class OpenAIProvider(LLMInterface):
                     default_input_max_characters: int = 1000,
                     default_generation_max_output_tokens: int = 1000,
                     default_generation_temperature: float = .5,
-                    max_retries: int = 0):
+                    default_max_retries: int = 0):
     
     self.api_key = api_key
     self.api_url = api_url
@@ -22,7 +22,7 @@ class OpenAIProvider(LLMInterface):
     self.default_input_max_characters = default_input_max_characters
     self.default_generation_max_output_tokens = default_generation_max_output_tokens
     self.default_generation_temperature = default_generation_temperature
-    self.max_retries = max_retries
+    self.default_max_retries = default_max_retries
     
     self.generation_model_id = None
     
@@ -79,7 +79,7 @@ class OpenAIProvider(LLMInterface):
     
     return response.choices[0].message.content
   
-  def generate_structured_text(self, prompt: str, response_model: type[BaseModel], chat_history: list = [], max_output_tokens: Optional[int] = None, temperature: Optional[float] = None):
+  def generate_structured_text(self, prompt: str, response_model: type[BaseModel], chat_history: list = [], max_output_tokens: Optional[int] = None, temperature: Optional[float] = None, max_retries: Optional[int] = None):
     if not self.client:
       self.logger.error("OpenAI Client was not set")
       return None
@@ -88,6 +88,9 @@ class OpenAIProvider(LLMInterface):
       self.logger.error("Generation Model was not set")
       return None
     
+    if max_retries is None:
+      max_retries = self.default_max_retries
+    
     temperature = temperature if temperature else self.default_generation_temperature
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
       
@@ -95,24 +98,25 @@ class OpenAIProvider(LLMInterface):
       self.construct_prompt(prompt=prompt,role=self.enums.USER.value)
     )
     
-    for attempt in range(self.max_retries + 1):
-      try:
-        response = self.client.chat.completions.create(
-                          model=self.generation_model_id,
-                          messages=chat_history,
-                          max_tokens=max_output_tokens,
-                          temperature=temperature,
-                          reasoning_effort=None,
-                          response_format={
-                            "type": "json_schema",
-                            "json_schema": {
-                              "name": "structured_response",
-                              "schema": response_model.model_json_schema(),
-                            },
+
+    for attempt in range(max_retries + 1):
+      response = self.client.chat.completions.create(
+                        model=self.generation_model_id,
+                        messages=chat_history,
+                        max_tokens=max_output_tokens,
+                        temperature=temperature,
+                        reasoning_effort=None,
+                        response_format={
+                          "type": "json_schema",
+                          "json_schema": {
+                            "name": "structured_response",
+                            "schema": response_model.model_json_schema(),
                           },
-                          extra_body={"chat_template_kwargs": {"enable_thinking": False}}
-                          )
-      
+                        },
+                        extra_body={"chat_template_kwargs": {"enable_thinking": False}}
+                        )
+    
+      try:
         pydantic_model_from_json(response.choices[0].message.content, model_class=response_model)
       except Exception as exc:
         self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')
@@ -157,14 +161,14 @@ class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
                     default_input_max_characters: int = 1000,
                     default_generation_max_output_tokens: int = 1000,
                     default_generation_temperature: float = .5,
-                    max_retries: int = 0):
+                    default_max_retries: int = 0):
     self.api_key = api_key
     self.api_url = api_url
     
     self.default_input_max_characters = default_input_max_characters
     self.default_generation_max_output_tokens = default_generation_max_output_tokens
     self.default_generation_temperature = default_generation_temperature
-    self.max_retries = max_retries
+    self.default_max_retries = default_max_retries
     
     self.generation_model_id = None
     
@@ -210,7 +214,7 @@ class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
   
     return response.choices[0].message.content
   
-  async def generate_structured_text(self, prompt: str, response_model: type[BaseModel], chat_history: list = [], max_output_tokens: Optional[int] = None, temperature: Optional[float] = None):
+  async def generate_structured_text(self, prompt: str, response_model: type[BaseModel], chat_history: list = [], max_output_tokens: Optional[int] = None, temperature: Optional[float] = None, max_retries: Optional[int] = None):
     if not self.client:
       self.logger.error("OpenAI Client was not set")
       return None
@@ -219,6 +223,9 @@ class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
       self.logger.error("Generation Model was not set")
       return None
     
+    if max_retries is None:
+      max_retries = self.default_max_retries
+    
     temperature = temperature if temperature else self.default_generation_temperature
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
       
@@ -226,23 +233,23 @@ class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
       self.construct_prompt(prompt=prompt,role=self.enums.USER.value)
     )
     
-    for attempt in range(self.max_retries + 1):
-      try:
-        response = await self.client.chat.completions.create(
-                      model=self.generation_model_id,
-                      messages=chat_history,
-                      max_tokens=max_output_tokens,
-                      temperature=temperature,
-                      reasoning_effort=None,
-                      response_format={
-                        "type": "json_schema",
-                        "json_schema": {
-                          "name": "structured_response",
-                          "schema": response_model.model_json_schema(),
-                        },
-                      }
-                      )
+    for attempt in range(max_retries + 1):
+      response = await self.client.chat.completions.create(
+                    model=self.generation_model_id,
+                    messages=chat_history,
+                    max_tokens=max_output_tokens,
+                    temperature=temperature,
+                    reasoning_effort=None,
+                    response_format={
+                      "type": "json_schema",
+                      "json_schema": {
+                        "name": "structured_response",
+                        "schema": response_model.model_json_schema(),
+                      },
+                    }
+                    )
       
+      try:
         pydantic_model_from_json(response.choices[0].message.content, model_class=response_model)
       except Exception as exc:
         self.logger.error(f'Error on attempt {attempt}\nError:\n{exc}\n\nretrying...')

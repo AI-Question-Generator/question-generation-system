@@ -1,7 +1,8 @@
 from .LLMEnums import LLMEnums
+from helpers.config import Settings
 
 class LLMProviderFactory:
-  def __init__(self, config: dict):
+  def __init__(self, config: Settings):
     self.config = config
     
   def create(self, provider: str):
@@ -13,7 +14,7 @@ class LLMProviderFactory:
         api_url=self.config.OPENAI_API_URL,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
         default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
-        max_retries=self.config.MAX_RETRIES,
+        default_max_retries=self.config.DEFAULT_MAX_RETRIES,
       )
     
     if provider == LLMEnums.COHERE.value:
@@ -22,7 +23,7 @@ class LLMProviderFactory:
         api_key=self.config.COHERE_API_KEY,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
         default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
-        max_retries=self.config.MAX_RETRIES,
+        default_max_retries=self.config.DEFAULT_MAX_RETRIES,
       )
     
     if provider == LLMEnums.GEMINI.value:
@@ -32,7 +33,7 @@ class LLMProviderFactory:
         default_input_max_characters= self.config.DEFAULT_INPUT_MAX_CHARACHTERS,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
         default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
-        max_retries=self.config.MAX_RETRIES,
+        default_max_retries=self.config.DEFAULT_MAX_RETRIES,
       )
     
     if provider == LLMEnums.OLLAMA.value:
@@ -42,7 +43,7 @@ class LLMProviderFactory:
         default_input_max_characters= self.config.DEFAULT_INPUT_MAX_CHARACHTERS,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
         default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
-        max_retries=self.config.MAX_RETRIES,
+        default_max_retries=self.config.DEFAULT_MAX_RETRIES,
       )
 
     return None
@@ -50,7 +51,7 @@ class LLMProviderFactory:
 
 class AsyncLLMProviderFactory:
   
-  def __init__(self, config: dict):
+  def __init__(self, config: Settings):
     self.config = config
     
   def create(self, provider: str):
@@ -62,7 +63,7 @@ class AsyncLLMProviderFactory:
         api_url=self.config.OPENAI_API_URL,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
         default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
-        max_retries=self.config.MAX_RETRIES,
+        default_max_retries=self.config.DEFAULT_MAX_RETRIES,
       )
     
     if provider == LLMEnums.COHERE.value:
@@ -71,7 +72,7 @@ class AsyncLLMProviderFactory:
         api_key=self.config.COHERE_API_KEY,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
         default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
-        max_retries=self.config.MAX_RETRIES,
+        default_max_retries=self.config.DEFAULT_MAX_RETRIES,
       )
     
     if provider == LLMEnums.GEMINI.value:
@@ -81,7 +82,7 @@ class AsyncLLMProviderFactory:
         default_input_max_characters= self.config.DEFAULT_INPUT_MAX_CHARACHTERS,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
         default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
-        max_retries=self.config.MAX_RETRIES,
+        default_max_retries=self.config.DEFAULT_MAX_RETRIES,
       )
     
     if provider == LLMEnums.OLLAMA.value:
@@ -92,7 +93,7 @@ class AsyncLLMProviderFactory:
         default_input_max_characters= self.config.DEFAULT_INPUT_MAX_CHARACHTERS,
         default_generation_max_output_tokens=self.config.GENERATION_DEFAULT_MAX_TOKENS,
         default_generation_temperature=self.config.GENERATION_DEFAULT_TEMPERATURE,
-        max_retries=self.config.MAX_RETRIES,
+        default_max_retries=self.config.DEFAULT_MAX_RETRIES,
       )
 
     return None

@@ -19,7 +19,7 @@ class LLMInterface(ABC):
     pass
 
   @abstractmethod
-  def generate_structured_text(self, prompt: str, response_model: type[BaseModel], chat_history: list = [], max_output_tokens: Optional[int] = None, temperature: Optional[float] = None) -> Optional[str]:
+  def generate_structured_text(self, prompt: str, response_model: type[BaseModel], chat_history: list = [], max_output_tokens: Optional[int] = None, temperature: Optional[float] = None, max_retries: Optional[int] = None) -> Optional[str]:
     pass
   
   @abstractmethod
@@ -38,7 +38,7 @@ class AsyncLLMInterface(LLMInterface):
     pass
 
   @abstractmethod
-  async def generate_structured_text(self, prompt: str, response_model: type[BaseModel], chat_history: list = [], max_output_tokens: Optional[int] = None, temperature: Optional[float] = None) -> Optional[str]:
+  async def generate_structured_text(self, prompt: str, response_model: type[BaseModel], chat_history: list = [], max_output_tokens: Optional[int] = None, temperature: Optional[float] = None, max_retries: Optional[int] = None) -> Optional[str]:
     pass
   
   @abstractmethod
