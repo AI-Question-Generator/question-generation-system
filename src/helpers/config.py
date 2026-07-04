@@ -1,3 +1,4 @@
+import os
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import List, Optional
 
@@ -43,7 +44,8 @@ class Settings(BaseSettings):
   DEFAULT_LANG: str
   
   class Config:
-    env_file = ".env"
+    if os.path.exists(".env"):
+      env_file = ".env"
     
 def get_settings():
   return Settings()
