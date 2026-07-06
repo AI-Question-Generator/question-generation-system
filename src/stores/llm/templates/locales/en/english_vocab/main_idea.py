@@ -21,7 +21,7 @@ extract_prompt.system = Template("\n".join([
   "",
   "Use clear bullet point summaries, organized by vocabulary topic or word category.",
   "Format:",
-  "- Vocabulary Word or Concept:",
+  "- Relevant Vocabulary or Concept:",
   " - Definition and Explanation",
   " - Usage in Context",
   " - Collocations and Word Pairings",
