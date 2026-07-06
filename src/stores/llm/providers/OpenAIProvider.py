@@ -4,6 +4,7 @@ from ..LLMInterface import LLMInterface, AsyncLLMInterface
 from ..LLMEnums import OpenAIEnums
 from openai import OpenAI, AsyncOpenAI
 from helpers.json_tools import pydantic_model_from_json
+from helpers.semaphore import with_gen_semaphore
 
 import logging
 
@@ -201,12 +202,12 @@ class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
       self.construct_prompt(prompt=prompt,role=self.enums.USER.value)
     )
       
-    response = await self.client.chat.completions.create(
-                          model=self.generation_model_id,
-                          messages=chat_history,
-                          max_tokens=max_output_tokens,
-                          temperature=temperature,
-                          )
+    response = await with_gen_semaphore(self.client.chat.completions.create(
+                model=self.generation_model_id,
+                messages=chat_history,
+                max_tokens=max_output_tokens,
+                temperature=temperature,
+                ))
     
     if not response or not response.choices or len(response.choices) == 0 or not response.choices[0].message:
       self.logger.error("Error while Generating Structured Text with OpenAI")
@@ -234,7 +235,7 @@ class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
     )
     
     for attempt in range(max_retries + 1):
-      response = await self.client.chat.completions.create(
+      response = await with_gen_semaphore(self.client.chat.completions.create(
                     model=self.generation_model_id,
                     messages=chat_history,
                     max_tokens=max_output_tokens,
@@ -247,7 +248,7 @@ class AsyncOpenAIProvider(OpenAIProvider, AsyncLLMInterface):
                         "schema": response_model.model_json_schema(),
                       },
                     }
-                    )
+                    ))
       
       try:
         pydantic_model_from_json(response.choices[0].message.content, model_class=response_model)

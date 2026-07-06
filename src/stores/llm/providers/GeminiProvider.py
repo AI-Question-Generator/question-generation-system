@@ -4,6 +4,7 @@ from typing import Optional, Union, List
 from helpers.json_tools import pydantic_model_from_json
 from ..LLMInterface import LLMInterface, AsyncLLMInterface
 from ..LLMEnums import GeminiEnums
+from helpers.semaphore import with_gen_semaphore
 import logging
 
 
@@ -201,14 +202,14 @@ class AsyncGeminiProvider(GeminiProvider, AsyncLLMInterface):
 
     chat_history.append(self.construct_prompt(prompt=prompt, role=self.enums.USER.value))
 
-    response = await self.client.aio.models.generate_content(
+    response = await with_gen_semaphore(self.client.aio.models.generate_content(
       model=self.generation_model_id,
       contents=chat_history,
       config=types.GenerateContentConfig(
         temperature=temperature,
         max_output_tokens=max_output_tokens,
       ),
-    )
+    ))
 
     if (
       not response
@@ -253,7 +254,7 @@ class AsyncGeminiProvider(GeminiProvider, AsyncLLMInterface):
 
 
     for attempt in range(max_retries + 1):
-      response = await self.client.aio.models.generate_content(
+      response = await with_gen_semaphore(self.client.aio.models.generate_content(
         model=self.generation_model_id,
         contents=chat_history,
         config=types.GenerateContentConfig(
@@ -261,7 +262,7 @@ class AsyncGeminiProvider(GeminiProvider, AsyncLLMInterface):
           max_output_tokens=max_output_tokens,
           response_json_schema=response_model.model_json_schema()
         ),
-      )
+      ))
       
       try:
         pydantic_model_from_json(response.candidates[0].content.parts[0].text, model_class=response_model)
