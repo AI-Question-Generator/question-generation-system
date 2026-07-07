@@ -1,6 +1,4 @@
 from string import Template
-from stores.llm.templates.locales.PromptTemplate import PromptTemplate
-from typing import List
 from .. import main_idea
 
 #### MAIN IDEA EXTRACTION, CONSOLIDATION, AND RANKING PROMPTS ####
