@@ -13,8 +13,13 @@ inspiration_prompt = PromptTemplate(
         "- Do not summarize the text. Instead, identify and extract dynamic scenarios, environments, or activities (e.g., 'Waiting for the bus in a storm', 'A busy day at the corporate office', 'Deciding what to wear to a summer party').",
         "- These scenarios will be used later as background contexts to embed domain-specific questions.",
         "- Do not number the output.",
-        "- Extract as many unique contextual situations as the text naturally supports."
-        "- Consider only simple scenarios and filtrate any complicated concepts or not easily-understandable words."
+        "- Extract as many unique contextual situations as the text naturally supports.",
+        "- Consider only simple scenarios and filtrate any complicated concepts or not easily-understandable words.",
+        "",
+        "Strict Filters:",
+        "- Consider only simple, normal people friendly scenarios.",
+        "- Complicated topics (e.g. Medical idioms, Political content, ...) are neglected.",
+        "- Ignore any violence, sexual, or inappropriate content, this mustn't be extracted as inspiration."
     ])),
     user=Template("Source Text:\n$text"),
     response_model=ListOf[str]
