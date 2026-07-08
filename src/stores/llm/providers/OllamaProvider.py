@@ -4,6 +4,7 @@ from ..LLMInterface import LLMInterface, AsyncLLMInterface
 from ..LLMEnums import OllamaEnums
 from ollama import Client, AsyncClient
 from helpers.json_tools import pydantic_model_from_json
+from helpers.semaphore import with_gen_semaphore
 
 import logging
 
@@ -197,7 +198,7 @@ class AsyncOllamaProvider(OllamaProvider, AsyncLLMInterface):
       self.construct_prompt(prompt=prompt, role=self.enums.USER.value)
     )
       
-    response = await self.client.chat(
+    response = await with_gen_semaphore(self.client.chat(
       model=self.generation_model_id,
       messages=chat_history,
       think=False,
@@ -205,7 +206,7 @@ class AsyncOllamaProvider(OllamaProvider, AsyncLLMInterface):
         "temperature": temperature,
         "num_predict": max_output_tokens
       }
-    )
+    ))
     
     if not response or not response.message:
       self.logger.error("Error while generating text with Ollama")
@@ -235,7 +236,7 @@ class AsyncOllamaProvider(OllamaProvider, AsyncLLMInterface):
     )
     
     for attempt in range(max_retries + 1):
-      response = await self.client.chat(
+      response = await with_gen_semaphore(self.client.chat(
         model=self.generation_model_id,
         messages=chat_history,
         think=False,
@@ -244,7 +245,7 @@ class AsyncOllamaProvider(OllamaProvider, AsyncLLMInterface):
           "num_predict": max_output_tokens
         },
         format=response_model.model_json_schema()
-      )
+      ))
 
       try:
         pydantic_model_from_json(response.message.content, model_class=response_model)

@@ -5,6 +5,7 @@ from cohere.types.response_format import JsonObjectResponseFormat
 from helpers.json_tools import pydantic_model_from_json
 from ..LLMInterface import LLMInterface, AsyncLLMInterface
 from ..LLMEnums import CoHereEnums, DocumentTypeEnum
+from helpers.semaphore import with_gen_semaphore
 import logging
 
 class CoHereProvider(LLMInterface):
@@ -195,13 +196,13 @@ class AsyncCoHereProvider(CoHereProvider, AsyncLLMInterface):
     temperature = temperature if temperature else self.default_generation_temperature
     max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
       
-    response = await self.client.chat(
-            model = self.generation_model_id,
-            chat_history = chat_history,
-            message = prompt,
-            temperature = temperature,
-            max_tokens = max_output_tokens
-        )
+    response = await with_gen_semaphore(self.client.chat(
+        model = self.generation_model_id,
+        chat_history = chat_history,
+        message = prompt,
+        temperature = temperature,
+        max_tokens = max_output_tokens
+      ))
     
     if not response or not response.text:
       self.logger.error("Error While Generation Text Using CoHere") 
@@ -236,7 +237,7 @@ class AsyncCoHereProvider(CoHereProvider, AsyncLLMInterface):
       max_retries = self.default_max_retries
 
     for attempt in range(max_retries + 1):
-      response = await self.client.chat(
+      response = await with_gen_semaphore(self.client.chat(
         model=self.generation_model_id,
         chat_history=chat_history,
         message=prompt,
@@ -245,7 +246,7 @@ class AsyncCoHereProvider(CoHereProvider, AsyncLLMInterface):
         response_format=JsonObjectResponseFormat(
           schema_=response_model.model_json_schema(),
         ),
-      )
+      ))
       
       try:
         pydantic_model_from_json(response.text, model_class=response_model)

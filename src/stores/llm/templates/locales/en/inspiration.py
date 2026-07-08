@@ -14,6 +14,7 @@ inspiration_prompt = PromptTemplate(
         "- These scenarios will be used later as background contexts to embed domain-specific questions.",
         "- Do not number the output.",
         "- Extract as many unique contextual situations as the text naturally supports."
+        "- Consider only simple scenarios and filtrate any complicated concepts or not easily-understandable words."
     ])),
     user=Template("Source Text:\n$text"),
     response_model=ListOf[str]

@@ -34,9 +34,11 @@ class DataController(BaseController):
                               random_filename+"_"+cleaned_filename
                               )
     
-    if os.path.exists(new_file_path):
-      return self.generate_unique_filepath(orig_file_name=orig_file_name,
-                                          project_id=project_id)  
+    while os.path.exists(new_file_path):
+            new_file_path = os.path.join(
+                project_path,
+                random_filename + '_' + cleaned_filename
+            )
     
     return new_file_path, random_filename+"_"+cleaned_filename
     

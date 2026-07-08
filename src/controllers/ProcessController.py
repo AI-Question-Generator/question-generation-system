@@ -34,6 +34,9 @@ class ProcessController(BaseController):
     
     if file_ext == ProcessingEnum.PDF.value:
       return PyMuPDFLoader(file_path)
+      
+    if file_ext == ProcessingEnum.MARKDOWN.value:
+      return TextLoader(file_path, encoding="utf-8")
   
     return None
   

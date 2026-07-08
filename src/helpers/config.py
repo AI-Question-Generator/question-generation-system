@@ -1,5 +1,5 @@
 import os
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
 from typing import List, Optional
 
 class Settings(BaseSettings):
@@ -15,6 +15,8 @@ class Settings(BaseSettings):
   
   GENERATION_BACKEND: str
   EMBEDDING_BACKEND: str
+
+  GENERATION_SEMAPHORE_SIZE: int = 5
 
   OPENAI_API_KEY: Optional[str] = None
   OPENAI_API_URL: Optional[str] = None
