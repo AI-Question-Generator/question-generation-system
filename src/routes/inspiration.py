@@ -90,7 +90,6 @@ async def extract_inspirations(
   inspirations = await inspiration_controller.generate_inspirations(
     sections=sections,
   )
-  logger.info(f"inspirations----> {inspirations}")
   
   if not inspirations:
     logger.warning("No inspirations generated")
