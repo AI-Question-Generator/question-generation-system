@@ -8,7 +8,6 @@ from models.ProjectModel import ProjectModel
 from models.InspirationModel import InspirationModel
 from stores.llm.templates.template_parser import PromptTemplateParser
 from typing import Optional
-from bson.objectid import ObjectId
 import logging
 
 from .schemes import InspirationExtractionRequest, InspirationExtractionResponse
@@ -84,7 +83,6 @@ async def extract_inspirations(
   inspiration_controller = InspirationController(
     generation_client=request.app.state.generation_client,
     prompt_template_parser=prompt_template_parser,
-    inspiration_model=inspiration_model
   )
   
   # 3. Generate Inspirations
