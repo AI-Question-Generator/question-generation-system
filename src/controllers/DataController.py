@@ -21,6 +21,9 @@ class DataController(BaseController):
     if file.size > self.app_settings.FILE_ALLOWED_SIZE*self.size_scale:
       return False, ResponseSignal.FILE_SIZE_EXCEEDED.value
     
+    if file.size == 0:
+       return False, ResponseSignal.FILE_NO_CONTENT.value
+    
     return True, ResponseSignal.FILE_UPLOADED_SUCCESSFULLY.value
   
   

@@ -7,6 +7,7 @@ class ResponseSignal(Enum):
 
   FILE_TYPE_NOT_ALLOWED = "file type not allowed"
   FILE_SIZE_EXCEEDED = "file size exceeded"
+  FILE_NO_CONTENT = "file has no content"
   FILE_UPLOADED_SUCCESSFULLY = "file uploaded successfully"
   FILE_UPLOAD_FAILED = "file upload failed"
   
@@ -46,5 +47,6 @@ class ResponseSignal(Enum):
   QUESTION_GENERATION_FAILED = "Question generation failed"
 
   INSPIRATION_EXTRACTION_SUCCESS = "Inspiration extraction completed successfully"
+  INSPIRATION_NO_CONTENT = "Couldn't extract content from provided text corpus, maybe text is either empty or has no valid content."
   INSPIRATION_EXTRACTION_FAILED = "Inspiration extraction failed"
   

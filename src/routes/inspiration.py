@@ -72,6 +72,16 @@ async def extract_inspirations(
   )
   sections = [doc.page_content for doc in texts]
 
+  if not sections:
+    logger.error("No content could be extracted from provided text corpus")
+    return JSONResponse(
+      status_code=status.HTTP_400_BAD_REQUEST,
+      content={
+        "signal": ResponseSignal.INSPIRATION_EXTRACTION_FAILED.value,
+        "sections_count": 0,
+        "inspirations_count": 0,
+      }
+    )
   # 2. Setup Controller and Parser
   prompt_template_parser = PromptTemplateParser(
     domain=domain,
