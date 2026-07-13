@@ -129,7 +129,7 @@ async def extract_main_ideas(
   candidates = await main_idea_controller.extract_candidates_from_sections(sections=sections)
 
   # Run combining procedure
-  logger.info(f"Combining and deduplicating {len(candidates)} candidate ideas")
+  logger.info(f"Combining and deduplicating {len(candidates)} sections' main ideas")
   candidates = await main_idea_controller.combine_candidates(candidates=candidates)
   
   if extraction_request.limit is not None:

@@ -56,7 +56,7 @@ class AsyncQuestionFixer:
     try:
       return pydantic_model_from_json(response, response_model)
     except Exception as exc:
-      logger.error(f"Failed to fix question, exception:\n{exc}.\n\nResponse:\n{response}")
+      logger.error(f"Failed to fix question, exception:\n{exc}.\nResponse:\n{response}")
       return None
 
   async def fix_batch_questions(
