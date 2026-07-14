@@ -14,7 +14,7 @@ mcq_prompt.system = Template('\n'.join([
   "- Inspiration Text: [Insert Real-life Scenarios/Inspiration]",
   "",
   "**Instructions:**",
-  "1. **Definitions:** Frame the target word's definition as the sentence stem, ending in a blank (e.g., \"Harm or injury that results from... is called .........\"). Alternatively, ask a direct question about a structural rule (e.g., \"What is the primary purpose of...\").",
+  "1. **Definitions:** Frame the target word's definition as the sentence stem, having a blank (e.g., \"Harm or injury that results from... is called .........\").",
   "2. **Derivatives:** Use the Inspiration Text to write a sentence where a root word must be transformed into a specific part of speech (noun, verb, adjective, adverb) to be grammatically correct. Distractors must be other derivative forms of the same root (e.g., apprentice vs. apprenticeship, trainee vs. trainer).",
   "3. **Collocations:** Identify strict verb-noun or adjective-noun partnerships from the text (e.g., 'reach a conclusion', 'career direction'). Create sentences where the collocating verb or adjective is missing. Distractors must be verbs/nouns that are semantically plausible but do not naturally collocate.",
   "4. Provide an explanation that addresses the grammatical rule, the definition, or the specific collocational bond.",
