@@ -14,7 +14,7 @@ class MCQ(BaseQuestion):
 
     # Replace choice indices
     self.plausible_distractors = [
-      re.sub(r'[\(\[]?[ABCDEFabcdef][.\])-]', '', item).strip()
+      re.sub(r'^[\(\[]?[ABCDEFabcdef][.\])-]', '', item.strip()).strip()
       for item in self.plausible_distractors
     ]
     return self
