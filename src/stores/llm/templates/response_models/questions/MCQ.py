@@ -8,6 +8,18 @@ class MCQ(BaseQuestion):
   plausible_distractors: List[str] = Field(..., min_length=3, max_length=3, description="Exactly 3 distractors must be provided which the correct answer isn't one of them.")
 
   @model_validator(mode='after')
+  def post_processing(self):
+    # Replace underscores with points
+    self.question_statement = re.sub(r'_{3,}', '.'*10, self.question_statement).strip()
+
+    # Replace choice indices
+    self.plausible_distractors = [
+      re.sub(r'[\(\[]?[ABCDEFabcdef][.\])-]', '', item).strip()
+      for item in self.plausible_distractors
+    ]
+    return self
+  
+  @model_validator(mode='after')
   def validate_model(self):
     if self.correct_answer in self.plausible_distractors:
       raise ValueError(
@@ -20,16 +32,4 @@ class MCQ(BaseQuestion):
       duplicates = [item for item in set(self.plausible_distractors) if self.plausible_distractors.count(item) > 1]
       raise ValueError(f"All plausible_distractors must be unique. Duplicate values detected: {duplicates}")
 
-    return self
-  
-  @model_validator(mode='after')
-  def post_processing(self):
-    # Replace underscores with points
-    self.question_statement = re.sub(r'_{3,}', '.'*10, self.question_statement).strip()
-
-    # Replace choice indices
-    self.plausible_distractors = [
-      re.sub(r'[\(\[]?[ABCDEFabcdef][.\])-]', '', item).strip()
-      for item in self.plausible_distractors
-    ]
     return self
