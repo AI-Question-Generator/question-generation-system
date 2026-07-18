@@ -103,7 +103,7 @@ class QuestionController:
       if fixed_candidate:
         candidates[i] = fixed_candidate
       else:
-        candidates[i] = json_repair_loads(json.dumps(candidates[i], ensure_ascii=False), response_model, salvage=True) +  {"defected": True}
+        candidates[i] = json_repair_loads(json.dumps(candidates[i], ensure_ascii=False), response_model, salvage=True) | {"defected": True}
     if not fixed_candidates:
       logger.error(f'Question fixing failed for a sample, Response:\n{response}')
     
