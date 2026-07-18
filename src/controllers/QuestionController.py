@@ -54,6 +54,11 @@ class QuestionController:
         role=self.generation_client.enums.SYSTEM.value,
       )
     ]
+    user_message = user_message + '\n'.join(['\n\n## Respond in this Schema:',
+                                             json.dumps(response_model.model_json_schema(), ensure_ascii=False),
+                                             '',
+                                             '```json'
+                                             ])
     response = await self.generation_client.generate_structured_text(
       prompt=user_message,
       chat_history=chat_history,
