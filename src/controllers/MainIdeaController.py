@@ -8,6 +8,7 @@ from helpers.json_tools import pydantic_model_from_json
 import asyncio
 import logging
 import re
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -107,6 +108,11 @@ class MainIdeaController(BaseController):
         role=self.generation_client.enums.SYSTEM.value,
       )
     ]
+    user_message += '\n'.join(['\n\n## Respond in this Schema:',
+                                          json.dumps(response_model.model_json_schema(), ensure_ascii=False),
+                                          '',
+                                          '```json'
+                                          ])
     
     response = await self.generation_client.generate_structured_text(
       prompt=user_message,
@@ -153,6 +159,11 @@ class MainIdeaController(BaseController):
         role=self.generation_client.enums.SYSTEM.value,
       )
     ]
+    user_message += '\n'.join(['\n\n## Respond in this Schema:',
+                                          json.dumps(response_model.model_json_schema(), ensure_ascii=False),
+                                          '',
+                                          '```json'
+                                          ])
     
     response = await self.generation_client.generate_structured_text(
       prompt=user_message,
@@ -199,6 +210,11 @@ class MainIdeaController(BaseController):
         role=self.generation_client.enums.SYSTEM.value,
       )
     ]
+    user_message += '\n'.join(['\n\n## Respond in this Schema:',
+                                          json.dumps(response_model.model_json_schema(), ensure_ascii=False),
+                                          '',
+                                          '```json'
+                                          ])
     
     response = await self.generation_client.generate_structured_text(
       prompt=user_message,
