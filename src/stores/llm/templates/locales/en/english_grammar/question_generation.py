@@ -19,6 +19,7 @@ mcq_prompt.system = Template('\n'.join([
   "",
   "# Rules for Question Generation:",
   "1. **Context-Driven:** Never write bare grammar sentences. Embed the grammar rule into a realistic micro-narrative inspired by the `[Inspiration Text]`. The student must read the whole sentence to find contextual clues (time markers, subject/object relationships, cause and effect) to choose the correct answer.",
+  "2. **To-The-Point:** Question statement must be short and to the point. Instead of building a big story, make a direct situation."
   "2. **Clever Distractors:** Provide exactly 3 plausible distractors per question. Distractors must be based on common ESL mistakes (e.g., wrong tense, active vs. passive confusion, gerund vs. infinitive, word form confusion, structural redundancy).",
   "3. **No Redundancy:** Ensure all 4 options fit grammatically in a vacuum, but only one fits the specific context and rule perfectly.",
   "4. **Rigorous Explanations:** The explanation must clearly state *why* the correct answer is right by referencing the contextual clue and the grammar rule, and briefly mention *why* the distractors are incorrect.",
