@@ -6,240 +6,6 @@
     },
     "item": [
         {
-            "name": "nlp",
-            "description": "",
-            "item": [
-                {
-                    "name": "nlp_index_push",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"do_reset\": 1\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/push/1",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "push",
-                                "1"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": []
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Push project 1 to VectorDB",
-                            "originalRequest": {
-                                "method": "POST",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{baseUrl}}/api/v1/nlp/index/push/1",
-                                    "path": [
-                                        "api",
-                                        "v1",
-                                        "nlp",
-                                        "index",
-                                        "push",
-                                        "1"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": []
-                                },
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n    \"do_reset\": 1\n}",
-                                    "options": {
-                                        "raw": {
-                                            "language": "json"
-                                        }
-                                    }
-                                }
-                            },
-                            "cookie": []
-                        }
-                    ],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "nlp_index_info",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "GET",
-                        "body": {},
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/info/1",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "info",
-                                "1"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": []
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Project 1",
-                            "originalRequest": {
-                                "method": "GET",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{baseUrl}}/api/v1/nlp/index/info/1",
-                                    "path": [
-                                        "api",
-                                        "v1",
-                                        "nlp",
-                                        "index",
-                                        "info",
-                                        "1"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": []
-                                },
-                                "body": {}
-                            },
-                            "cookie": []
-                        }
-                    ],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "nlp_index_search",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\n    \"text\": \"Ahmed treats us as if he were\",\n    \"limit\": 5\n}",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/search/1",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "search",
-                                "1"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": []
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "search proj_1",
-                            "originalRequest": {
-                                "method": "POST",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{baseUrl}}/api/v1/nlp/index/search/1",
-                                    "path": [
-                                        "api",
-                                        "v1",
-                                        "nlp",
-                                        "index",
-                                        "search",
-                                        "1"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": []
-                                },
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "{\n    \"text\": \"Ahmed treats us as if he were\",\n    \"limit\": 5\n}",
-                                    "options": {
-                                        "raw": {
-                                            "language": "json"
-                                        }
-                                    }
-                                }
-                            },
-                            "cookie": []
-                        }
-                    ],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                }
-            ],
-            "event": [
-                {
-                    "listen": "prerequest",
-                    "script": {
-                        "exec": [],
-                        "type": "text/javascript",
-                        "packages": {}
-                    }
-                },
-                {
-                    "listen": "test",
-                    "script": {
-                        "exec": [],
-                        "type": "text/javascript",
-                        "packages": {}
-                    }
-                }
-            ],
-            "auth": {}
-        },
-        {
             "name": "api_v1",
             "description": "",
             "item": [
@@ -285,343 +51,6 @@
                                     "variable": []
                                 },
                                 "body": {}
-                            },
-                            "cookie": []
-                        }
-                    ],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Index Project",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/push/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "push",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "",
-                                    "description": "",
-                                    "type": "string"
-                                }
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Success",
-                            "originalRequest": {
-                                "method": "POST",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{baseUrl}}/api/v1/nlp/index/push/:project_id",
-                                    "path": [
-                                        "api",
-                                        "v1",
-                                        "nlp",
-                                        "index",
-                                        "push",
-                                        ":project_id"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": [
-                                        {
-                                            "key": "project_id",
-                                            "value": "",
-                                            "description": "",
-                                            "disabled": false
-                                        }
-                                    ]
-                                },
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "",
-                                    "options": {
-                                        "raw": {
-                                            "language": "text"
-                                        }
-                                    }
-                                }
-                            },
-                            "cookie": []
-                        }
-                    ],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Get Project Index Info",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "GET",
-                        "body": {},
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/info/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "info",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "",
-                                    "description": "",
-                                    "type": "string"
-                                }
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Success",
-                            "originalRequest": {
-                                "method": "GET",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{baseUrl}}/api/v1/nlp/index/info/:project_id",
-                                    "path": [
-                                        "api",
-                                        "v1",
-                                        "nlp",
-                                        "index",
-                                        "info",
-                                        ":project_id"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": [
-                                        {
-                                            "key": "project_id",
-                                            "value": "",
-                                            "description": "",
-                                            "disabled": false
-                                        }
-                                    ]
-                                },
-                                "body": {}
-                            },
-                            "cookie": []
-                        }
-                    ],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Search",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/search/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "search",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "",
-                                    "description": "",
-                                    "type": "string"
-                                }
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Success",
-                            "originalRequest": {
-                                "method": "POST",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{baseUrl}}/api/v1/nlp/index/search/:project_id",
-                                    "path": [
-                                        "api",
-                                        "v1",
-                                        "nlp",
-                                        "index",
-                                        "search",
-                                        ":project_id"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": [
-                                        {
-                                            "key": "project_id",
-                                            "value": "",
-                                            "description": "",
-                                            "disabled": false
-                                        }
-                                    ]
-                                },
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "",
-                                    "options": {
-                                        "raw": {
-                                            "language": "text"
-                                        }
-                                    }
-                                }
-                            },
-                            "cookie": []
-                        }
-                    ],
-                    "protocolProfileBehavior": {
-                        "strictSSL": false,
-                        "followRedirects": true
-                    }
-                },
-                {
-                    "name": "Answer Rag",
-                    "description": "",
-                    "event": [],
-                    "auth": {},
-                    "request": {
-                        "auth": {},
-                        "method": "POST",
-                        "body": {
-                            "mode": "raw",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            }
-                        },
-                        "header": [],
-                        "url": {
-                            "raw": "{{baseUrl}}/api/v1/nlp/index/answer/:project_id",
-                            "path": [
-                                "api",
-                                "v1",
-                                "nlp",
-                                "index",
-                                "answer",
-                                ":project_id"
-                            ],
-                            "host": [
-                                "{{baseUrl}}"
-                            ],
-                            "query": [],
-                            "variable": [
-                                {
-                                    "key": "project_id",
-                                    "value": "",
-                                    "description": "",
-                                    "type": "string"
-                                }
-                            ]
-                        }
-                    },
-                    "response": [
-                        {
-                            "name": "Success",
-                            "originalRequest": {
-                                "method": "POST",
-                                "header": [],
-                                "url": {
-                                    "raw": "{{baseUrl}}/api/v1/nlp/index/answer/:project_id",
-                                    "path": [
-                                        "api",
-                                        "v1",
-                                        "nlp",
-                                        "index",
-                                        "answer",
-                                        ":project_id"
-                                    ],
-                                    "host": [
-                                        "{{baseUrl}}"
-                                    ],
-                                    "query": [],
-                                    "variable": [
-                                        {
-                                            "key": "project_id",
-                                            "value": "",
-                                            "description": "",
-                                            "disabled": false
-                                        }
-                                    ]
-                                },
-                                "body": {
-                                    "mode": "raw",
-                                    "raw": "",
-                                    "options": {
-                                        "raw": {
-                                            "language": "text"
-                                        }
-                                    }
-                                }
                             },
                             "cookie": []
                         }
@@ -717,7 +146,7 @@
                             "formdata": [
                                 {
                                     "key": "file",
-                                    "type": "file",
+                                    "type": "text",
                                     "disabled": false
                                 }
                             ]
@@ -1614,7 +1043,6 @@
                         "method": "POST",
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"language\": \"en\",\n    \"domain\": \"english_grammar\",\n    \"text\": \"When all the false self-identifications are thrown away, what remains is all-embracing love.”\\n~Nisargadatta Maharaj\\n\\nI once sat with a friend and watched with deep respect and a full heart as she realized how a pattern from her childhood had been holding her back.\\n\\nShe became fully aware of the inner critical voice that had plagued her for decades and saw clearly how this voice was inserted into her thoughts by her childhood experiences.\\n\\nDid she want this voice to be in charge? No.\\nDid she believe what it said? Not once she became aware of what it was telling her.\\nWas she tired of the way it diminished her and sapped her zest for life? Yes!\\nRight then and there, she decided to cut the cord to her past.\\n\\nShe chose to stop being a victim to the inner critic with its familiar put-downs that kept her stuck. instead, she took the path of not knowing. She happily stepped into herself…fresh and new.\\n\\nPatterns from Our Childhood\\nIf you examine any recurring emotion or thought pattern that derails your happiness, you will probably be able to trace it back to your childhood.\\n\\nA tendency to feel alone and abandoned comes from not getting enough loving attention as a child.\\nA tendency to be hyper-responsible about everything comes from being raised in a chaotic home.\\nA pattern of not trusting others comes from a lack of emotional or physical safety in childhood.\\nPatterns like these are conditioned, having developed as a way to cope with challenging circumstances. They feel like they define us, but they are actually false stories we’ve come to believe about ourselves.\\n\\nWhat’s amazing is that there is another possibility…freedom in your life as it is right now. With love, care, and focused attention, we can shed these conditioned patterns so our natural, unconditioned, shining self is revealed. We’re finally free to feel good about ourselves.\\n\\nFinding Freedom\\nThere’s no substitute for being conscious in our lives, and that’s what it takes for our patterns to soften their hold on us.\\n\\nTurn your attention inward so you can know with great precision how your patterns show up. When you are caught in them,\\n\\nHow do you feel?\\nWhat thoughts have taken over?\\nWhat triggers them?\\nKnow that these limiting patterns don’t in any way accurately define the truth of who you are.\\n\\nThis deeply held programming from our past grabs tightly, so be patient with the process to loosen its grip. Notice the patterns over and over, bow to them from your heart for their intention to help you, then step aside into freedom.\\n\\nEventually the insight dawns that the pull to leave your conditioning is stronger than the fear not to. This is truth illuminated, the golden moment that sets you free.\\n\\nEvery time the pattern appears, feel it with understanding and love. Then stand in liberation from it—unburdened, fully open, and unapologetically alive.\",\n    \"do_reset\": 0,\n    \"section_size\": 2000\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
@@ -1633,17 +1061,373 @@
                             "host": [
                                 "{{baseUrl}}"
                             ],
-                            "query": [
-                                {
-                                    "key": "project_id",
-                                    "description": "",
-                                    "type": "string"
-                                }
-                            ],
+                            "query": [],
                             "variable": []
                         }
                     },
                     "response": [],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                }
+            ],
+            "event": [
+                {
+                    "listen": "prerequest",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                },
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "auth": {}
+        },
+        {
+            "name": "nlp",
+            "description": "",
+            "item": [
+                {
+                    "name": "Index Project",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {},
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/nlp/index/push/:project_id",
+                            "path": [
+                                "api",
+                                "v1",
+                                "nlp",
+                                "index",
+                                "push",
+                                ":project_id"
+                            ],
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "query": [],
+                            "variable": [
+                                {
+                                    "key": "project_id",
+                                    "value": "",
+                                    "description": "",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Success",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/nlp/index/push/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "nlp",
+                                        "index",
+                                        "push",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "",
+                                    "options": {
+                                        "raw": {
+                                            "language": "text"
+                                        }
+                                    }
+                                }
+                            },
+                            "cookie": []
+                        }
+                    ],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                },
+                {
+                    "name": "Get Project Index Info",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {},
+                        "method": "GET",
+                        "body": {},
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/nlp/index/info/:project_id",
+                            "path": [
+                                "api",
+                                "v1",
+                                "nlp",
+                                "index",
+                                "info",
+                                ":project_id"
+                            ],
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "query": [],
+                            "variable": [
+                                {
+                                    "key": "project_id",
+                                    "value": "",
+                                    "description": "",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Success",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/nlp/index/info/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "nlp",
+                                        "index",
+                                        "info",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {}
+                            },
+                            "cookie": []
+                        }
+                    ],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                },
+                {
+                    "name": "Search",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {},
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/nlp/index/search/:project_id",
+                            "path": [
+                                "api",
+                                "v1",
+                                "nlp",
+                                "index",
+                                "search",
+                                ":project_id"
+                            ],
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "query": [],
+                            "variable": [
+                                {
+                                    "key": "project_id",
+                                    "value": "",
+                                    "description": "",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Success",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/nlp/index/search/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "nlp",
+                                        "index",
+                                        "search",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "",
+                                    "options": {
+                                        "raw": {
+                                            "language": "text"
+                                        }
+                                    }
+                                }
+                            },
+                            "cookie": []
+                        }
+                    ],
+                    "protocolProfileBehavior": {
+                        "strictSSL": false,
+                        "followRedirects": true
+                    }
+                },
+                {
+                    "name": "Answer Rag",
+                    "description": "",
+                    "event": [],
+                    "auth": {},
+                    "request": {
+                        "auth": {},
+                        "method": "POST",
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/nlp/index/answer/:project_id",
+                            "path": [
+                                "api",
+                                "v1",
+                                "nlp",
+                                "index",
+                                "answer",
+                                ":project_id"
+                            ],
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "query": [],
+                            "variable": [
+                                {
+                                    "key": "project_id",
+                                    "value": "",
+                                    "description": "",
+                                    "type": "string"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "name": "Success",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/api/v1/nlp/index/answer/:project_id",
+                                    "path": [
+                                        "api",
+                                        "v1",
+                                        "nlp",
+                                        "index",
+                                        "answer",
+                                        ":project_id"
+                                    ],
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "query": [],
+                                    "variable": [
+                                        {
+                                            "key": "project_id",
+                                            "value": "",
+                                            "description": "",
+                                            "disabled": false
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "",
+                                    "options": {
+                                        "raw": {
+                                            "language": "text"
+                                        }
+                                    }
+                                }
+                            },
+                            "cookie": []
+                        }
+                    ],
                     "protocolProfileBehavior": {
                         "strictSSL": false,
                         "followRedirects": true

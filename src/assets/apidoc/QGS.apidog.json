@@ -110,441 +110,6 @@
       "inheritPreProcessors": {},
       "items": [
         {
-          "name": "nlp",
-          "id": 7067999,
-          "auth": {},
-          "securityScheme": {},
-          "parentId": 0,
-          "serverId": "",
-          "description": "",
-          "identityPattern": {
-            "httpApi": {
-              "type": "inherit",
-              "bodyType": "",
-              "fields": []
-            }
-          },
-          "shareSettings": {},
-          "visibility": "INHERITED",
-          "moduleId": 1118767,
-          "preProcessors": [
-            {
-              "id": "inheritProcessors",
-              "type": "inheritProcessors",
-              "data": {}
-            }
-          ],
-          "postProcessors": [
-            {
-              "id": "inheritProcessors",
-              "type": "inheritProcessors",
-              "data": {}
-            }
-          ],
-          "inheritPostProcessors": {},
-          "inheritPreProcessors": {},
-          "items": [
-            {
-              "name": "nlp_index_push",
-              "api": {
-                "id": "30016103",
-                "method": "post",
-                "path": "/api/v1/nlp/index/push/1",
-                "parameters": {
-                  "path": [],
-                  "query": [],
-                  "cookie": [],
-                  "header": []
-                },
-                "auth": {},
-                "securityScheme": {},
-                "commonParameters": {},
-                "responses": [
-                  {
-                    "id": "132669318",
-                    "code": 200,
-                    "jsonSchema": {
-                      "type": "object",
-                      "properties": {},
-                      "x-apidog-orders": []
-                    },
-                    "itemSchema": {},
-                    "contentType": "json"
-                  }
-                ],
-                "responseExamples": [],
-                "requestBody": {
-                  "type": "application/json",
-                  "parameters": [],
-                  "jsonSchema": {
-                    "type": "object",
-                    "properties": {
-                      "do_reset": {
-                        "type": "integer"
-                      }
-                    },
-                    "required": [
-                      "do_reset"
-                    ],
-                    "x-apidog-orders": [
-                      "do_reset"
-                    ]
-                  },
-                  "required": false,
-                  "additionalContent": [],
-                  "examples": [
-                    {
-                      "value": "{\n    \"do_reset\": 1\n}",
-                      "mediaType": "application/json",
-                      "description": ""
-                    }
-                  ],
-                  "oasExtensions": ""
-                },
-                "description": "",
-                "tags": [],
-                "status": "released",
-                "serverId": "",
-                "operationId": "",
-                "sourceUrl": "",
-                "ordering": 6,
-                "cases": [
-                  {
-                    "id": 42398254,
-                    "type": "TEST_CASE",
-                    "path": "/api/v1/nlp/index/push/1",
-                    "name": "Push project 1 to VectorDB",
-                    "responseId": "132669318",
-                    "parameters": {
-                      "path": [],
-                      "query": [],
-                      "cookie": [],
-                      "header": []
-                    },
-                    "commonParameters": {},
-                    "requestBody": {
-                      "parameters": [],
-                      "type": "application/json",
-                      "data": "{\n    \"do_reset\": 1\n}"
-                    },
-                    "auth": {},
-                    "securityScheme": {
-                      "use": {}
-                    },
-                    "advancedSettings": {
-                      "disabledSystemHeaders": {}
-                    },
-                    "requestResult": null,
-                    "visibility": "INHERITED",
-                    "moduleId": 1118767,
-                    "categoryId": 1009648,
-                    "tagIds": [],
-                    "apiTestDataList": [],
-                    "preProcessors": [],
-                    "postProcessors": [],
-                    "inheritPostProcessors": {},
-                    "inheritPreProcessors": {}
-                  }
-                ],
-                "mocks": [],
-                "customApiFields": "{}",
-                "advancedSettings": {
-                  "disabledSystemHeaders": {}
-                },
-                "mockScript": {},
-                "codeSamples": [],
-                "commonResponseStatus": {},
-                "responseChildren": [],
-                "visibility": "INHERITED",
-                "moduleId": 1118767,
-                "oasExtensions": "",
-                "type": "http",
-                "preProcessors": [],
-                "postProcessors": [],
-                "inheritPostProcessors": {},
-                "inheritPreProcessors": {}
-              }
-            },
-            {
-              "name": "nlp_index_info",
-              "api": {
-                "id": "30016104",
-                "method": "get",
-                "path": "/api/v1/nlp/index/info/1",
-                "parameters": {
-                  "query": [],
-                  "path": [],
-                  "cookie": [],
-                  "header": []
-                },
-                "auth": {},
-                "securityScheme": {},
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "cookie": [],
-                  "header": []
-                },
-                "responses": [
-                  {
-                    "id": "162192681",
-                    "code": 200,
-                    "name": "",
-                    "headers": [],
-                    "jsonSchema": {
-                      "type": "object",
-                      "properties": {},
-                      "x-apidog-orders": []
-                    },
-                    "itemSchema": {},
-                    "description": "",
-                    "contentType": "json",
-                    "mediaType": ""
-                  }
-                ],
-                "responseExamples": [],
-                "requestBody": {
-                  "type": "none",
-                  "parameters": [],
-                  "required": false,
-                  "mediaType": "",
-                  "examples": [],
-                  "oasExtensions": ""
-                },
-                "description": "",
-                "tags": [],
-                "status": "released",
-                "serverId": "",
-                "operationId": "",
-                "sourceUrl": "",
-                "ordering": 12,
-                "cases": [
-                  {
-                    "id": 42398513,
-                    "type": "TEST_CASE",
-                    "path": "/api/v1/nlp/index/info/1",
-                    "name": "Project 1",
-                    "responseId": "162192681",
-                    "parameters": {
-                      "query": [],
-                      "path": [],
-                      "cookie": [],
-                      "header": []
-                    },
-                    "commonParameters": {
-                      "query": [],
-                      "body": [],
-                      "cookie": [],
-                      "header": []
-                    },
-                    "requestBody": {
-                      "parameters": [],
-                      "type": "none",
-                      "data": ""
-                    },
-                    "auth": {},
-                    "securityScheme": {
-                      "use": {}
-                    },
-                    "advancedSettings": {
-                      "disabledSystemHeaders": {}
-                    },
-                    "requestResult": null,
-                    "visibility": "INHERITED",
-                    "moduleId": 1118767,
-                    "categoryId": 1009648,
-                    "tagIds": [],
-                    "apiTestDataList": [],
-                    "preProcessors": [],
-                    "postProcessors": [],
-                    "inheritPostProcessors": {},
-                    "inheritPreProcessors": {}
-                  }
-                ],
-                "mocks": [],
-                "customApiFields": "{}",
-                "advancedSettings": {
-                  "disabledSystemHeaders": {}
-                },
-                "mockScript": {},
-                "codeSamples": [],
-                "commonResponseStatus": {},
-                "responseChildren": [],
-                "visibility": "INHERITED",
-                "moduleId": 1118767,
-                "oasExtensions": "",
-                "type": "http",
-                "preProcessors": [],
-                "postProcessors": [],
-                "inheritPostProcessors": {},
-                "inheritPreProcessors": {}
-              }
-            },
-            {
-              "name": "nlp_index_search",
-              "api": {
-                "id": "30016105",
-                "method": "post",
-                "path": "/api/v1/nlp/index/search/1",
-                "parameters": {
-                  "path": [],
-                  "query": [],
-                  "cookie": [],
-                  "header": []
-                },
-                "auth": {},
-                "securityScheme": {},
-                "commonParameters": {},
-                "responses": [
-                  {
-                    "id": "155323675",
-                    "code": 200,
-                    "jsonSchema": {
-                      "type": "object",
-                      "properties": {},
-                      "x-apidog-orders": []
-                    },
-                    "itemSchema": {},
-                    "contentType": "json"
-                  }
-                ],
-                "responseExamples": [],
-                "requestBody": {
-                  "type": "application/json",
-                  "parameters": [],
-                  "jsonSchema": {
-                    "type": "object",
-                    "properties": {
-                      "text": {
-                        "type": "string"
-                      },
-                      "limit": {
-                        "type": "integer"
-                      }
-                    },
-                    "required": [
-                      "text",
-                      "limit"
-                    ],
-                    "x-apidog-orders": [
-                      "text",
-                      "limit"
-                    ]
-                  },
-                  "required": false,
-                  "additionalContent": [],
-                  "examples": [
-                    {
-                      "value": "{\n    \"text\": \"Ahmed treats us as if he were\",\n    \"limit\": 5\n}",
-                      "mediaType": "application/json",
-                      "description": ""
-                    }
-                  ],
-                  "oasExtensions": ""
-                },
-                "description": "",
-                "tags": [],
-                "status": "released",
-                "serverId": "",
-                "operationId": "",
-                "sourceUrl": "",
-                "ordering": 18,
-                "cases": [
-                  {
-                    "id": 42400142,
-                    "type": "TEST_CASE",
-                    "path": "/api/v1/nlp/index/search/1",
-                    "name": "search proj_1",
-                    "responseId": "155323675",
-                    "parameters": {
-                      "query": [],
-                      "header": [],
-                      "cookie": [],
-                      "path": []
-                    },
-                    "commonParameters": {
-                      "query": [],
-                      "body": [],
-                      "header": [],
-                      "cookie": []
-                    },
-                    "requestBody": {
-                      "parameters": [],
-                      "type": "application/json",
-                      "data": "{\n    \"text\": \"Ahmed treats us as if he were\",\n    \"limit\": 5\n}",
-                      "jsonSchema": {
-                        "type": "object",
-                        "properties": {
-                          "text": {
-                            "type": "string"
-                          },
-                          "limit": {
-                            "type": "integer"
-                          }
-                        },
-                        "required": [
-                          "text",
-                          "limit"
-                        ],
-                        "x-apidog-orders": [
-                          "text",
-                          "limit"
-                        ]
-                      },
-                      "generateMode": "normal"
-                    },
-                    "auth": {},
-                    "securityScheme": {
-                      "scopes": {},
-                      "schemeGroups": [],
-                      "required": false
-                    },
-                    "advancedSettings": {
-                      "disabledSystemHeaders": {},
-                      "isDefaultUrlEncoding": 3,
-                      "disableUrlEncoding": false
-                    },
-                    "requestResult": null,
-                    "visibility": "INHERITED",
-                    "moduleId": 1118767,
-                    "categoryId": 1009648,
-                    "tagIds": [],
-                    "apiTestDataList": [],
-                    "preProcessors": [
-                      {
-                        "type": "placeholder",
-                        "renderType": "dynamicValueDivider",
-                        "defaultEnable": false,
-                        "enable": false
-                      }
-                    ],
-                    "postProcessors": [],
-                    "inheritPostProcessors": {},
-                    "inheritPreProcessors": {}
-                  }
-                ],
-                "mocks": [],
-                "customApiFields": "{}",
-                "advancedSettings": {
-                  "disabledSystemHeaders": {}
-                },
-                "mockScript": {},
-                "codeSamples": [],
-                "commonResponseStatus": {},
-                "responseChildren": [],
-                "visibility": "INHERITED",
-                "moduleId": 1118767,
-                "oasExtensions": "",
-                "type": "http",
-                "preProcessors": [],
-                "postProcessors": [],
-                "inheritPostProcessors": {},
-                "inheritPreProcessors": {}
-              }
-            }
-          ]
-        },
-        {
           "name": "api_v1",
           "id": 7266685,
           "auth": {},
@@ -684,593 +249,6 @@
                 "inheritPostProcessors": {},
                 "inheritPreProcessors": {}
               }
-            },
-            {
-              "name": "Index Project",
-              "api": {
-                "id": "30811892",
-                "method": "post",
-                "path": "/api/v1/nlp/index/push/{project_id}",
-                "parameters": {
-                  "path": [
-                    {
-                      "id": "project_id#0",
-                      "name": "project_id",
-                      "required": true,
-                      "enable": true,
-                      "description": "",
-                      "example": "",
-                      "type": "string",
-                      "schema": {
-                        "type": "string",
-                        "title": "Project Id"
-                      }
-                    }
-                  ],
-                  "query": [],
-                  "cookie": [],
-                  "header": []
-                },
-                "auth": {},
-                "securityScheme": {},
-                "commonParameters": {},
-                "responses": [
-                  {
-                    "id": "146816298",
-                    "code": "200",
-                    "headers": [],
-                    "jsonSchema": {},
-                    "itemSchema": {},
-                    "description": "Successful Response",
-                    "contentType": "json",
-                    "mediaType": "application/json",
-                    "oasExtensions": ""
-                  },
-                  {
-                    "id": "136638803",
-                    "code": "422",
-                    "headers": [],
-                    "jsonSchema": {
-                      "$ref": "#/definitions/13535690"
-                    },
-                    "itemSchema": {},
-                    "description": "Validation Error",
-                    "contentType": "json",
-                    "mediaType": "application/json",
-                    "oasExtensions": ""
-                  }
-                ],
-                "responseExamples": [],
-                "requestBody": {
-                  "type": "application/json",
-                  "parameters": [],
-                  "jsonSchema": {
-                    "$ref": "#/definitions/13535701"
-                  },
-                  "mediaType": "application/json",
-                  "oasExtensions": "",
-                  "required": true,
-                  "additionalContentTypes": []
-                },
-                "description": "",
-                "tags": [
-                  "api_v1",
-                  "nlp"
-                ],
-                "status": "released",
-                "serverId": "",
-                "operationId": "index_project_api_v1_nlp_index_push__project_id__post",
-                "sourceUrl": "",
-                "ordering": 6,
-                "cases": [
-                  {
-                    "id": 42430522,
-                    "type": "DEBUG_CASE",
-                    "path": null,
-                    "name": "Success",
-                    "responseId": "146816298",
-                    "parameters": {
-                      "path": [
-                        {
-                          "id": "project_id#0",
-                          "relatedId": "project_id#0",
-                          "relatedName": "project_id",
-                          "name": "project_id",
-                          "value": "",
-                          "enable": true
-                        }
-                      ],
-                      "query": [],
-                      "cookie": [],
-                      "header": []
-                    },
-                    "commonParameters": {},
-                    "requestBody": {
-                      "parameters": [],
-                      "data": "",
-                      "type": "application/json",
-                      "generateMode": "normal"
-                    },
-                    "auth": {},
-                    "securityScheme": {},
-                    "advancedSettings": {
-                      "disabledSystemHeaders": {}
-                    },
-                    "requestResult": null,
-                    "visibility": "INHERITED",
-                    "moduleId": 1118767,
-                    "categoryId": 0,
-                    "tagIds": [],
-                    "apiTestDataList": [],
-                    "preProcessors": [],
-                    "postProcessors": [],
-                    "inheritPostProcessors": {
-                      "enable": {},
-                      "defaultEnable": {}
-                    },
-                    "inheritPreProcessors": {
-                      "enable": {},
-                      "defaultEnable": {}
-                    }
-                  }
-                ],
-                "mocks": [],
-                "customApiFields": "{}",
-                "advancedSettings": {
-                  "disabledSystemHeaders": {}
-                },
-                "mockScript": {},
-                "codeSamples": [],
-                "commonResponseStatus": {},
-                "responseChildren": [],
-                "visibility": "INHERITED",
-                "moduleId": 1118767,
-                "oasExtensions": "",
-                "type": "http",
-                "preProcessors": [],
-                "postProcessors": [],
-                "inheritPostProcessors": {},
-                "inheritPreProcessors": {}
-              }
-            },
-            {
-              "name": "Get Project Index Info",
-              "api": {
-                "id": "30811893",
-                "method": "get",
-                "path": "/api/v1/nlp/index/info/{project_id}",
-                "parameters": {
-                  "path": [
-                    {
-                      "id": "project_id#0",
-                      "name": "project_id",
-                      "required": true,
-                      "enable": true,
-                      "description": "",
-                      "example": "",
-                      "type": "string",
-                      "schema": {
-                        "type": "string",
-                        "title": "Project Id"
-                      }
-                    }
-                  ],
-                  "query": [],
-                  "cookie": [],
-                  "header": []
-                },
-                "auth": {},
-                "securityScheme": {},
-                "commonParameters": {},
-                "responses": [
-                  {
-                    "id": "167624909",
-                    "code": "200",
-                    "headers": [],
-                    "jsonSchema": {},
-                    "itemSchema": {},
-                    "description": "Successful Response",
-                    "contentType": "json",
-                    "mediaType": "application/json",
-                    "oasExtensions": ""
-                  },
-                  {
-                    "id": "176380493",
-                    "code": "422",
-                    "headers": [],
-                    "jsonSchema": {
-                      "$ref": "#/definitions/13535690"
-                    },
-                    "itemSchema": {},
-                    "description": "Validation Error",
-                    "contentType": "json",
-                    "mediaType": "application/json",
-                    "oasExtensions": ""
-                  }
-                ],
-                "responseExamples": [],
-                "requestBody": {
-                  "type": "none",
-                  "parameters": [],
-                  "required": false,
-                  "additionalContentTypes": [],
-                  "oasExtensions": ""
-                },
-                "description": "",
-                "tags": [
-                  "api_v1",
-                  "nlp"
-                ],
-                "status": "released",
-                "serverId": "",
-                "operationId": "get_project_index_info_api_v1_nlp_index_info__project_id__get",
-                "sourceUrl": "",
-                "ordering": 12,
-                "cases": [
-                  {
-                    "id": 42430523,
-                    "type": "DEBUG_CASE",
-                    "path": null,
-                    "name": "Success",
-                    "responseId": "167624909",
-                    "parameters": {
-                      "path": [
-                        {
-                          "id": "project_id#0",
-                          "relatedId": "project_id#0",
-                          "relatedName": "project_id",
-                          "name": "project_id",
-                          "value": "",
-                          "enable": true
-                        }
-                      ],
-                      "query": [],
-                      "cookie": [],
-                      "header": []
-                    },
-                    "commonParameters": {},
-                    "requestBody": {
-                      "parameters": [],
-                      "type": "none",
-                      "generateMode": "normal"
-                    },
-                    "auth": {},
-                    "securityScheme": {},
-                    "advancedSettings": {
-                      "disabledSystemHeaders": {}
-                    },
-                    "requestResult": null,
-                    "visibility": "INHERITED",
-                    "moduleId": 1118767,
-                    "categoryId": 0,
-                    "tagIds": [],
-                    "apiTestDataList": [],
-                    "preProcessors": [],
-                    "postProcessors": [],
-                    "inheritPostProcessors": {
-                      "enable": {},
-                      "defaultEnable": {}
-                    },
-                    "inheritPreProcessors": {
-                      "enable": {},
-                      "defaultEnable": {}
-                    }
-                  }
-                ],
-                "mocks": [],
-                "customApiFields": "{}",
-                "advancedSettings": {
-                  "disabledSystemHeaders": {}
-                },
-                "mockScript": {},
-                "codeSamples": [],
-                "commonResponseStatus": {},
-                "responseChildren": [],
-                "visibility": "INHERITED",
-                "moduleId": 1118767,
-                "oasExtensions": "",
-                "type": "http",
-                "preProcessors": [],
-                "postProcessors": [],
-                "inheritPostProcessors": {},
-                "inheritPreProcessors": {}
-              }
-            },
-            {
-              "name": "Search",
-              "api": {
-                "id": "31208954",
-                "method": "post",
-                "path": "/api/v1/nlp/index/search/{project_id}",
-                "parameters": {
-                  "path": [
-                    {
-                      "id": "project_id#0",
-                      "name": "project_id",
-                      "required": true,
-                      "enable": true,
-                      "description": "",
-                      "example": "",
-                      "type": "string",
-                      "schema": {
-                        "type": "string",
-                        "title": "Project Id"
-                      }
-                    }
-                  ],
-                  "query": [],
-                  "cookie": [],
-                  "header": []
-                },
-                "auth": {},
-                "securityScheme": {},
-                "commonParameters": {},
-                "responses": [
-                  {
-                    "id": "121513853",
-                    "code": "200",
-                    "headers": [],
-                    "jsonSchema": {},
-                    "itemSchema": {},
-                    "description": "Successful Response",
-                    "contentType": "json",
-                    "mediaType": "application/json",
-                    "oasExtensions": ""
-                  },
-                  {
-                    "id": "129068130",
-                    "code": "422",
-                    "headers": [],
-                    "jsonSchema": {
-                      "$ref": "#/definitions/13535690"
-                    },
-                    "itemSchema": {},
-                    "description": "Validation Error",
-                    "contentType": "json",
-                    "mediaType": "application/json",
-                    "oasExtensions": ""
-                  }
-                ],
-                "responseExamples": [],
-                "requestBody": {
-                  "type": "application/json",
-                  "parameters": [],
-                  "jsonSchema": {
-                    "$ref": "#/definitions/13535705"
-                  },
-                  "mediaType": "application/json",
-                  "oasExtensions": "",
-                  "required": true,
-                  "additionalContentTypes": []
-                },
-                "description": "",
-                "tags": [
-                  "api_v1",
-                  "nlp"
-                ],
-                "status": "released",
-                "serverId": "",
-                "operationId": "search_api_v1_nlp_index_search__project_id__post",
-                "sourceUrl": "",
-                "ordering": 18,
-                "cases": [
-                  {
-                    "id": 42430519,
-                    "type": "DEBUG_CASE",
-                    "path": null,
-                    "name": "Success",
-                    "responseId": "121513853",
-                    "parameters": {
-                      "path": [
-                        {
-                          "id": "project_id#0",
-                          "relatedId": "project_id#0",
-                          "relatedName": "project_id",
-                          "name": "project_id",
-                          "value": "",
-                          "enable": true
-                        }
-                      ],
-                      "query": [],
-                      "cookie": [],
-                      "header": []
-                    },
-                    "commonParameters": {},
-                    "requestBody": {
-                      "parameters": [],
-                      "data": "",
-                      "type": "application/json",
-                      "generateMode": "normal"
-                    },
-                    "auth": {},
-                    "securityScheme": {},
-                    "advancedSettings": {
-                      "disabledSystemHeaders": {}
-                    },
-                    "requestResult": null,
-                    "visibility": "INHERITED",
-                    "moduleId": 1118767,
-                    "categoryId": 0,
-                    "tagIds": [],
-                    "apiTestDataList": [],
-                    "preProcessors": [],
-                    "postProcessors": [],
-                    "inheritPostProcessors": {
-                      "enable": {},
-                      "defaultEnable": {}
-                    },
-                    "inheritPreProcessors": {
-                      "enable": {},
-                      "defaultEnable": {}
-                    }
-                  }
-                ],
-                "mocks": [],
-                "customApiFields": "{}",
-                "advancedSettings": {
-                  "disabledSystemHeaders": {}
-                },
-                "mockScript": {},
-                "codeSamples": [],
-                "commonResponseStatus": {},
-                "responseChildren": [],
-                "visibility": "INHERITED",
-                "moduleId": 1118767,
-                "oasExtensions": "",
-                "type": "http",
-                "preProcessors": [],
-                "postProcessors": [],
-                "inheritPostProcessors": {},
-                "inheritPreProcessors": {}
-              }
-            },
-            {
-              "name": "Answer Rag",
-              "api": {
-                "id": "30811894",
-                "method": "post",
-                "path": "/api/v1/nlp/index/answer/{project_id}",
-                "parameters": {
-                  "path": [
-                    {
-                      "id": "project_id#0",
-                      "name": "project_id",
-                      "required": true,
-                      "enable": true,
-                      "description": "",
-                      "example": "",
-                      "type": "string",
-                      "schema": {
-                        "type": "string",
-                        "title": "Project Id"
-                      }
-                    }
-                  ],
-                  "query": [],
-                  "cookie": [],
-                  "header": []
-                },
-                "auth": {},
-                "securityScheme": {},
-                "commonParameters": {},
-                "responses": [
-                  {
-                    "id": "185476537",
-                    "code": "200",
-                    "headers": [],
-                    "jsonSchema": {},
-                    "itemSchema": {},
-                    "description": "Successful Response",
-                    "contentType": "json",
-                    "mediaType": "application/json",
-                    "oasExtensions": ""
-                  },
-                  {
-                    "id": "165915259",
-                    "code": "422",
-                    "headers": [],
-                    "jsonSchema": {
-                      "$ref": "#/definitions/13535690"
-                    },
-                    "itemSchema": {},
-                    "description": "Validation Error",
-                    "contentType": "json",
-                    "mediaType": "application/json",
-                    "oasExtensions": ""
-                  }
-                ],
-                "responseExamples": [],
-                "requestBody": {
-                  "type": "application/json",
-                  "parameters": [],
-                  "jsonSchema": {
-                    "$ref": "#/definitions/13535705"
-                  },
-                  "mediaType": "application/json",
-                  "oasExtensions": "",
-                  "required": true,
-                  "additionalContentTypes": []
-                },
-                "description": "",
-                "tags": [
-                  "api_v1",
-                  "nlp"
-                ],
-                "status": "released",
-                "serverId": "",
-                "operationId": "answer_rag_api_v1_nlp_index_answer__project_id__post",
-                "sourceUrl": "",
-                "ordering": 24,
-                "cases": [
-                  {
-                    "id": 42430524,
-                    "type": "DEBUG_CASE",
-                    "path": null,
-                    "name": "Success",
-                    "responseId": "185476537",
-                    "parameters": {
-                      "path": [
-                        {
-                          "id": "project_id#0",
-                          "relatedId": "project_id#0",
-                          "relatedName": "project_id",
-                          "name": "project_id",
-                          "value": "",
-                          "enable": true
-                        }
-                      ],
-                      "query": [],
-                      "cookie": [],
-                      "header": []
-                    },
-                    "commonParameters": {},
-                    "requestBody": {
-                      "parameters": [],
-                      "data": "",
-                      "type": "application/json",
-                      "generateMode": "normal"
-                    },
-                    "auth": {},
-                    "securityScheme": {},
-                    "advancedSettings": {
-                      "disabledSystemHeaders": {}
-                    },
-                    "requestResult": null,
-                    "visibility": "INHERITED",
-                    "moduleId": 1118767,
-                    "categoryId": 0,
-                    "tagIds": [],
-                    "apiTestDataList": [],
-                    "preProcessors": [],
-                    "postProcessors": [],
-                    "inheritPostProcessors": {
-                      "enable": {},
-                      "defaultEnable": {}
-                    },
-                    "inheritPreProcessors": {
-                      "enable": {},
-                      "defaultEnable": {}
-                    }
-                  }
-                ],
-                "mocks": [],
-                "customApiFields": "{}",
-                "advancedSettings": {
-                  "disabledSystemHeaders": {}
-                },
-                "mockScript": {},
-                "codeSamples": [],
-                "commonResponseStatus": {},
-                "responseChildren": [],
-                "visibility": "INHERITED",
-                "moduleId": 1118767,
-                "oasExtensions": "",
-                "type": "http",
-                "preProcessors": [],
-                "postProcessors": [],
-                "inheritPostProcessors": {},
-                "inheritPreProcessors": {}
-              }
             }
           ]
         },
@@ -1333,7 +311,7 @@
                   ],
                   "query": [
                     {
-                      "id": "YuHPvvmvMG",
+                      "id": "OWk2vJUV6O",
                       "name": "language",
                       "required": true,
                       "enable": true,
@@ -1344,7 +322,7 @@
                       }
                     },
                     {
-                      "id": "sTfyIYswBN",
+                      "id": "qAwapGyTZa",
                       "name": "domain",
                       "required": false,
                       "enable": true,
@@ -1435,7 +413,6 @@
                 "method": "post",
                 "path": "/data/upload/{project_id}",
                 "parameters": {
-                  "query": [],
                   "path": [
                     {
                       "id": "project_id#0",
@@ -1451,17 +428,13 @@
                       }
                     }
                   ],
+                  "query": [],
                   "cookie": [],
                   "header": []
                 },
                 "auth": {},
                 "securityScheme": {},
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "cookie": [],
-                  "header": []
-                },
+                "commonParameters": {},
                 "responses": [
                   {
                     "id": "147916114",
@@ -1495,23 +468,23 @@
                   "type": "multipart/form-data",
                   "parameters": [
                     {
-                      "id": "yB9htHbN8c",
+                      "id": "7Acew2K5Xl",
                       "name": "file",
                       "required": true,
                       "enable": true,
                       "description": "",
                       "example": "",
-                      "type": "file",
+                      "type": "string",
                       "schema": {
-                        "format": "binary",
-                        "type": "string"
+                        "type": "string",
+                        "contentMediaType": "application/octet-stream",
+                        "title": "File"
                       }
                     }
                   ],
+                  "oasExtensions": "",
                   "required": true,
-                  "mediaType": "",
-                  "examples": [],
-                  "oasExtensions": ""
+                  "additionalContentTypes": []
                 },
                 "description": "",
                 "tags": [
@@ -2448,7 +1421,7 @@
                   ],
                   "query": [
                     {
-                      "id": "mhGb0VVto6",
+                      "id": "BFrAaVxBjd",
                       "name": "limit",
                       "required": false,
                       "enable": true,
@@ -3082,39 +2055,14 @@
                 "method": "post",
                 "path": "/api/v1/inspiration/extract",
                 "parameters": {
-                  "query": [
-                    {
-                      "id": "3XHhnwV5Qw",
-                      "name": "project_id",
-                      "required": false,
-                      "enable": true,
-                      "description": "",
-                      "type": "other",
-                      "schema": {
-                        "anyOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "type": "null"
-                          }
-                        ],
-                        "title": "Project Id"
-                      }
-                    }
-                  ],
                   "path": [],
+                  "query": [],
                   "cookie": [],
                   "header": []
                 },
                 "auth": {},
                 "securityScheme": {},
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "cookie": [],
-                  "header": []
-                },
+                "commonParameters": {},
                 "responses": [
                   {
                     "id": "179435896",
@@ -3152,15 +2100,10 @@
                   "jsonSchema": {
                     "$ref": "#/definitions/15975323"
                   },
+                  "mediaType": "application/json",
+                  "oasExtensions": "",
                   "required": true,
-                  "mediaType": "",
-                  "examples": [
-                    {
-                      "mediaType": "application/json",
-                      "value": "{\n    \"language\": \"en\",\n    \"domain\": \"english_grammar\",\n    \"text\": \"When all the false self-identifications are thrown away, what remains is all-embracing love.”\\n~Nisargadatta Maharaj\\n\\nI once sat with a friend and watched with deep respect and a full heart as she realized how a pattern from her childhood had been holding her back.\\n\\nShe became fully aware of the inner critical voice that had plagued her for decades and saw clearly how this voice was inserted into her thoughts by her childhood experiences.\\n\\nDid she want this voice to be in charge? No.\\nDid she believe what it said? Not once she became aware of what it was telling her.\\nWas she tired of the way it diminished her and sapped her zest for life? Yes!\\nRight then and there, she decided to cut the cord to her past.\\n\\nShe chose to stop being a victim to the inner critic with its familiar put-downs that kept her stuck. instead, she took the path of not knowing. She happily stepped into herself…fresh and new.\\n\\nPatterns from Our Childhood\\nIf you examine any recurring emotion or thought pattern that derails your happiness, you will probably be able to trace it back to your childhood.\\n\\nA tendency to feel alone and abandoned comes from not getting enough loving attention as a child.\\nA tendency to be hyper-responsible about everything comes from being raised in a chaotic home.\\nA pattern of not trusting others comes from a lack of emotional or physical safety in childhood.\\nPatterns like these are conditioned, having developed as a way to cope with challenging circumstances. They feel like they define us, but they are actually false stories we’ve come to believe about ourselves.\\n\\nWhat’s amazing is that there is another possibility…freedom in your life as it is right now. With love, care, and focused attention, we can shed these conditioned patterns so our natural, unconditioned, shining self is revealed. We’re finally free to feel good about ourselves.\\n\\nFinding Freedom\\nThere’s no substitute for being conscious in our lives, and that’s what it takes for our patterns to soften their hold on us.\\n\\nTurn your attention inward so you can know with great precision how your patterns show up. When you are caught in them,\\n\\nHow do you feel?\\nWhat thoughts have taken over?\\nWhat triggers them?\\nKnow that these limiting patterns don’t in any way accurately define the truth of who you are.\\n\\nThis deeply held programming from our past grabs tightly, so be patient with the process to loosen its grip. Notice the patterns over and over, bow to them from your heart for their intention to help you, then step aside into freedom.\\n\\nEventually the insight dawns that the pull to leave your conditioning is stronger than the fear not to. This is truth illuminated, the golden moment that sets you free.\\n\\nEvery time the pattern appears, feel it with understanding and love. Then stand in liberation from it—unburdened, fully open, and unapologetically alive.\",\n    \"do_reset\": 0,\n    \"section_size\": 2000\n}"
-                    }
-                  ],
-                  "oasExtensions": ""
+                  "additionalContentTypes": []
                 },
                 "description": "Start inspiration extraction pipeline.\n\nPipeline Steps:\n1. Resolve domain, language, and text sections (from project assets or request payload).\n2. Generate contextual situations (inspirations) for each section in parallel.\n3. Deduplicate the generated inspirations.\n4. Save them to the database.",
                 "tags": [
@@ -3172,6 +2115,626 @@
                 "sourceUrl": "",
                 "ordering": 0,
                 "cases": [],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1118767,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            }
+          ]
+        },
+        {
+          "name": "nlp",
+          "id": 9590915,
+          "auth": {},
+          "securityScheme": {},
+          "parentId": 0,
+          "serverId": "",
+          "description": "",
+          "identityPattern": {
+            "httpApi": {
+              "type": "inherit",
+              "bodyType": "",
+              "fields": []
+            }
+          },
+          "shareSettings": {},
+          "visibility": "INHERITED",
+          "moduleId": 1118767,
+          "preProcessors": [
+            {
+              "id": "inheritProcessors",
+              "type": "inheritProcessors",
+              "data": {}
+            }
+          ],
+          "postProcessors": [
+            {
+              "id": "inheritProcessors",
+              "type": "inheritProcessors",
+              "data": {}
+            }
+          ],
+          "inheritPostProcessors": {},
+          "inheritPreProcessors": {},
+          "items": [
+            {
+              "name": "Index Project",
+              "api": {
+                "id": "30811892",
+                "method": "post",
+                "path": "/api/v1/nlp/index/push/{project_id}",
+                "parameters": {
+                  "path": [
+                    {
+                      "id": "project_id#0",
+                      "name": "project_id",
+                      "required": true,
+                      "enable": true,
+                      "description": "",
+                      "example": "",
+                      "type": "string",
+                      "schema": {
+                        "type": "string",
+                        "title": "Project Id"
+                      }
+                    }
+                  ],
+                  "query": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {},
+                "responses": [
+                  {
+                    "id": "146816298",
+                    "code": "200",
+                    "headers": [],
+                    "jsonSchema": {},
+                    "itemSchema": {},
+                    "description": "Successful Response",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  },
+                  {
+                    "id": "136638803",
+                    "code": "422",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/13535690"
+                    },
+                    "itemSchema": {},
+                    "description": "Validation Error",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  }
+                ],
+                "responseExamples": [],
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "$ref": "#/definitions/13535701"
+                  },
+                  "mediaType": "application/json",
+                  "oasExtensions": "",
+                  "required": true,
+                  "additionalContentTypes": []
+                },
+                "description": "",
+                "tags": [
+                  "nlp"
+                ],
+                "status": "released",
+                "serverId": "",
+                "operationId": "index_project_api_v1_nlp_index_push__project_id__post",
+                "sourceUrl": "",
+                "ordering": 0,
+                "cases": [
+                  {
+                    "id": 42430522,
+                    "type": "DEBUG_CASE",
+                    "path": null,
+                    "name": "Success",
+                    "responseId": "146816298",
+                    "parameters": {
+                      "path": [
+                        {
+                          "id": "project_id#0",
+                          "relatedId": "project_id#0",
+                          "relatedName": "project_id",
+                          "name": "project_id",
+                          "value": "",
+                          "enable": true
+                        }
+                      ],
+                      "query": [],
+                      "cookie": [],
+                      "header": []
+                    },
+                    "commonParameters": {},
+                    "requestBody": {
+                      "parameters": [],
+                      "data": "",
+                      "type": "application/json",
+                      "generateMode": "normal"
+                    },
+                    "auth": {},
+                    "securityScheme": {},
+                    "advancedSettings": {
+                      "disabledSystemHeaders": {}
+                    },
+                    "requestResult": null,
+                    "visibility": "INHERITED",
+                    "moduleId": 1118767,
+                    "categoryId": 0,
+                    "tagIds": [],
+                    "apiTestDataList": [],
+                    "preProcessors": [],
+                    "postProcessors": [],
+                    "inheritPostProcessors": {
+                      "enable": {},
+                      "defaultEnable": {}
+                    },
+                    "inheritPreProcessors": {
+                      "enable": {},
+                      "defaultEnable": {}
+                    }
+                  }
+                ],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1118767,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Get Project Index Info",
+              "api": {
+                "id": "30811893",
+                "method": "get",
+                "path": "/api/v1/nlp/index/info/{project_id}",
+                "parameters": {
+                  "path": [
+                    {
+                      "id": "project_id#0",
+                      "name": "project_id",
+                      "required": true,
+                      "enable": true,
+                      "description": "",
+                      "example": "",
+                      "type": "string",
+                      "schema": {
+                        "type": "string",
+                        "title": "Project Id"
+                      }
+                    }
+                  ],
+                  "query": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {},
+                "responses": [
+                  {
+                    "id": "167624909",
+                    "code": "200",
+                    "headers": [],
+                    "jsonSchema": {},
+                    "itemSchema": {},
+                    "description": "Successful Response",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  },
+                  {
+                    "id": "176380493",
+                    "code": "422",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/13535690"
+                    },
+                    "itemSchema": {},
+                    "description": "Validation Error",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  }
+                ],
+                "responseExamples": [],
+                "requestBody": {
+                  "type": "none",
+                  "parameters": [],
+                  "required": false,
+                  "additionalContentTypes": [],
+                  "oasExtensions": ""
+                },
+                "description": "",
+                "tags": [
+                  "nlp"
+                ],
+                "status": "released",
+                "serverId": "",
+                "operationId": "get_project_index_info_api_v1_nlp_index_info__project_id__get",
+                "sourceUrl": "",
+                "ordering": 6,
+                "cases": [
+                  {
+                    "id": 42430523,
+                    "type": "DEBUG_CASE",
+                    "path": null,
+                    "name": "Success",
+                    "responseId": "167624909",
+                    "parameters": {
+                      "path": [
+                        {
+                          "id": "project_id#0",
+                          "relatedId": "project_id#0",
+                          "relatedName": "project_id",
+                          "name": "project_id",
+                          "value": "",
+                          "enable": true
+                        }
+                      ],
+                      "query": [],
+                      "cookie": [],
+                      "header": []
+                    },
+                    "commonParameters": {},
+                    "requestBody": {
+                      "parameters": [],
+                      "type": "none",
+                      "generateMode": "normal"
+                    },
+                    "auth": {},
+                    "securityScheme": {},
+                    "advancedSettings": {
+                      "disabledSystemHeaders": {}
+                    },
+                    "requestResult": null,
+                    "visibility": "INHERITED",
+                    "moduleId": 1118767,
+                    "categoryId": 0,
+                    "tagIds": [],
+                    "apiTestDataList": [],
+                    "preProcessors": [],
+                    "postProcessors": [],
+                    "inheritPostProcessors": {
+                      "enable": {},
+                      "defaultEnable": {}
+                    },
+                    "inheritPreProcessors": {
+                      "enable": {},
+                      "defaultEnable": {}
+                    }
+                  }
+                ],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1118767,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Search",
+              "api": {
+                "id": "31208954",
+                "method": "post",
+                "path": "/api/v1/nlp/index/search/{project_id}",
+                "parameters": {
+                  "path": [
+                    {
+                      "id": "project_id#0",
+                      "name": "project_id",
+                      "required": true,
+                      "enable": true,
+                      "description": "",
+                      "example": "",
+                      "type": "string",
+                      "schema": {
+                        "type": "string",
+                        "title": "Project Id"
+                      }
+                    }
+                  ],
+                  "query": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {},
+                "responses": [
+                  {
+                    "id": "121513853",
+                    "code": "200",
+                    "headers": [],
+                    "jsonSchema": {},
+                    "itemSchema": {},
+                    "description": "Successful Response",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  },
+                  {
+                    "id": "129068130",
+                    "code": "422",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/13535690"
+                    },
+                    "itemSchema": {},
+                    "description": "Validation Error",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  }
+                ],
+                "responseExamples": [],
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "$ref": "#/definitions/13535705"
+                  },
+                  "mediaType": "application/json",
+                  "oasExtensions": "",
+                  "required": true,
+                  "additionalContentTypes": []
+                },
+                "description": "",
+                "tags": [
+                  "nlp"
+                ],
+                "status": "released",
+                "serverId": "",
+                "operationId": "search_api_v1_nlp_index_search__project_id__post",
+                "sourceUrl": "",
+                "ordering": 12,
+                "cases": [
+                  {
+                    "id": 42430519,
+                    "type": "DEBUG_CASE",
+                    "path": null,
+                    "name": "Success",
+                    "responseId": "121513853",
+                    "parameters": {
+                      "path": [
+                        {
+                          "id": "project_id#0",
+                          "relatedId": "project_id#0",
+                          "relatedName": "project_id",
+                          "name": "project_id",
+                          "value": "",
+                          "enable": true
+                        }
+                      ],
+                      "query": [],
+                      "cookie": [],
+                      "header": []
+                    },
+                    "commonParameters": {},
+                    "requestBody": {
+                      "parameters": [],
+                      "data": "",
+                      "type": "application/json",
+                      "generateMode": "normal"
+                    },
+                    "auth": {},
+                    "securityScheme": {},
+                    "advancedSettings": {
+                      "disabledSystemHeaders": {}
+                    },
+                    "requestResult": null,
+                    "visibility": "INHERITED",
+                    "moduleId": 1118767,
+                    "categoryId": 0,
+                    "tagIds": [],
+                    "apiTestDataList": [],
+                    "preProcessors": [],
+                    "postProcessors": [],
+                    "inheritPostProcessors": {
+                      "enable": {},
+                      "defaultEnable": {}
+                    },
+                    "inheritPreProcessors": {
+                      "enable": {},
+                      "defaultEnable": {}
+                    }
+                  }
+                ],
+                "mocks": [],
+                "customApiFields": "{}",
+                "advancedSettings": {
+                  "disabledSystemHeaders": {}
+                },
+                "mockScript": {},
+                "codeSamples": [],
+                "commonResponseStatus": {},
+                "responseChildren": [],
+                "visibility": "INHERITED",
+                "moduleId": 1118767,
+                "oasExtensions": "",
+                "type": "http",
+                "preProcessors": [],
+                "postProcessors": [],
+                "inheritPostProcessors": {},
+                "inheritPreProcessors": {}
+              }
+            },
+            {
+              "name": "Answer Rag",
+              "api": {
+                "id": "30811894",
+                "method": "post",
+                "path": "/api/v1/nlp/index/answer/{project_id}",
+                "parameters": {
+                  "path": [
+                    {
+                      "id": "project_id#0",
+                      "name": "project_id",
+                      "required": true,
+                      "enable": true,
+                      "description": "",
+                      "example": "",
+                      "type": "string",
+                      "schema": {
+                        "type": "string",
+                        "title": "Project Id"
+                      }
+                    }
+                  ],
+                  "query": [],
+                  "cookie": [],
+                  "header": []
+                },
+                "auth": {},
+                "securityScheme": {},
+                "commonParameters": {},
+                "responses": [
+                  {
+                    "id": "185476537",
+                    "code": "200",
+                    "headers": [],
+                    "jsonSchema": {},
+                    "itemSchema": {},
+                    "description": "Successful Response",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  },
+                  {
+                    "id": "165915259",
+                    "code": "422",
+                    "headers": [],
+                    "jsonSchema": {
+                      "$ref": "#/definitions/13535690"
+                    },
+                    "itemSchema": {},
+                    "description": "Validation Error",
+                    "contentType": "json",
+                    "mediaType": "application/json",
+                    "oasExtensions": ""
+                  }
+                ],
+                "responseExamples": [],
+                "requestBody": {
+                  "type": "application/json",
+                  "parameters": [],
+                  "jsonSchema": {
+                    "$ref": "#/definitions/13535705"
+                  },
+                  "mediaType": "application/json",
+                  "oasExtensions": "",
+                  "required": true,
+                  "additionalContentTypes": []
+                },
+                "description": "",
+                "tags": [
+                  "nlp"
+                ],
+                "status": "released",
+                "serverId": "",
+                "operationId": "answer_rag_api_v1_nlp_index_answer__project_id__post",
+                "sourceUrl": "",
+                "ordering": 18,
+                "cases": [
+                  {
+                    "id": 42430524,
+                    "type": "DEBUG_CASE",
+                    "path": null,
+                    "name": "Success",
+                    "responseId": "185476537",
+                    "parameters": {
+                      "path": [
+                        {
+                          "id": "project_id#0",
+                          "relatedId": "project_id#0",
+                          "relatedName": "project_id",
+                          "name": "project_id",
+                          "value": "",
+                          "enable": true
+                        }
+                      ],
+                      "query": [],
+                      "cookie": [],
+                      "header": []
+                    },
+                    "commonParameters": {},
+                    "requestBody": {
+                      "parameters": [],
+                      "data": "",
+                      "type": "application/json",
+                      "generateMode": "normal"
+                    },
+                    "auth": {},
+                    "securityScheme": {},
+                    "advancedSettings": {
+                      "disabledSystemHeaders": {}
+                    },
+                    "requestResult": null,
+                    "visibility": "INHERITED",
+                    "moduleId": 1118767,
+                    "categoryId": 0,
+                    "tagIds": [],
+                    "apiTestDataList": [],
+                    "preProcessors": [],
+                    "postProcessors": [],
+                    "inheritPostProcessors": {
+                      "enable": {},
+                      "defaultEnable": {}
+                    },
+                    "inheritPreProcessors": {
+                      "enable": {},
+                      "defaultEnable": {}
+                    }
+                  }
+                ],
                 "mocks": [],
                 "customApiFields": "{}",
                 "advancedSettings": {
@@ -3299,20 +2862,7 @@
   "webSocketCollection": [],
   "socketIOCollection": [],
   "mcpClientCollection": [],
-  "responseCollection": [
-    {
-      "_databaseId": 1375440,
-      "updatedAt": "2026-03-08T22:25:44.000Z",
-      "id": 1375440,
-      "name": "Root",
-      "type": "root",
-      "children": [],
-      "moduleId": 1118767,
-      "parentId": 0,
-      "ordering": [],
-      "items": []
-    }
-  ],
+  "responseCollection": [],
   "schemaCollection": [
     {
       "id": 3151219,
@@ -3474,65 +3024,6 @@
           "moduleId": 1118767
         },
         {
-          "name": "Body_upload_data_upload__project_id__post",
-          "displayName": "Body_upload_data_upload__project_id__post",
-          "id": "#/definitions/13535688",
-          "description": "",
-          "schema": {
-            "jsonSchema": {
-              "properties": {
-                "file": {
-                  "type": "string",
-                  "contentMediaType": "application/octet-stream",
-                  "title": "File"
-                }
-              },
-              "type": "object",
-              "required": [
-                "file"
-              ],
-              "title": "Body_upload_data_upload__project_id__post",
-              "x-apidog-orders": [
-                "file"
-              ]
-            }
-          },
-          "visibility": "INHERITED",
-          "moduleId": 1118767
-        },
-        {
-          "name": "GenerationResult",
-          "displayName": "GenerationResult",
-          "id": "#/definitions/13535689",
-          "description": "The result of a single question generation request.",
-          "schema": {
-            "jsonSchema": {
-              "properties": {
-                "question_type": {
-                  "type": "string",
-                  "title": "Question Type"
-                },
-                "questions": {
-                  "$ref": "#/definitions/13535703"
-                }
-              },
-              "type": "object",
-              "required": [
-                "question_type",
-                "questions"
-              ],
-              "title": "GenerationResult",
-              "description": "The result of a single question generation request.",
-              "x-apidog-orders": [
-                "question_type",
-                "questions"
-              ]
-            }
-          },
-          "visibility": "INHERITED",
-          "moduleId": 1118767
-        },
-        {
           "name": "HTTPValidationError",
           "displayName": "HTTPValidationError",
           "id": "#/definitions/13535690",
@@ -3661,62 +3152,6 @@
               "x-apidog-orders": [
                 "inspirations",
                 "inserted_count"
-              ]
-            }
-          },
-          "visibility": "INHERITED",
-          "moduleId": 1118767
-        },
-        {
-          "name": "MCQ",
-          "displayName": "MCQ",
-          "id": "#/definitions/13535691",
-          "description": "",
-          "schema": {
-            "jsonSchema": {
-              "properties": {
-                "question_statement": {
-                  "type": "string",
-                  "minLength": 1,
-                  "title": "Question Statement",
-                  "description": "The text of the question being asked."
-                },
-                "explanation": {
-                  "type": "string",
-                  "minLength": 1,
-                  "title": "Explanation",
-                  "description": "An explanation of why provided correct answer is correct."
-                },
-                "correct_answer": {
-                  "type": "string",
-                  "minLength": 1,
-                  "title": "Correct Answer",
-                  "description": "The correct answer to the question."
-                },
-                "plausible_distractors": {
-                  "items": {
-                    "type": "string"
-                  },
-                  "type": "array",
-                  "maxItems": 3,
-                  "minItems": 3,
-                  "title": "Plausible Distractors",
-                  "description": "Exactly 3 distractors must be provided which the correct answer isn't one of them."
-                }
-              },
-              "type": "object",
-              "required": [
-                "question_statement",
-                "explanation",
-                "correct_answer",
-                "plausible_distractors"
-              ],
-              "title": "MCQ",
-              "x-apidog-orders": [
-                "question_statement",
-                "explanation",
-                "correct_answer",
-                "plausible_distractors"
               ]
             }
           },
@@ -3872,58 +3307,6 @@
           "moduleId": 1118767
         },
         {
-          "name": "MainIdeaResponse",
-          "displayName": "MainIdeaResponse",
-          "id": "#/definitions/13535696",
-          "description": "Response containing a main idea.",
-          "schema": {
-            "jsonSchema": {
-              "properties": {
-                "id": {
-                  "type": "string",
-                  "title": "Id"
-                },
-                "title": {
-                  "type": "string",
-                  "title": "Title"
-                },
-                "summary": {
-                  "type": "string",
-                  "title": "Summary"
-                },
-                "rank": {
-                  "anyOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ],
-                  "title": "Rank"
-                }
-              },
-              "type": "object",
-              "required": [
-                "id",
-                "title",
-                "summary",
-                "rank"
-              ],
-              "title": "MainIdeaResponse",
-              "description": "Response containing a main idea.",
-              "x-apidog-orders": [
-                "id",
-                "title",
-                "summary",
-                "rank"
-              ]
-            }
-          },
-          "visibility": "INHERITED",
-          "moduleId": 1118767
-        },
-        {
           "name": "MainIdeasListResponse",
           "displayName": "MainIdeasListResponse",
           "id": "#/definitions/13535697",
@@ -3980,7 +3363,14 @@
             "jsonSchema": {
               "properties": {
                 "file_id": {
-                  "type": "string",
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
                   "title": "File Id"
                 },
                 "chunk_size": {
@@ -3993,7 +3383,7 @@
                     }
                   ],
                   "title": "Chunk Size",
-                  "default": 100
+                  "default": 200
                 },
                 "overlap_size": {
                   "anyOf": [
@@ -4034,80 +3424,6 @@
           "moduleId": 1118767
         },
         {
-          "name": "ProjectGenerationRequest",
-          "displayName": "ProjectGenerationRequest",
-          "id": "#/definitions/13535699",
-          "description": "A single project's question generation task.",
-          "schema": {
-            "jsonSchema": {
-              "properties": {
-                "project_id": {
-                  "type": "string",
-                  "title": "Project Id",
-                  "description": "The ID of the project."
-                },
-                "requests": {
-                  "items": {
-                    "$ref": "#/definitions/13535702"
-                  },
-                  "type": "array",
-                  "title": "Requests",
-                  "description": "A list of question generation requests for the project."
-                }
-              },
-              "type": "object",
-              "required": [
-                "project_id",
-                "requests"
-              ],
-              "title": "ProjectGenerationRequest",
-              "description": "A single project's question generation task.",
-              "x-apidog-orders": [
-                "project_id",
-                "requests"
-              ]
-            }
-          },
-          "visibility": "INHERITED",
-          "moduleId": 1118767
-        },
-        {
-          "name": "ProjectGenerationResult",
-          "displayName": "ProjectGenerationResult",
-          "id": "#/definitions/13535700",
-          "description": "The overall result for a single project's generation task.",
-          "schema": {
-            "jsonSchema": {
-              "properties": {
-                "project_id": {
-                  "type": "string",
-                  "title": "Project Id"
-                },
-                "results": {
-                  "items": {
-                    "$ref": "#/definitions/13535689"
-                  },
-                  "type": "array",
-                  "title": "Results"
-                }
-              },
-              "type": "object",
-              "required": [
-                "project_id",
-                "results"
-              ],
-              "title": "ProjectGenerationResult",
-              "description": "The overall result for a single project's generation task.",
-              "x-apidog-orders": [
-                "project_id",
-                "results"
-              ]
-            }
-          },
-          "visibility": "INHERITED",
-          "moduleId": 1118767
-        },
-        {
           "name": "PushRequest",
           "displayName": "PushRequest",
           "id": "#/definitions/13535701",
@@ -4133,112 +3449,6 @@
               "x-apidog-orders": [
                 "do_reset"
               ]
-            }
-          },
-          "visibility": "INHERITED",
-          "moduleId": 1118767
-        },
-        {
-          "name": "QuestionGenerationRequest",
-          "displayName": "QuestionGenerationRequest",
-          "id": "#/definitions/13535702",
-          "description": "Request to generate questions from main ideas.",
-          "schema": {
-            "jsonSchema": {
-              "properties": {
-                "num_questions": {
-                  "type": "integer",
-                  "exclusiveMinimum": 0,
-                  "title": "Num Questions",
-                  "description": "The number of questions to generate.",
-                  "minimum": 0
-                },
-                "question_type": {
-                  "$ref": "#/definitions/13535704"
-                }
-              },
-              "type": "object",
-              "required": [
-                "num_questions",
-                "question_type"
-              ],
-              "title": "QuestionGenerationRequest",
-              "description": "Request to generate questions from main ideas.",
-              "x-apidog-orders": [
-                "num_questions",
-                "question_type"
-              ]
-            }
-          },
-          "visibility": "INHERITED",
-          "moduleId": 1118767
-        },
-        {
-          "name": "QuestionGenerationResponse",
-          "displayName": "QuestionGenerationResponse",
-          "id": "#/definitions/13535703",
-          "description": "Response from question generation.",
-          "schema": {
-            "jsonSchema": {
-              "properties": {
-                "signal": {
-                  "type": "string",
-                  "title": "Signal"
-                },
-                "ideas_processed": {
-                  "type": "integer",
-                  "title": "Ideas Processed"
-                },
-                "questions_generated": {
-                  "items": {
-                    "anyOf": [
-                      {
-                        "$ref": "#/definitions/13535691"
-                      },
-                      {
-                        "$ref": "#/definitions/13535706"
-                      },
-                      {
-                        "$ref": "#/definitions/13535708"
-                      }
-                    ]
-                  },
-                  "type": "array",
-                  "title": "Questions Generated"
-                }
-              },
-              "type": "object",
-              "required": [
-                "signal",
-                "ideas_processed",
-                "questions_generated"
-              ],
-              "title": "QuestionGenerationResponse",
-              "description": "Response from question generation.",
-              "x-apidog-orders": [
-                "signal",
-                "ideas_processed",
-                "questions_generated"
-              ]
-            }
-          },
-          "visibility": "INHERITED",
-          "moduleId": 1118767
-        },
-        {
-          "name": "QuestionTypeEnum",
-          "displayName": "QuestionTypeEnum",
-          "id": "#/definitions/13535704",
-          "description": "",
-          "schema": {
-            "jsonSchema": {
-              "type": "string",
-              "enum": [
-                "tf",
-                "mcq",
-                "short_answer"
-              ],
-              "title": "QuestionTypeEnum"
             }
           },
           "visibility": "INHERITED",
@@ -4284,6 +3494,297 @@
           "moduleId": 1118767
         },
         {
+          "name": "SupportedLanguage",
+          "displayName": "SupportedLanguage",
+          "id": "#/definitions/13535707",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "type": "string",
+              "enum": [
+                "ar",
+                "en"
+              ],
+              "title": "SupportedLanguage"
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 1118767
+        },
+        {
+          "name": "ProjectGenerationRequest",
+          "displayName": "ProjectGenerationRequest",
+          "id": "#/definitions/13535699",
+          "description": "A single project's question generation task.",
+          "schema": {
+            "jsonSchema": {
+              "properties": {
+                "project_id": {
+                  "type": "string",
+                  "title": "Project Id",
+                  "description": "The ID of the project."
+                },
+                "requests": {
+                  "items": {
+                    "$ref": "#/definitions/13535702"
+                  },
+                  "type": "array",
+                  "title": "Requests",
+                  "description": "A list of question generation requests for the project."
+                }
+              },
+              "type": "object",
+              "required": [
+                "project_id",
+                "requests"
+              ],
+              "title": "ProjectGenerationRequest",
+              "description": "A single project's question generation task.",
+              "x-apidog-orders": [
+                "project_id",
+                "requests"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 1118767
+        },
+        {
+          "name": "QuestionGenerationRequest",
+          "displayName": "QuestionGenerationRequest",
+          "id": "#/definitions/13535702",
+          "description": "Request to generate questions from main ideas.",
+          "schema": {
+            "jsonSchema": {
+              "properties": {
+                "num_questions": {
+                  "type": "integer",
+                  "exclusiveMinimum": 0,
+                  "title": "Num Questions",
+                  "description": "The number of questions to generate.",
+                  "minimum": 0
+                },
+                "question_type": {
+                  "$ref": "#/definitions/13535704"
+                }
+              },
+              "type": "object",
+              "required": [
+                "num_questions",
+                "question_type"
+              ],
+              "title": "QuestionGenerationRequest",
+              "description": "Request to generate questions from main ideas.",
+              "x-apidog-orders": [
+                "num_questions",
+                "question_type"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 1118767
+        },
+        {
+          "name": "QuestionTypeEnum",
+          "displayName": "QuestionTypeEnum",
+          "id": "#/definitions/13535704",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "type": "string",
+              "enum": [
+                "tf",
+                "mcq",
+                "short_answer"
+              ],
+              "title": "QuestionTypeEnum"
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 1118767
+        },
+        {
+          "name": "ProjectGenerationResult",
+          "displayName": "ProjectGenerationResult",
+          "id": "#/definitions/13535700",
+          "description": "The overall result for a single project's generation task.",
+          "schema": {
+            "jsonSchema": {
+              "properties": {
+                "project_id": {
+                  "type": "string",
+                  "title": "Project Id"
+                },
+                "results": {
+                  "items": {
+                    "$ref": "#/definitions/13535689"
+                  },
+                  "type": "array",
+                  "title": "Results"
+                }
+              },
+              "type": "object",
+              "required": [
+                "project_id",
+                "results"
+              ],
+              "title": "ProjectGenerationResult",
+              "description": "The overall result for a single project's generation task.",
+              "x-apidog-orders": [
+                "project_id",
+                "results"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 1118767
+        },
+        {
+          "name": "GenerationResult",
+          "displayName": "GenerationResult",
+          "id": "#/definitions/13535689",
+          "description": "The result of a single question generation request.",
+          "schema": {
+            "jsonSchema": {
+              "properties": {
+                "question_type": {
+                  "type": "string",
+                  "title": "Question Type"
+                },
+                "questions": {
+                  "$ref": "#/definitions/13535703"
+                }
+              },
+              "type": "object",
+              "required": [
+                "question_type",
+                "questions"
+              ],
+              "title": "GenerationResult",
+              "description": "The result of a single question generation request.",
+              "x-apidog-orders": [
+                "question_type",
+                "questions"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 1118767
+        },
+        {
+          "name": "QuestionGenerationResponse",
+          "displayName": "QuestionGenerationResponse",
+          "id": "#/definitions/13535703",
+          "description": "Response from question generation.",
+          "schema": {
+            "jsonSchema": {
+              "properties": {
+                "signal": {
+                  "type": "string",
+                  "title": "Signal"
+                },
+                "ideas_processed": {
+                  "type": "integer",
+                  "title": "Ideas Processed"
+                },
+                "questions_generated": {
+                  "items": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": true,
+                        "type": "object",
+                        "x-apidog-orders": []
+                      },
+                      {
+                        "$ref": "#/definitions/13535691"
+                      },
+                      {
+                        "$ref": "#/definitions/13535706"
+                      },
+                      {
+                        "$ref": "#/definitions/13535708"
+                      }
+                    ]
+                  },
+                  "type": "array",
+                  "title": "Questions Generated"
+                }
+              },
+              "type": "object",
+              "required": [
+                "signal",
+                "ideas_processed",
+                "questions_generated"
+              ],
+              "title": "QuestionGenerationResponse",
+              "description": "Response from question generation.",
+              "x-apidog-orders": [
+                "signal",
+                "ideas_processed",
+                "questions_generated"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 1118767
+        },
+        {
+          "name": "MCQ",
+          "displayName": "MCQ",
+          "id": "#/definitions/13535691",
+          "description": "",
+          "schema": {
+            "jsonSchema": {
+              "properties": {
+                "question_statement": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Question Statement",
+                  "description": "The text of the question being asked."
+                },
+                "explanation": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Explanation",
+                  "description": "An explanation of why provided correct answer is correct."
+                },
+                "correct_answer": {
+                  "type": "string",
+                  "minLength": 1,
+                  "title": "Correct Answer",
+                  "description": "The correct answer to the question."
+                },
+                "plausible_distractors": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array",
+                  "maxItems": 3,
+                  "minItems": 3,
+                  "title": "Plausible Distractors",
+                  "description": "Exactly 3 distractors must be provided which the correct answer isn't one of them."
+                }
+              },
+              "type": "object",
+              "required": [
+                "question_statement",
+                "explanation",
+                "correct_answer",
+                "plausible_distractors"
+              ],
+              "title": "MCQ",
+              "x-apidog-orders": [
+                "question_statement",
+                "explanation",
+                "correct_answer",
+                "plausible_distractors"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 1118767
+        },
+        {
           "name": "ShortAnswer",
           "displayName": "ShortAnswer",
           "id": "#/definitions/13535706",
@@ -4322,24 +3823,6 @@
                 "explanation",
                 "correct_answer"
               ]
-            }
-          },
-          "visibility": "INHERITED",
-          "moduleId": 1118767
-        },
-        {
-          "name": "SupportedLanguage",
-          "displayName": "SupportedLanguage",
-          "id": "#/definitions/13535707",
-          "description": "",
-          "schema": {
-            "jsonSchema": {
-              "type": "string",
-              "enum": [
-                "en",
-                "ar"
-              ],
-              "title": "SupportedLanguage"
             }
           },
           "visibility": "INHERITED",
@@ -4450,19 +3933,63 @@
           },
           "visibility": "INHERITED",
           "moduleId": 1118767
+        },
+        {
+          "name": "MainIdeaResponse",
+          "displayName": "MainIdeaResponse",
+          "id": "#/definitions/13535696",
+          "description": "Response containing a main idea.",
+          "schema": {
+            "jsonSchema": {
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "title": "Id"
+                },
+                "title": {
+                  "type": "string",
+                  "title": "Title"
+                },
+                "summary": {
+                  "type": "string",
+                  "title": "Summary"
+                },
+                "rank": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "title": "Rank"
+                }
+              },
+              "type": "object",
+              "required": [
+                "id",
+                "title",
+                "summary",
+                "rank"
+              ],
+              "title": "MainIdeaResponse",
+              "description": "Response containing a main idea.",
+              "x-apidog-orders": [
+                "id",
+                "title",
+                "summary",
+                "rank"
+              ]
+            }
+          },
+          "visibility": "INHERITED",
+          "moduleId": 1118767
         }
       ]
     }
   ],
-  "securitySchemeCollection": [
-    {
-      "id": 1145860,
-      "moduleId": 1118767,
-      "name": "Root",
-      "items": [],
-      "ordering": []
-    }
-  ],
+  "securitySchemeCollection": [],
   "oasComponentCollection": [],
   "requestCollection": [
     {
@@ -4474,1262 +4001,8 @@
       "items": []
     }
   ],
-  "apiTestCaseCollection": [
-    {
-      "id": 0,
-      "name": "Root",
-      "children": [],
-      "items": [
-        {
-          "steps": [
-            {
-              "name": "Welcome Request (Test Health)",
-              "number": 15,
-              "type": "http",
-              "bind": true,
-              "disable": false,
-              "bindType": "TEST_CASE",
-              "bindId": 42400559,
-              "syncMode": "SYNC_WITH_TEST_CASE",
-              "httpApiCase": {
-                "id": 42400559,
-                "name": "Test Health",
-                "method": "",
-                "path": "/api/v1",
-                "auth": {},
-                "type": "TEST_CASE",
-                "options": {},
-                "parameters": {
-                  "path": [],
-                  "query": [],
-                  "cookie": [],
-                  "header": []
-                },
-                "responseId": "168980049",
-                "requestBody": {
-                  "parameters": [],
-                  "type": "none",
-                  "data": ""
-                },
-                "preProcessors": [],
-                "postProcessors": [],
-                "advancedSettings": {
-                  "disabledSystemHeaders": {}
-                },
-                "commonParameters": {},
-                "inheritPreProcessors": {},
-                "inheritPostProcessors": {},
-                "inheritPreProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "VMwUiaIsHjOw43oTExOllDhOq0Xu0j9S",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "inheritPostProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "F7MqgLKYp9Fby7ombKy4K8tUppd2gOth",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "moduleId": 1118767,
-                "apiId": 30016100
-              }
-            },
-            {
-              "name": "Upload (Create Project 1 with 1 file)",
-              "number": 5,
-              "type": "http",
-              "bind": true,
-              "disable": false,
-              "bindType": "TEST_CASE",
-              "bindId": 42397909,
-              "syncMode": "SYNC_WITH_TEST_CASE",
-              "httpApiCase": {
-                "id": 42397909,
-                "name": "Create Project 1 with 1 file",
-                "method": "",
-                "path": "/data/upload/{project_id}",
-                "auth": {},
-                "type": "TEST_CASE",
-                "options": {},
-                "parameters": {
-                  "query": [
-                    {
-                      "id": "h9oPLSIi32",
-                      "relatedName": "language",
-                      "name": "language",
-                      "value": "en",
-                      "type": "other",
-                      "description": "",
-                      "enable": true,
-                      "isDelete": false
-                    },
-                    {
-                      "id": "K3RbyFPJ31",
-                      "relatedName": "domain",
-                      "name": "domain",
-                      "value": "english_grammar",
-                      "type": "string",
-                      "description": "",
-                      "enable": true,
-                      "isDelete": false
-                    }
-                  ],
-                  "header": [],
-                  "cookie": [],
-                  "path": [
-                    {
-                      "id": "project_id#0",
-                      "name": "project_id",
-                      "enable": true,
-                      "isDelete": false,
-                      "value": "1",
-                      "type": "string",
-                      "description": "",
-                      "relatedName": "project_id"
-                    }
-                  ]
-                },
-                "responseId": "147916114",
-                "requestBody": {
-                  "parameters": [
-                    {
-                      "id": "DdH33jIN7k",
-                      "relatedName": "file",
-                      "name": "file",
-                      "value": "file:///media/ahmedelhefnawy/New Volume/Projects/Graduation Project/Main-Idea-Extraction/content/01 - u1_Past Simple.txt",
-                      "type": "file",
-                      "description": "",
-                      "enable": true,
-                      "isDelete": false
-                    }
-                  ],
-                  "type": "multipart/form-data",
-                  "data": "",
-                  "generateMode": "normal"
-                },
-                "preProcessors": [
-                  {
-                    "type": "placeholder",
-                    "renderType": "dynamicValueDivider",
-                    "defaultEnable": false,
-                    "enable": false
-                  }
-                ],
-                "postProcessors": [],
-                "advancedSettings": {
-                  "disabledSystemHeaders": {},
-                  "isDefaultUrlEncoding": 1
-                },
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "header": [],
-                  "cookie": []
-                },
-                "inheritPreProcessors": {},
-                "inheritPostProcessors": {},
-                "inheritPreProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "VMwUiaIsHjOw43oTExOllDhOq0Xu0j9S",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "inheritPostProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "F7MqgLKYp9Fby7ombKy4K8tUppd2gOth",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "moduleId": 1118767,
-                "apiId": 30811895
-              }
-            },
-            {
-              "name": "Process Endpoint (Process all files proj_1)",
-              "number": 6,
-              "type": "http",
-              "bind": true,
-              "disable": false,
-              "bindType": "TEST_CASE",
-              "bindId": 42397894,
-              "syncMode": "SYNC_WITH_TEST_CASE",
-              "httpApiCase": {
-                "id": 42397894,
-                "name": "Process all files proj_1",
-                "method": "",
-                "path": "/data/process/{project_id}",
-                "auth": {},
-                "type": "TEST_CASE",
-                "options": {},
-                "parameters": {
-                  "query": [],
-                  "header": [],
-                  "cookie": [],
-                  "path": [
-                    {
-                      "id": "project_id#0",
-                      "name": "project_id",
-                      "value": "1",
-                      "type": "string",
-                      "description": "",
-                      "enable": true,
-                      "isDelete": false,
-                      "relatedName": "project_id"
-                    }
-                  ]
-                },
-                "responseId": "165990304",
-                "requestBody": {
-                  "parameters": [],
-                  "type": "application/json",
-                  "data": "{\n    \"chunk_size\": 300,\n    \"overlap_size\": 100,\n    \"do_reset\": 0\n}",
-                  "jsonSchema": {
-                    "$ref": "#/definitions/13535698"
-                  },
-                  "generateMode": "normal"
-                },
-                "preProcessors": [
-                  {
-                    "type": "placeholder",
-                    "renderType": "dynamicValueDivider",
-                    "defaultEnable": false,
-                    "enable": false
-                  }
-                ],
-                "postProcessors": [],
-                "advancedSettings": {
-                  "disabledSystemHeaders": {},
-                  "isDefaultUrlEncoding": 1
-                },
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "header": [],
-                  "cookie": []
-                },
-                "inheritPreProcessors": {},
-                "inheritPostProcessors": {},
-                "inheritPreProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "VMwUiaIsHjOw43oTExOllDhOq0Xu0j9S",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "inheritPostProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "F7MqgLKYp9Fby7ombKy4K8tUppd2gOth",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "moduleId": 1118767,
-                "apiId": 30811896
-              }
-            },
-            {
-              "name": "nlp_index_push (Push project 1 to VectorDB)",
-              "number": 3,
-              "type": "http",
-              "bind": true,
-              "disable": false,
-              "bindType": "TEST_CASE",
-              "bindId": 42398254,
-              "syncMode": "SYNC_WITH_TEST_CASE",
-              "httpApiCase": {
-                "id": 42398254,
-                "name": "Push project 1 to VectorDB",
-                "method": "",
-                "path": "/api/v1/nlp/index/push/1",
-                "auth": {},
-                "type": "TEST_CASE",
-                "options": {},
-                "parameters": {
-                  "path": [],
-                  "query": [],
-                  "cookie": [],
-                  "header": []
-                },
-                "responseId": "132669318",
-                "requestBody": {
-                  "parameters": [],
-                  "type": "application/json",
-                  "data": "{\n    \"do_reset\": 1\n}"
-                },
-                "preProcessors": [],
-                "postProcessors": [],
-                "advancedSettings": {
-                  "disabledSystemHeaders": {}
-                },
-                "commonParameters": {},
-                "inheritPreProcessors": {},
-                "inheritPostProcessors": {},
-                "inheritPreProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "VMwUiaIsHjOw43oTExOllDhOq0Xu0j9S",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "inheritPostProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "F7MqgLKYp9Fby7ombKy4K8tUppd2gOth",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "moduleId": 1118767,
-                "apiId": 30016103
-              }
-            },
-            {
-              "name": "nlp_index_info (Project 1)",
-              "number": 4,
-              "type": "http",
-              "bind": true,
-              "disable": false,
-              "bindType": "TEST_CASE",
-              "bindId": 42398513,
-              "syncMode": "SYNC_WITH_TEST_CASE",
-              "httpApiCase": {
-                "id": 42398513,
-                "name": "Project 1",
-                "method": "",
-                "path": "/api/v1/nlp/index/info/1",
-                "auth": {},
-                "type": "TEST_CASE",
-                "options": {},
-                "parameters": {
-                  "query": [],
-                  "path": [],
-                  "cookie": [],
-                  "header": []
-                },
-                "responseId": "162192681",
-                "requestBody": {
-                  "parameters": [],
-                  "type": "none",
-                  "data": ""
-                },
-                "preProcessors": [],
-                "postProcessors": [],
-                "advancedSettings": {
-                  "disabledSystemHeaders": {}
-                },
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "cookie": [],
-                  "header": []
-                },
-                "inheritPreProcessors": {},
-                "inheritPostProcessors": {},
-                "inheritPreProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "VMwUiaIsHjOw43oTExOllDhOq0Xu0j9S",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "inheritPostProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "F7MqgLKYp9Fby7ombKy4K8tUppd2gOth",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "moduleId": 1118767,
-                "apiId": 30016104
-              }
-            },
-            {
-              "name": "nlp_index_search (search proj_1)",
-              "number": 7,
-              "type": "http",
-              "bind": true,
-              "disable": false,
-              "bindType": "TEST_CASE",
-              "bindId": 42400142,
-              "syncMode": "SYNC_WITH_TEST_CASE",
-              "httpApiCase": {
-                "id": 42400142,
-                "name": "search proj_1",
-                "method": "",
-                "path": "/api/v1/nlp/index/search/1",
-                "auth": {},
-                "type": "TEST_CASE",
-                "options": {},
-                "parameters": {
-                  "query": [],
-                  "header": [],
-                  "cookie": [],
-                  "path": []
-                },
-                "responseId": "155323675",
-                "requestBody": {
-                  "parameters": [],
-                  "type": "application/json",
-                  "data": "{\n    \"text\": \"Ahmed treats us as if he were\",\n    \"limit\": 5\n}",
-                  "jsonSchema": {
-                    "type": "object",
-                    "properties": {
-                      "text": {
-                        "type": "string"
-                      },
-                      "limit": {
-                        "type": "integer"
-                      }
-                    },
-                    "required": [
-                      "text",
-                      "limit"
-                    ],
-                    "x-apidog-orders": [
-                      "text",
-                      "limit"
-                    ]
-                  },
-                  "generateMode": "normal"
-                },
-                "preProcessors": [
-                  {
-                    "type": "placeholder",
-                    "renderType": "dynamicValueDivider",
-                    "defaultEnable": false,
-                    "enable": false
-                  }
-                ],
-                "postProcessors": [],
-                "advancedSettings": {
-                  "disabledSystemHeaders": {},
-                  "isDefaultUrlEncoding": 3,
-                  "disableUrlEncoding": false
-                },
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "header": [],
-                  "cookie": []
-                },
-                "inheritPreProcessors": {},
-                "inheritPostProcessors": {},
-                "inheritPreProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "VMwUiaIsHjOw43oTExOllDhOq0Xu0j9S",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  },
-                  {
-                    "id": "dynamicValueDivider",
-                    "type": "placeholder",
-                    "renderType": "dynamicValueDivider",
-                    "defaultEnable": false,
-                    "enable": false,
-                    "targetName": "nlp_index_search",
-                    "targetId": 30016105,
-                    "targetType": "apiDetail",
-                    "apiMethod": "post",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "inheritPostProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "F7MqgLKYp9Fby7ombKy4K8tUppd2gOth",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "moduleId": 1118767,
-                "apiId": 30016105
-              }
-            },
-            {
-              "name": "Extract Main Ideas (Extract Ideas Project 1)",
-              "number": 8,
-              "type": "http",
-              "bind": true,
-              "disable": false,
-              "bindType": "TEST_CASE",
-              "bindId": 42398245,
-              "syncMode": "SYNC_WITH_TEST_CASE",
-              "httpApiCase": {
-                "id": 42398245,
-                "name": "Extract Ideas Project 1",
-                "method": "",
-                "path": "/api/v1/savaal/extract/{project_id}",
-                "auth": {},
-                "type": "TEST_CASE",
-                "options": {},
-                "parameters": {
-                  "query": [],
-                  "header": [],
-                  "cookie": [],
-                  "path": [
-                    {
-                      "id": "project_id#0",
-                      "name": "project_id",
-                      "enable": true,
-                      "isDelete": false,
-                      "value": "1",
-                      "type": "string",
-                      "description": "",
-                      "relatedName": "project_id"
-                    }
-                  ]
-                },
-                "responseId": "194550720",
-                "requestBody": {
-                  "parameters": [],
-                  "type": "application/json",
-                  "data": "{\n    \"section_size\": 2000,\n    \"do_reset\": 1\n}",
-                  "jsonSchema": {
-                    "$ref": "#/definitions/13535692"
-                  },
-                  "generateMode": "normal"
-                },
-                "preProcessors": [
-                  {
-                    "type": "placeholder",
-                    "renderType": "dynamicValueDivider",
-                    "defaultEnable": false,
-                    "enable": false
-                  }
-                ],
-                "postProcessors": [],
-                "advancedSettings": {
-                  "disabledSystemHeaders": {},
-                  "isDefaultUrlEncoding": 3,
-                  "disableUrlEncoding": false
-                },
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "header": [],
-                  "cookie": []
-                },
-                "inheritPreProcessors": {},
-                "inheritPostProcessors": {},
-                "inheritPreProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "VMwUiaIsHjOw43oTExOllDhOq0Xu0j9S",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "inheritPostProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "F7MqgLKYp9Fby7ombKy4K8tUppd2gOth",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "moduleId": 1118767,
-                "apiId": 30811897
-              }
-            },
-            {
-              "name": "Associate Chunks To Ideas (top_k with reset)",
-              "number": 9,
-              "type": "http",
-              "bind": true,
-              "disable": false,
-              "bindType": "TEST_CASE",
-              "bindId": 41899460,
-              "syncMode": "SYNC_WITH_TEST_CASE",
-              "httpApiCase": {
-                "id": 41899460,
-                "name": "top_k with reset",
-                "method": "",
-                "path": "/api/v1/savaal/associate/{project_id}",
-                "auth": {},
-                "type": "TEST_CASE",
-                "options": {},
-                "parameters": {
-                  "query": [],
-                  "header": [],
-                  "cookie": [],
-                  "path": [
-                    {
-                      "id": "project_id#0",
-                      "name": "project_id",
-                      "value": "1",
-                      "type": "string",
-                      "description": "",
-                      "enable": true,
-                      "isDelete": false,
-                      "relatedName": "project_id"
-                    }
-                  ]
-                },
-                "responseId": "142285410",
-                "requestBody": {
-                  "parameters": [],
-                  "type": "application/json",
-                  "data": "{\n    \"top_k\": 5,\n    \"do_reset\": 1\n}",
-                  "jsonSchema": {
-                    "$ref": "#/definitions/13535684"
-                  },
-                  "generateMode": "normal"
-                },
-                "preProcessors": [
-                  {
-                    "type": "placeholder",
-                    "renderType": "dynamicValueDivider",
-                    "defaultEnable": false,
-                    "enable": false
-                  }
-                ],
-                "postProcessors": [],
-                "advancedSettings": {
-                  "disabledSystemHeaders": {},
-                  "isDefaultUrlEncoding": 3,
-                  "disableUrlEncoding": false
-                },
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "header": [],
-                  "cookie": []
-                },
-                "inheritPreProcessors": {},
-                "inheritPostProcessors": {},
-                "inheritPreProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "VMwUiaIsHjOw43oTExOllDhOq0Xu0j9S",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "inheritPostProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "F7MqgLKYp9Fby7ombKy4K8tUppd2gOth",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "moduleId": 1118767,
-                "apiId": 30811898
-              }
-            },
-            {
-              "name": "Get Main Ideas (Get all ideas for project 1)",
-              "number": 10,
-              "type": "http",
-              "bind": true,
-              "disable": false,
-              "bindType": "TEST_CASE",
-              "bindId": 41899405,
-              "syncMode": "SYNC_WITH_TEST_CASE",
-              "httpApiCase": {
-                "id": 41899405,
-                "name": "Get all ideas for project 1",
-                "method": "",
-                "path": "/api/v1/savaal/main-ideas/{project_id}",
-                "auth": {},
-                "type": "TEST_CASE",
-                "options": {},
-                "parameters": {
-                  "query": [
-                    {
-                      "id": "QpQ32ducoD",
-                      "relatedName": "limit",
-                      "name": "limit",
-                      "type": "integer",
-                      "description": "Maximum number of ideas to return (0 = no limit)",
-                      "enable": false,
-                      "isDelete": false
-                    }
-                  ],
-                  "header": [],
-                  "cookie": [],
-                  "path": [
-                    {
-                      "id": "project_id#0",
-                      "name": "project_id",
-                      "enable": true,
-                      "isDelete": false,
-                      "value": "1",
-                      "type": "string",
-                      "description": "",
-                      "relatedName": "project_id"
-                    }
-                  ]
-                },
-                "responseId": "144262562",
-                "requestBody": {
-                  "parameters": [],
-                  "type": "none",
-                  "data": "",
-                  "generateMode": "normal"
-                },
-                "preProcessors": [
-                  {
-                    "type": "placeholder",
-                    "renderType": "dynamicValueDivider",
-                    "defaultEnable": false,
-                    "enable": false
-                  }
-                ],
-                "postProcessors": [],
-                "advancedSettings": {
-                  "disabledSystemHeaders": {},
-                  "isDefaultUrlEncoding": 3,
-                  "disableUrlEncoding": false
-                },
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "header": [],
-                  "cookie": []
-                },
-                "inheritPreProcessors": {},
-                "inheritPostProcessors": {},
-                "inheritPreProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "VMwUiaIsHjOw43oTExOllDhOq0Xu0j9S",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "inheritPostProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "F7MqgLKYp9Fby7ombKy4K8tUppd2gOth",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "moduleId": 1118767,
-                "apiId": 30811899
-              }
-            },
-            {
-              "name": "Get Main Ideas (Top 5 Ideas for project 1)",
-              "number": 11,
-              "type": "http",
-              "bind": true,
-              "disable": false,
-              "bindType": "TEST_CASE",
-              "bindId": 41899399,
-              "syncMode": "SYNC_WITH_TEST_CASE",
-              "httpApiCase": {
-                "id": 41899399,
-                "name": "Top 5 Ideas for project 1",
-                "method": "",
-                "path": "/api/v1/savaal/main-ideas/{project_id}",
-                "auth": {},
-                "type": "TEST_CASE",
-                "options": {},
-                "parameters": {
-                  "query": [
-                    {
-                      "id": "QpQ32ducoD",
-                      "relatedName": "limit",
-                      "name": "limit",
-                      "value": "5",
-                      "type": "integer",
-                      "description": "Maximum number of ideas to return (0 = no limit)",
-                      "enable": true,
-                      "isDelete": false
-                    }
-                  ],
-                  "header": [],
-                  "cookie": [],
-                  "path": [
-                    {
-                      "id": "project_id#0",
-                      "name": "project_id",
-                      "value": "1",
-                      "type": "string",
-                      "description": "",
-                      "enable": true,
-                      "isDelete": false,
-                      "relatedName": "project_id"
-                    }
-                  ]
-                },
-                "responseId": "144262562",
-                "requestBody": {
-                  "parameters": [],
-                  "type": "none",
-                  "data": "",
-                  "generateMode": "normal"
-                },
-                "preProcessors": [
-                  {
-                    "type": "placeholder",
-                    "renderType": "dynamicValueDivider",
-                    "defaultEnable": false,
-                    "enable": false
-                  }
-                ],
-                "postProcessors": [],
-                "advancedSettings": {
-                  "disabledSystemHeaders": {},
-                  "isDefaultUrlEncoding": 1
-                },
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "header": [],
-                  "cookie": []
-                },
-                "inheritPreProcessors": {},
-                "inheritPostProcessors": {},
-                "inheritPreProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "VMwUiaIsHjOw43oTExOllDhOq0Xu0j9S",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "inheritPostProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "F7MqgLKYp9Fby7ombKy4K8tUppd2gOth",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "moduleId": 1118767,
-                "apiId": 30811899
-              }
-            },
-            {
-              "name": "Rank Main Ideas (Rank all Project 1 ideas)",
-              "number": 12,
-              "type": "http",
-              "bind": true,
-              "disable": false,
-              "bindType": "TEST_CASE",
-              "bindId": 41899661,
-              "syncMode": "SYNC_WITH_TEST_CASE",
-              "httpApiCase": {
-                "id": 41899661,
-                "name": "Rank all Project 1 ideas",
-                "method": "",
-                "path": "/api/v1/savaal/rank/{project_id}",
-                "auth": {},
-                "type": "TEST_CASE",
-                "options": {},
-                "parameters": {
-                  "query": [],
-                  "header": [],
-                  "cookie": [],
-                  "path": [
-                    {
-                      "id": "project_id#0",
-                      "name": "project_id",
-                      "value": "1",
-                      "type": "string",
-                      "description": "",
-                      "enable": true,
-                      "isDelete": false,
-                      "relatedName": "project_id"
-                    }
-                  ]
-                },
-                "responseId": "142358363",
-                "requestBody": {
-                  "parameters": [],
-                  "type": "application/json",
-                  "data": "{}",
-                  "jsonSchema": {
-                    "$ref": "#/definitions/13535694"
-                  },
-                  "generateMode": "example"
-                },
-                "preProcessors": [
-                  {
-                    "type": "placeholder",
-                    "renderType": "dynamicValueDivider",
-                    "defaultEnable": false,
-                    "enable": false
-                  }
-                ],
-                "postProcessors": [],
-                "advancedSettings": {
-                  "disabledSystemHeaders": {},
-                  "isDefaultUrlEncoding": 1
-                },
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "header": [],
-                  "cookie": []
-                },
-                "inheritPreProcessors": {},
-                "inheritPostProcessors": {},
-                "inheritPreProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "VMwUiaIsHjOw43oTExOllDhOq0Xu0j9S",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "inheritPostProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "F7MqgLKYp9Fby7ombKy4K8tUppd2gOth",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "moduleId": 1118767,
-                "apiId": 30811900
-              }
-            },
-            {
-              "name": "Batch Generate Questions (Multiple questions for project 1)",
-              "number": 13,
-              "type": "http",
-              "bind": true,
-              "disable": false,
-              "bindType": "TEST_CASE",
-              "bindId": 41899384,
-              "syncMode": "SYNC_WITH_TEST_CASE",
-              "httpApiCase": {
-                "id": 41899384,
-                "name": "Multiple questions for project 1",
-                "method": "",
-                "path": "/api/v1/savaal/generate",
-                "auth": {},
-                "type": "TEST_CASE",
-                "options": {},
-                "parameters": {
-                  "query": [],
-                  "header": [],
-                  "cookie": [],
-                  "path": []
-                },
-                "responseId": "172136280",
-                "requestBody": {
-                  "parameters": [],
-                  "type": "application/json",
-                  "data": "{\n  \"tasks\": [\n    {\n      \"project_id\": \"1\",\n      \"requests\": [\n        {\n          \"num_questions\": 3,\n          \"question_type\": \"mcq\"\n        },\n        {\n          \"num_questions\": 2,\n          \"question_type\": \"tf\"\n        },\n        {\n          \"num_questions\": 4,\n          \"question_type\": \"short_answer\"\n        }\n      ]\n    }\n  ]\n}\n",
-                  "jsonSchema": {
-                    "$ref": "#/definitions/13535686"
-                  },
-                  "generateMode": "normal"
-                },
-                "preProcessors": [
-                  {
-                    "type": "placeholder",
-                    "renderType": "dynamicValueDivider",
-                    "defaultEnable": false,
-                    "enable": false
-                  }
-                ],
-                "postProcessors": [],
-                "advancedSettings": {
-                  "disabledSystemHeaders": {},
-                  "isDefaultUrlEncoding": 1
-                },
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "header": [],
-                  "cookie": []
-                },
-                "inheritPreProcessors": {},
-                "inheritPostProcessors": {},
-                "inheritPreProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "VMwUiaIsHjOw43oTExOllDhOq0Xu0j9S",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "inheritPostProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "F7MqgLKYp9Fby7ombKy4K8tUppd2gOth",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "moduleId": 1118767,
-                "apiId": 30152723
-              }
-            },
-            {
-              "name": "Batch Generate Questions (50 MCQ Proj 1)",
-              "number": 14,
-              "type": "http",
-              "bind": true,
-              "disable": false,
-              "bindType": "TEST_CASE",
-              "bindId": 42152459,
-              "syncMode": "SYNC_WITH_TEST_CASE",
-              "httpApiCase": {
-                "id": 42152459,
-                "name": "50 MCQ Proj 1",
-                "method": "",
-                "path": "/api/v1/savaal/generate",
-                "auth": {},
-                "type": "TEST_CASE",
-                "options": {},
-                "parameters": {
-                  "query": [],
-                  "header": [],
-                  "cookie": [],
-                  "path": []
-                },
-                "responseId": "172136280",
-                "requestBody": {
-                  "parameters": [],
-                  "type": "application/json",
-                  "data": "{\n  \"tasks\": [\n    {\n      \"project_id\": \"1\",\n      \"requests\": [\n        {\n          \"num_questions\": 50,\n          \"question_type\": \"mcq\"\n        }\n      ]\n    }\n  ]\n}\n",
-                  "jsonSchema": {
-                    "$ref": "#/definitions/13535686"
-                  },
-                  "generateMode": "normal"
-                },
-                "preProcessors": [
-                  {
-                    "type": "placeholder",
-                    "renderType": "dynamicValueDivider",
-                    "defaultEnable": false,
-                    "enable": false
-                  }
-                ],
-                "postProcessors": [],
-                "advancedSettings": {
-                  "disabledSystemHeaders": {},
-                  "isDefaultUrlEncoding": 1
-                },
-                "commonParameters": {
-                  "query": [],
-                  "body": [],
-                  "header": [],
-                  "cookie": []
-                },
-                "inheritPreProcessors": {},
-                "inheritPostProcessors": {},
-                "inheritPreProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "VMwUiaIsHjOw43oTExOllDhOq0Xu0j9S",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "inheritPostProcessorsSnapshot": [
-                  {
-                    "executionTiming": "prerequest",
-                    "defaultEnable": true,
-                    "enable": true,
-                    "data": "",
-                    "type": "customScript",
-                    "id": "F7MqgLKYp9Fby7ombKy4K8tUppd2gOth",
-                    "targetId": 7067997,
-                    "targetName": "Root",
-                    "targetType": "apiDetailRootFolder",
-                    "isInheritDefaultEnable": false
-                  }
-                ],
-                "moduleId": 1118767,
-                "apiId": 30152723
-              }
-            }
-          ],
-          "id": 1724361,
-          "name": "Full project Pipeline",
-          "tags": [
-            "full"
-          ],
-          "options": {},
-          "priority": 2,
-          "ordering": 10,
-          "description": "Testing the pipeline from creating project until question generation.",
-          "preProcessors": [],
-          "postProcessors": [],
-          "children": [],
-          "performanceTestOptions": {},
-          "apiTestDataSets": []
-        }
-      ]
-    }
-  ],
-  "testCaseReferences": [],
   "environments": [],
   "commonScripts": [],
-  "databaseConnections": [],
   "globalVariables": [
     {
       "id": "1220480",
